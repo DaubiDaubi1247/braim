@@ -67,8 +67,9 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
@@ -87,14 +88,7 @@
                             <artifactId>hibernate-jpamodelgen</artifactId>
                             <version>6.2.0.CR2</version>
                         </path>
-                        <!-- other annotation processors -->
                     </annotationProcessorPaths>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
