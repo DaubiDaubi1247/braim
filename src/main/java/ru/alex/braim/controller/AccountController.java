@@ -26,6 +26,6 @@ public class AccountController {
             @RequestParam Integer from,
             @RequestParam Integer size) {
 
-        return ResponseEntity.ok(accountService.getAccountsByParameters(ac))
+        return ResponseEntity.ok(accountService.getAccountsByParameters(accountDto, from, size));
     }
 }

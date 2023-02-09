@@ -9,6 +9,8 @@ import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
 import ru.alex.braim.service.AccountService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
@@ -17,6 +19,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto getAccountById(Long id) {
         return accountMapper.toDto(getAccountEntityById(id));
+    }
+
+    @Override
+    public List<AccountDto> getAccountsByParameters(AccountDto accountDto, Integer from, Integer size) {
+        return null;
     }
 
     private Account getAccountEntityById(Long id) {
