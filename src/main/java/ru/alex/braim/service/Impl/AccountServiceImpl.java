@@ -1,8 +1,10 @@
 package ru.alex.braim.service.Impl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
 import ru.alex.braim.exception.NotFoundException;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
@@ -27,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public List<AccountDto> getAccountsByParameters(AccountDto accountDto, Integer from, Integer size) {
+    public List<AccountDto> getAccountsByParameters(@Valid AccountDto accountDto, Integer from, Integer size) {
         List<Account> accountList = accountRepository.findAll(AccountSpecification.
                 getAccountSpecificationByParameters(accountDto));
 

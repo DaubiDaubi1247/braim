@@ -12,7 +12,7 @@ public class AccountSpecification {
     }
 
     private static Specification<Account> equalsLikeSecondName(String secondName) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(Account_.secondName), secondName);
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(Account_.lastName), secondName);
     }
 
     private static Specification<Account> equalsLikeEmail(String email) {
@@ -20,7 +20,7 @@ public class AccountSpecification {
     }
     public static Specification<Account> getAccountSpecificationByParameters(AccountDto accountDto) {
         return Specification.where(equalsLikeFirstName(accountDto.getFirstName()))
-                .and(equalsLikeSecondName(accountDto.getSecondName()))
+                .and(equalsLikeSecondName(accountDto.getLastName()))
                 .and(equalsLikeEmail(accountDto.getEmail()));
     }
 }

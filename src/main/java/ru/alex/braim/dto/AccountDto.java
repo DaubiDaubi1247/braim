@@ -1,12 +1,7 @@
 package ru.alex.braim.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +18,7 @@ public class AccountDto {
     private String firstName;
 
     @NotBlank(message = "имя не должно быть пустым")
-    private String secondName;
+    private String lastName;
 
     @Email(message = "почта не соотвествует шаблону")
     private String email;

@@ -1,8 +1,6 @@
 package ru.alex.braim.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,8 +25,8 @@ public class Account {
     private String firstName;
 
     @NotNull
-    @Column(name = "second_name")
-    private String secondName;
+    @Column(name = "last_name")
+    private String lastName;
 
     @NotNull
     @Column(name = "email", unique = true)
