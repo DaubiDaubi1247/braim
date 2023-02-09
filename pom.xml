@@ -59,9 +59,9 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
             <version>6.2.0.CR2</version>
-            <type>pom</type>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <build>
