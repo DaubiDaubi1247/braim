@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+
     @Override
     @Transactional
     public AccountDto getAccountById(Long id) {
