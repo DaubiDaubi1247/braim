@@ -41,4 +41,10 @@ public class ChippingInfo {
             inverseJoinColumns = "location_id"
     )
     private List<ChippingLocation> chippingLocationList;
+
+    @Column(name = "death_time")
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deathDateTime;
+
 }

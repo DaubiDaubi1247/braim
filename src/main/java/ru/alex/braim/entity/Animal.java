@@ -40,4 +40,5 @@ public class Animal {
     @Column(name = "life_status")
     @NotNull
     private String lifeStatus = LifeStatusEnum.ALIVE.getLifeStatus();
+
 }
