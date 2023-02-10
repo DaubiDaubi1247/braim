@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AnimalController {
 
-    private final AnimalService animalService;
-
     @GetMapping("/{animalId}")
-    public ResponseEntity<AnimalDto> getAnimalById(@PathVariable Long animalId) {
-        return ResponseEntity.ok(animalService.getAnimalById(animalId));
+    public ResponseEntity<?> getAnimalById(@PathVariable Long animalId) {
+        return ResponseEntity.ok("");
     }
 }
