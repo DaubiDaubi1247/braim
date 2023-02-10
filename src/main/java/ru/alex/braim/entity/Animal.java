@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 @Entity
 @Table(name = "animal")
@@ -33,4 +34,8 @@ public class Animal {
     @ManyToOne
     @JoinColumn(name = "gender_id")
     private Gender gender;
+
+    @Column(name = "life_status")
+    @NotNull
+    private String lifeStatus = LifeStatusEnum.ALIVE.getLifeStatus();
 }
