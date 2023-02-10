@@ -37,8 +37,8 @@ public class ChippingInfo {
     @ManyToMany
     @JoinTable(
             name = "chiping_location",
-            joinColumns = "chiping_id",
-            inverseJoinColumns = "location_id"
+            joinColumns = @JoinColumn(name = "chiping_id"),
+            inverseJoinColumns = @JoinColumn(name = "location_id")
     )
     private List<ChippingLocation> chippingLocationList;
 
