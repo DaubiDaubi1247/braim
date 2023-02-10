@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "account")
 @Data
@@ -35,4 +37,8 @@ public class Account {
     @NotNull
     @Column(name = "password")
     private String password;
+
+    @OneToMany(mappedBy = "chipper")
+    List<ChippingInfo> chippingInfoList;
+
 }

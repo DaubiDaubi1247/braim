@@ -15,6 +15,8 @@ import ru.alex.braim.utils.enums.LifeStatusEnum;
 @Data
 @Builder
 public class Animal {
+
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

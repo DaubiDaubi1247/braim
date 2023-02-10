@@ -7,25 +7,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Date;
 
 @Entity
-@Table(name = "gender")
-@NoArgsConstructor
+@Table(name = "chip_info")
 @AllArgsConstructor
-@Data
+@NoArgsConstructor
 @Builder
-public class Gender {
+@Data
+public class ChippingInfo {
 
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "gender", unique = true)
+    @Column(name = "chip_date")
     @NotNull
-    private String gender;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date chippingDateTime;
 
-    @OneToMany(mappedBy = "gender")
-    private List<Animal> animals;
+    @ManyToOne
+    @JoinColumn(name = "chipper_id")
+    private Account chipper;
 }
