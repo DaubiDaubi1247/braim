@@ -18,6 +18,6 @@ import java.util.List;
 public class AnimalRequestDto extends AnimalDto {
 
     @NotNull(message = "animalsTypes cant be null")
-    @Size(min = 1)
+    @Size.List({@Size (min = 1)})
     private List<Long> animalsTypes;
 }

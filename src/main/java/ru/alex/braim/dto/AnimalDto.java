@@ -7,12 +7,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import ru.alex.braim.annotation.EnumValue;
+import ru.alex.braim.utils.enums.GenderEnum;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 public class AnimalDto {
+
+    @NotNull
+    private Long id;
 
     @NotNull(message = "weight cant be empty")
     @DecimalMin(value = "0.0", inclusive = false,
@@ -29,6 +34,10 @@ public class AnimalDto {
     private Float height;
 
     @NotBlank(message = "gender cant be empty")
+    @EnumValue(enumClass = GenderEnum.class, message = "gender not contains in genders")
     private String gender;
+
+    @NotBlank
+    private String lifeStatus;
 
 }
