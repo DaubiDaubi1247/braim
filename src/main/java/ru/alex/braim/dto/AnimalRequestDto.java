@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 public class AnimalRequestDto extends AnimalDto {
-
     @NotNull(message = "animalsTypes cant be null")
     @Size.List({@Size (min = 1)})
     private List<Long> animalsTypes;
