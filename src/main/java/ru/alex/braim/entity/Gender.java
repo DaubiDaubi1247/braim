@@ -22,9 +22,9 @@ public class Gender {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "gender", unique = true)
+    @Column(name = "name", unique = true)
     @NotNull
-    private String gender;
+    private String name;
 
     @OneToMany(mappedBy = "gender")
     private List<Animal> animals;
