@@ -34,12 +34,7 @@ public class ChippingInfo {
     @JoinColumn(name = "chipper_id")
     private Account chipper;
 
-    @ManyToMany
-    @JoinTable(
-            name = "animal_chipping",
-            joinColumns = @JoinColumn(name = "chiping_id"),
-            inverseJoinColumns = @JoinColumn(name = "animal_id")
-    )
+    @ManyToMany(mappedBy = "chippingInfoList")
     private List<Animal> animalList;
 
     @Column(name = "death_time")
