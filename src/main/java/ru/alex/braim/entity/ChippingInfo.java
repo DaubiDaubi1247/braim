@@ -36,11 +36,11 @@ public class ChippingInfo {
 
     @ManyToMany
     @JoinTable(
-            name = "chiping_location",
+            name = "animal_chipping",
             joinColumns = @JoinColumn(name = "chiping_id"),
-            inverseJoinColumns = @JoinColumn(name = "location_id")
+            inverseJoinColumns = @JoinColumn(name = "animal_id")
     )
-    private List<ChippingLocation> chippingLocationList;
+    private List<Animal> animalList;
 
     @Column(name = "death_time")
     @NotNull

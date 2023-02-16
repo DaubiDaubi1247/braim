@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
+import java.util.List;
+
 @Entity
 @Table(name = "animal")
 @AllArgsConstructor
@@ -41,5 +43,8 @@ public class Animal {
     @NotNull
     @Builder.Default
     private String lifeStatus = LifeStatusEnum.ALIVE.getLifeStatus();
+
+    @ManyToMany(mappedBy = "animalList")
+    List<ChippingInfo> chippingInfoList;
 
 }

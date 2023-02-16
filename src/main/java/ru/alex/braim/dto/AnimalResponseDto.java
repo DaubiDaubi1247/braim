@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -22,6 +23,8 @@ public class AnimalResponseDto extends AnimalDto {
     private Integer chipperId;
 
     private Integer chippingLocationId;
+
+    private List<Long> visitedLocations;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date deathDateTime;

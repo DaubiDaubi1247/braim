@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +21,8 @@ public class ChippingInfoDto {
     private Integer chipperId;
 
     private Integer chippingLocationId;
+
+    private List<Long> visitedLocations;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date deathDateTime;
