@@ -56,7 +56,7 @@ public class Animal {
     @JoinTable(
             name = "animal_type",
             joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn("type_id")
+            inverseJoinColumns = @JoinColumn(name = "type_id")
     )
     private List<AnimalTypes> animalTypesList;
 

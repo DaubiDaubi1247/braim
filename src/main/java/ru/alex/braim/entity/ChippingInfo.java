@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import ru.alex.braim.utils.interfaces.Identifiable;
 
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Data
-public class ChippingInfo {
+public class ChippingInfo implements Identifiable {
 
     @Column(name = "id")
     @Id
