@@ -1,7 +1,9 @@
 package ru.alex.braim.specification;
 
 import org.springframework.data.jpa.domain.Specification;
+import ru.alex.braim.dto.AnimalDtoSpecification;
 import ru.alex.braim.dto.AnimalProjection;
+import ru.alex.braim.entity.Animal_;
 import ru.alex.braim.entity.ChippingInfo_;
 
 import java.util.Date;
@@ -12,7 +14,7 @@ public class AnimalSpecification {
                 .get(String.valueOf(ChippingInfo_.chippingDateTime)), startDate);
     }
 
-    private Specification<AnimalProjection> lessThanStartDate(Date endDate) {
+    private Specification<AnimalProjection> lessThanEndDate(Date endDate) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root
                 .get(String.valueOf(ChippingInfo_.chippingDateTime)), endDate);
     }
@@ -25,7 +27,12 @@ public class AnimalSpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(columnName), value);
     }
 
-    public Specification<AnimalProjection> getAnimalProjectionListByParameters() {
-        return Specification.where(greaterThanStartDate(new Date()));
+    public Specification<AnimalProjection> getAnimalProjectionListByParameters(AnimalDtoSpecification animalDtoSpecification) {
+        return Specification.where(greaterThanStartDate(animalDtoSpecification.getStartDateTime()))
+                .and(lessThanEndDate(animalDtoSpecification.getEndDateTime()))
+                .and(equalsById(animalDtoSpecification.getChipperId(), ChippingInfo_.chippingDateTime.toString()))
+                .and(equalsById(animalDtoSpecification.getChippingLocationId(), ChippingInfo_.id.toString()))
+                .and(likeByString(animalDtoSpecification.getLifeStatus(), Animal_.lifeStatus.toString()))
+                .and(likeByString(animalDtoSpecification.getGender(), Animal_.gender.toString()));
     }
 }
