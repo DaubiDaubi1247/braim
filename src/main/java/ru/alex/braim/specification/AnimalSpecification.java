@@ -9,25 +9,25 @@ import ru.alex.braim.entity.ChippingInfo_;
 import java.util.Date;
 
 public class AnimalSpecification {
-    private Specification<AnimalProjection> greaterThanStartDate(Date startDate) {
+    private static Specification<AnimalProjection> greaterThanStartDate(Date startDate) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root
                 .get(String.valueOf(ChippingInfo_.chippingDateTime)), startDate);
     }
 
-    private Specification<AnimalProjection> lessThanEndDate(Date endDate) {
+    private static Specification<AnimalProjection> lessThanEndDate(Date endDate) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root
                 .get(String.valueOf(ChippingInfo_.chippingDateTime)), endDate);
     }
 
-    private <T extends Number>  Specification<AnimalProjection> equalsById(T id, String columnName) {
+    private static  <T extends Number>  Specification<AnimalProjection> equalsById(T id, String columnName) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(columnName), id);
     }
 
-    private Specification<AnimalProjection> likeByString(String value, String columnName) {
+    private static Specification<AnimalProjection> likeByString(String value, String columnName) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(columnName), value);
     }
 
-    public Specification<AnimalProjection> getAnimalProjectionListByParameters(AnimalDtoSpecification animalDtoSpecification) {
+    public static Specification<AnimalProjection> getAnimalProjectionListByParameters(AnimalDtoSpecification animalDtoSpecification) {
         return Specification.where(greaterThanStartDate(animalDtoSpecification.getStartDateTime()))
                 .and(lessThanEndDate(animalDtoSpecification.getEndDateTime()))
                 .and(equalsById(animalDtoSpecification.getChipperId(), ChippingInfo_.chippingDateTime.toString()))
