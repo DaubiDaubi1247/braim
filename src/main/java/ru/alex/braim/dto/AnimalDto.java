@@ -3,12 +3,16 @@ package ru.alex.braim.dto;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import ru.alex.braim.annotation.EnumValue;
 import ru.alex.braim.utils.enums.GenderEnum;
+import ru.alex.braim.utils.enums.LifeStatusEnum;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -35,9 +39,13 @@ public class AnimalDto {
 
     @NotBlank(message = "gender cant be empty")
     @EnumValue(enumClass = GenderEnum.class, message = "gender not contains in genders")
-    private String gender;
+    protected String gender;
 
     @NotBlank
-    private String lifeStatus;
+    @EnumValue(enumClass = LifeStatusEnum.class, message = "life status not contains in lifeStatus")
+    protected String lifeStatus;
 
+    @NotNull(message = "animalsTypes cant be null")
+    @Size.List({@Size (min = 1)})
+    private List<Long> animalsTypes;
 }

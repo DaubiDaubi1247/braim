@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
-import ru.alex.braim.projection.AnimalProjection;
+import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.service.AnimalService;
 
