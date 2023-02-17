@@ -1,7 +1,7 @@
 package ru.alex.braim.service;
 
-import ru.alex.braim.dto.AnimalResponseDto;
+import ru.alex.braim.projection.AnimalProjection;
 
 public interface AnimalService {
-    AnimalResponseDto getAnimalById(Long id);
+    AnimalProjection getAnimalById(Long id);
 }

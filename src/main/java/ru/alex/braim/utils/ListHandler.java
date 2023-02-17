@@ -1,14 +1,14 @@
-package ru.alex.braim.mapper;
+package ru.alex.braim.utils;
 
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
-public interface ListMapper {
-    default List<Long> toLongList(List<? extends Identifiable> chippingInfoList) {
+@Component
+public class ListHandler {
+    public static List<Long> toLongList(List<? extends Identifiable> chippingInfoList) {
         return chippingInfoList.stream()
                 .map(Identifiable::getId)
                 .collect(Collectors.toList());
