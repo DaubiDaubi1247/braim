@@ -1,8 +1,11 @@
 package ru.alex.braim.service.Impl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.dto.AnimalDtoSpecification;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.exception.NotFoundException;
@@ -16,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class AnimalServiceImpl implements AnimalService {
 
     private final AnimalRepository animalRepository;
@@ -30,8 +34,8 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public List<AnimalProjection> getAnimalListByParams(AnimalDtoSpecification animalDtoSpecification) {
-        return animalRepository.findAll(AnimalSpecification.getAnimalProjectionListByParameters(animalDtoSpecification));
+    public List<AnimalProjection> getAnimalListByParams(@Valid AnimalDtoSpecification animalDtoSpecification) {
+        return animalRepository.findAll(AnimalSpecification.getAnimalProjectionListByParameters(animalDtoSpecification), Sort.by(Sort.Direction.ASC, "id"));
     }
 
     private Animal getAnimalEntityById(Long id) {
