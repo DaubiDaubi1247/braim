@@ -20,8 +20,8 @@ public class AnimalController {
     private final AnimalService animalService;
 
     @GetMapping("/{animalId}")
-    public ResponseEntity<?> getAnimalById(@PathVariable Long animalId) {
-        return ResponseEntity.ok("");
+    public ResponseEntity<AnimalProjection> getAnimalById(@PathVariable Long animalId) {
+        return ResponseEntity.ok(animalService.getAnimalById(animalId));
     }
 
     @GetMapping(" /animals/search")
