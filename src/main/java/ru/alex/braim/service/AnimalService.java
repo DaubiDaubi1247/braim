@@ -10,5 +10,4 @@ public interface AnimalService {
     AnimalProjection getAnimalById(Long id);
 
     List<AnimalProjection> getAnimalListByParams(@Valid AnimalDtoSpecification animalDtoSpecification);
-
 }
