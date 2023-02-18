@@ -10,19 +10,26 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "type")
+@Table(name = "location")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class AnimalType {
+public class LocationInfo {
+
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "latitude")
     @NotNull
-    private String type;
+    private Double latitude;
 
-    @ManyToMany(mappedBy = "animalTypeList")
+    @Column(name = "longitude")
+    @NotNull
+    private Double longitude;
+
+    @ManyToMany(mappedBy = "locationList")
     private List<Animal> animalList;
 }

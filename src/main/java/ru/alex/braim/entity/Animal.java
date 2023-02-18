@@ -60,4 +60,11 @@ public class Animal {
     )
     private List<AnimalType> animalTypeList;
 
+    @ManyToMany
+    @JoinTable(
+            name = "animal_location",
+            joinColumns = @JoinColumn(name = "animal_id"),
+            inverseJoinColumns = @JoinColumn(name = "location_id")
+    )
+    private List<LocationInfo> locationList;
 }
