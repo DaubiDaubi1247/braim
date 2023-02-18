@@ -12,9 +12,9 @@ import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
 import ru.alex.braim.service.AccountService;
 import ru.alex.braim.specification.AccountSpecification;
+import ru.alex.braim.utils.ListUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,11 +35,7 @@ public class AccountServiceImpl implements AccountService {
         List<Account> accountList = accountRepository.findAll(AccountSpecification.
                 getAccountSpecificationByParameters(accountDto));
 
-        return accountList.stream()
-                .skip(from)
-                .limit(size)
-                .map(accountMapper::toDto)
-                .collect(Collectors.toList());
+        return accountMapper.toDtoList(ListUtils.skipAndGetElements(accountList, from, size));
     }
 
     private Account getAccountEntityById(Long id) {

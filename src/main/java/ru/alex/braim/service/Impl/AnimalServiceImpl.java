@@ -14,6 +14,7 @@ import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.specification.AnimalSpecification;
+import ru.alex.braim.utils.ListUtils;
 
 import java.util.List;
 
@@ -35,7 +36,10 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     @Transactional
     public List<AnimalProjection> getAnimalListByParams(@Valid AnimalDtoSpecification animalDtoSpecification) {
-        return animalRepository.findAll(AnimalSpecification.getAnimalProjectionListByParameters(animalDtoSpecification), Sort.by(Sort.Direction.ASC, "id"));
+        List<AnimalProjection> animalProjectionList = animalRepository.findAll(AnimalSpecification.getAnimalProjectionListByParameters(animalDtoSpecification),
+                Sort.by(Sort.Direction.ASC, "id"));
+
+        return ListUtils.skipAndGetElements(animalProjectionList, animalDtoSpecification.getFrom(), animalDtoSpecification.getSize());
     }
 
     private Animal getAnimalEntityById(Long id) {

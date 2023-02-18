@@ -20,7 +20,7 @@ public interface AnimalProjection {
     Date getChippingDateTime();
     Long getChippingLocationId();
 
-    @Value("#{@listHandler.toLongList(target.animal_chipping)}")
+    @Value("#{@listUtils.toLongList(target.animal_chipping)}")
     List<Long> getVisitedLocations();
     Date getDeathDateTime();
 }
