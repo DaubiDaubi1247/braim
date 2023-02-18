@@ -12,7 +12,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
     @Query(" SELECT an, chil, atl.type " +
             "FROM Animal an " +
             "JOIN an.chippingInfoList chil " +
-            "JOIN an.animalTypesList atl " +
+            "JOIN an.animalTypeList atl " +
             "WHERE an.id = ?1")
     AnimalProjection getAnimalProjectionById(Long id);
 }

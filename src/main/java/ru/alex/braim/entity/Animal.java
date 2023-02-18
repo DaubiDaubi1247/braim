@@ -58,6 +58,6 @@ public class Animal {
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "type_id")
     )
-    private List<AnimalType> animalTypesList;
+    private List<AnimalType> animalTypeList;
 
 }
