@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.alex.braim.dto.AnimalDtoSpecification;
 import ru.alex.braim.dto.AnimalProjection;
+import ru.alex.braim.dto.AnimalTypeDto;
 import ru.alex.braim.service.AnimalService;
+import ru.alex.braim.service.AnimalTypeService;
 
 import java.util.List;
 
@@ -18,14 +20,20 @@ import java.util.List;
 public class AnimalController {
 
     private final AnimalService animalService;
+    private final AnimalTypeService animalTypeService;
 
     @GetMapping("/{animalId}")
     public ResponseEntity<AnimalProjection> getAnimalById(@PathVariable Long animalId) {
         return ResponseEntity.ok(animalService.getAnimalById(animalId));
     }
 
-    @GetMapping(" /animals/search")
+    @GetMapping(" /search")
     public ResponseEntity<List<AnimalProjection>> getAnimalListByParams(AnimalDtoSpecification animalDtoSpecification) {
         return ResponseEntity.ok(animalService.getAnimalListByParams(animalDtoSpecification));
+    }
+
+    @GetMapping("/types/{typeId}")
+    public ResponseEntity<AnimalTypeDto> getAnimalTypeById(@PathVariable Long typeId) {
+        return ResponseEntity.ok(animalTypeService.getAnimalTypeById(typeId));
     }
 }
