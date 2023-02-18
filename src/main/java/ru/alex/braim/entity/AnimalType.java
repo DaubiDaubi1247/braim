@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "animal_types")
+@Table(name = "animal_type")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
-public class AnimalTypes {
+public class AnimalType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
