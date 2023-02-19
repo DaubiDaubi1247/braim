@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
+import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
 import ru.alex.braim.specification.AccountSpecification;
 import ru.alex.braim.utils.ListUtils;
@@ -25,17 +27,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public AccountDto getAccountById(Long id) {
+    public AccountDto getAccountById(@Id Long id) {
         return accountMapper.toDto(getAccountEntityById(id));
     }
 
     @Override
     @Transactional
-    public List<AccountDto> getAccountsByParameters(@Valid AccountDto accountDto, Integer from, Integer size) {
+    public List<AccountDto> getAccountsByParameters(@Valid AccountDto accountDto, @Valid FromSizeParams fromSizeParams) {
         List<Account> accountList = accountRepository.findAll(AccountSpecification.
                 getAccountSpecificationByParameters(accountDto));
 
-        return accountMapper.toDtoList(ListUtils.skipAndGetElements(accountList, from, size));
+        return accountMapper.toDtoList(ListUtils.skipAndGetElements(accountList, fromSizeParams.getFrom(), fromSizeParams.getSize()));
     }
 
     private Account getAccountEntityById(Long id) {

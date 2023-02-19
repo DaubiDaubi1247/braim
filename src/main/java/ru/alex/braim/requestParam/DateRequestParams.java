@@ -1,6 +1,5 @@
 package ru.alex.braim.requestParam;
 
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,17 +12,11 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @SuperBuilder
-public class DateRequestParams {
+public class DateRequestParams extends FromSizeParams {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     protected Date startDateTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     protected Date endDateTime;
-
-    @Min(0)
-    protected Integer from;
-
-    @Min(1)
-    protected Integer size;
 }

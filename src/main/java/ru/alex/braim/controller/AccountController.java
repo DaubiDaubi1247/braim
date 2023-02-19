@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AccountDto;
+import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
 
 import java.util.List;
@@ -23,9 +24,8 @@ public class AccountController {
     @GetMapping("/search")
     public ResponseEntity<List<AccountDto>> getAccountsByParameters(
             AccountDto accountDto,
-            @RequestParam Integer from,
-            @RequestParam Integer size) {
+            FromSizeParams fromSizeParams) {
 
-        return ResponseEntity.ok(accountService.getAccountsByParameters(accountDto, from, size));
+        return ResponseEntity.ok(accountService.getAccountsByParameters(accountDto, fromSizeParams));
     }
 }

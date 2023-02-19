@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.exception.NotFoundException;
@@ -28,7 +29,11 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public AnimalProjection getAnimalById(Long id) {
+    public AnimalProjection getAnimalById(@Id Long id) {
+
+        if (animalExistById(id)) {
+            throw new NotFoundException("animal with id = " + id + " no found");
+        }
 
         return animalRepository.getAnimalProjectionById(id);
     }
@@ -42,8 +47,15 @@ public class AnimalServiceImpl implements AnimalService {
         return ListUtils.skipAndGetElements(animalProjectionList, animalDtoSpecification.getFrom(), animalDtoSpecification.getSize());
     }
 
+    @Override
+    @Transactional
+    public boolean animalExistById(@Id Long id) {
+        return animalRepository.existsById(id);
+    }
+
     private Animal getAnimalEntityById(Long id) {
         return animalRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("animal with id = " + id + " not found"));
     }
+
 }
