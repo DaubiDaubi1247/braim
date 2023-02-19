@@ -10,6 +10,7 @@ import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.dto.AnimalTypeDto;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.requestParam.AnimalRequestParams;
+import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.AnimalTypeService;
 
@@ -29,7 +30,8 @@ public class AnimalController {
     }
 
     @GetMapping(" /animals/{animalId}/locations")
-    public ResponseEntity<LocationProjection> getVisitedLocation(@PathVariable Long animalId) {
+    public ResponseEntity<LocationProjection> getVisitedLocation(@PathVariable Long animalId,
+                                                                 DateRequestParams dateRequestParams) {
         return ResponseEntity.ok(null);
     }
 

@@ -35,4 +35,5 @@ public class AnimalSpecification {
                 .and(likeByString(animalDtoSpecification.getLifeStatus(), Animal_.lifeStatus.toString()))
                 .and(likeByString(animalDtoSpecification.getGender(), Animal_.gender.toString()));
     }
+
 }
