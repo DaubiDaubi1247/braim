@@ -39,11 +39,11 @@ public class AnimalDto {
 
     @NotBlank(message = "gender cant be empty")
     @EnumValue(enumClass = GenderEnum.class, message = "gender not contains in genders")
-    protected String gender;
+    private String gender;
 
     @NotBlank
     @EnumValue(enumClass = LifeStatusEnum.class, message = "life status not contains in lifeStatus")
-    protected String lifeStatus;
+    private String lifeStatus;
 
     @NotNull(message = "animalsTypes cant be null")
     @Size.List({@Size (min = 1)})

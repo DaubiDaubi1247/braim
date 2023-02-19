@@ -1,10 +1,10 @@
 package ru.alex.braim.specification;
 
 import org.springframework.data.jpa.domain.Specification;
-import ru.alex.braim.dto.AnimalDtoSpecification;
 import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.entity.Animal_;
 import ru.alex.braim.entity.ChippingInfo_;
+import ru.alex.braim.requestParam.AnimalRequestParams;
 
 import java.util.Date;
 
@@ -27,7 +27,7 @@ public class AnimalSpecification {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(columnName), value);
     }
 
-    public static Specification<AnimalProjection> getAnimalProjectionListByParameters(AnimalDtoSpecification animalDtoSpecification) {
+    public static Specification<AnimalProjection> getAnimalProjectionListByParameters(AnimalRequestParams animalDtoSpecification) {
         return Specification.where(greaterThanStartDate(animalDtoSpecification.getStartDateTime()))
                 .and(lessThanEndDate(animalDtoSpecification.getEndDateTime()))
                 .and(equalsById(animalDtoSpecification.getChipperId(), ChippingInfo_.chippingDateTime.toString()))

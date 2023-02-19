@@ -1,38 +1,29 @@
-package ru.alex.braim.dto;
+package ru.alex.braim.requestParam;
 
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @SuperBuilder
-@Data
-public class AnimalDtoSpecification extends AnimalDto {
+public class DateRequestParams {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date startDateTime;
+    protected Date startDateTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private Date endDateTime;
-
-    @Min(1)
-    private Integer chipperId;
-
-    @Min(1)
-    private Long chippingLocationId;
+    protected Date endDateTime;
 
     @Min(0)
-    private Integer from;
+    protected Integer from;
 
     @Min(1)
-    private Integer size;
-
+    protected Integer size;
 }
