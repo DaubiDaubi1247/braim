@@ -13,6 +13,7 @@ import ru.alex.braim.requestParam.AnimalRequestParams;
 import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.AnimalTypeService;
+import ru.alex.braim.service.LocationService;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class AnimalController {
 
     private final AnimalService animalService;
     private final AnimalTypeService animalTypeService;
+    private final LocationService locationService;
 
     @GetMapping("/{animalId}")
     public ResponseEntity<AnimalProjection> getAnimalById(@PathVariable Long animalId) {
@@ -30,9 +32,9 @@ public class AnimalController {
     }
 
     @GetMapping(" /animals/{animalId}/locations")
-    public ResponseEntity<LocationProjection> getVisitedLocation(@PathVariable Long animalId,
+    public ResponseEntity<List<LocationProjection>> getVisitedLocation(@PathVariable Long animalId,
                                                                  DateRequestParams dateRequestParams) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(locationService.getLocationVisitedPointList(dateRequestParams, animalId));
     }
 
     @GetMapping(" /search")
