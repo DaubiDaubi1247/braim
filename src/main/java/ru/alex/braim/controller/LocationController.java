@@ -16,7 +16,7 @@ public class LocationController {
 
     private final LocationService locationService;
 
-    @GetMapping("{pointId}")
+    @GetMapping("/{pointId}")
     public ResponseEntity<LocationInfoDto> getLocationInfoById(@PathVariable Long pointId) {
         return ResponseEntity.ok(locationService.getLocationById(pointId));
     }

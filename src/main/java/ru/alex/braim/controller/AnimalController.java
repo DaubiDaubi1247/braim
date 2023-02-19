@@ -31,13 +31,13 @@ public class AnimalController {
         return ResponseEntity.ok(animalService.getAnimalById(animalId));
     }
 
-    @GetMapping(" /animals/{animalId}/locations")
+    @GetMapping("/{animalId}/locations")
     public ResponseEntity<List<LocationProjection>> getVisitedLocation(@PathVariable Long animalId,
                                                                  DateRequestParams dateRequestParams) {
         return ResponseEntity.ok(locationService.getLocationVisitedPointList(dateRequestParams, animalId));
     }
 
-    @GetMapping(" /search")
+    @GetMapping("/search")
     public ResponseEntity<List<AnimalProjection>> getAnimalListByParams(AnimalRequestParams animalDtoSpecification) {
         return ResponseEntity.ok(animalService.getAnimalListByParams(animalDtoSpecification));
     }
