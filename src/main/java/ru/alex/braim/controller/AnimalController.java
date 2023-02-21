@@ -36,7 +36,7 @@ public class AnimalController {
 
     @GetMapping("/search")
     public ResponseEntity<List<AnimalProjection>> getAnimalListByParams(
-            @RequestParam AnimalRequestParams animalDtoSpecification) {
+            AnimalRequestParams animalDtoSpecification) {
 
         return ResponseEntity.ok(animalService.getAnimalListByParams(animalDtoSpecification));
     }
