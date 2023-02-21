@@ -15,6 +15,8 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
     @Query(" SELECT li.id, ci.chippingDateTime, ci.id " +
             "FROM Animal a " +
             "JOIN a.chippingInfoList ci " +
-            "JOIN a.locationList li")
+            "JOIN a.locationList li " +
+            "WHERE a.id = :animalId " +
+            "   AND ci.chippingDateTime BETWEEN :startDate AND :endDate")
     List<LocationProjection> findLocationPointByParams(Date startDate, Date endDate, Long animalId);
 }
