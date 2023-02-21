@@ -1,5 +1,6 @@
 package ru.alex.braim.controllerExceptionHandler;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +21,7 @@ public class ControllerExceptionHandler {
         return getResponseEntityWithStatus(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler(BadRequestData.class)
+    @ExceptionHandler({BadRequestData.class, ConstraintViolationException.class})
     public ResponseEntity<ErrorMessage> badRequestData(RuntimeException exception) {
         return getResponseEntityWithStatus(HttpStatus.BAD_REQUEST, exception);
     }

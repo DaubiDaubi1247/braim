@@ -9,7 +9,7 @@ import ru.alex.braim.requestParam.DateRequestParams;
 import java.util.List;
 
 public interface LocationService {
-    LocationInfoDto getLocationById(Long id);
+    LocationInfoDto getLocationById(@Id Long id);
 
     List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id);
 }

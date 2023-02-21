@@ -31,7 +31,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public AnimalProjection getAnimalById(@Id Long id) {
 
-        if (animalExistById(id)) {
+        if (!animalExistById(id)) {
             throw new NotFoundException("animal with id = " + id + " no found");
         }
 

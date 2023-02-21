@@ -31,7 +31,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public LocationInfoDto getLocationById(Long id) {
+    public LocationInfoDto getLocationById(@Id Long id) {
         return locationInfoMapper.toDto(getLocationInfoEntityById(id));
     }
 

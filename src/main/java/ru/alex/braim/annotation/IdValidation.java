@@ -11,6 +11,7 @@ public class IdValidation implements ConstraintValidator<Id, Long> {
 
     @Override
     public boolean isValid(Long aLong, ConstraintValidatorContext constraintValidatorContext) {
+
         return aLong != null && aLong > 0;
     }
 }
