@@ -2,10 +2,7 @@ package ru.alex.braim.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.dto.AnimalTypeDto;
 import ru.alex.braim.dto.LocationProjection;
@@ -38,7 +35,9 @@ public class AnimalController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<AnimalProjection>> getAnimalListByParams(AnimalRequestParams animalDtoSpecification) {
+    public ResponseEntity<List<AnimalProjection>> getAnimalListByParams(
+            @RequestParam AnimalRequestParams animalDtoSpecification) {
+
         return ResponseEntity.ok(animalService.getAnimalListByParams(animalDtoSpecification));
     }
 

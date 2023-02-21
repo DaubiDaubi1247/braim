@@ -10,20 +10,36 @@ import java.util.Date;
 
 public class AnimalSpecification {
     private static Specification<AnimalProjection> greaterThanStartDate(Date startDate) {
+        if (startDate == null) {
+            return null;
+        }
+
         return (root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root
                 .get(String.valueOf(ChippingInfo_.chippingDateTime)), startDate);
     }
 
     private static Specification<AnimalProjection> lessThanEndDate(Date endDate) {
+        if (endDate == null) {
+            return null;
+        }
+
         return (root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root
                 .get(String.valueOf(ChippingInfo_.chippingDateTime)), endDate);
     }
 
     private static  <T extends Number>  Specification<AnimalProjection> equalsById(T id, String columnName) {
+        if (id == null) {
+            return null;
+        }
+
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(columnName), id);
     }
 
     private static Specification<AnimalProjection> likeByString(String value, String columnName) {
+        if (value == null) {
+            return null;
+        }
+
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(columnName), value);
     }
 

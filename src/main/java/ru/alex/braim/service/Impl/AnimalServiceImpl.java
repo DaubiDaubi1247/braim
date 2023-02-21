@@ -2,7 +2,6 @@ package ru.alex.braim.service.Impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -41,8 +40,8 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     @Transactional
     public List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification) {
-        List<AnimalProjection> animalProjectionList = animalRepository.findAll(AnimalSpecification.getAnimalProjectionListByParameters(animalDtoSpecification),
-                Sort.by(Sort.Direction.ASC, "id"));
+        List<AnimalProjection> animalProjectionList = animalRepository.findAll(AnimalSpecification
+                        .getAnimalProjectionListByParameters(animalDtoSpecification));
 
         return ListUtils.skipAndGetElements(animalProjectionList, animalDtoSpecification.getFrom(), animalDtoSpecification.getSize());
     }
