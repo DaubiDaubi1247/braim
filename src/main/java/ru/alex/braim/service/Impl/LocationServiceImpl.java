@@ -15,7 +15,6 @@ import ru.alex.braim.repository.LocationInfoRepository;
 import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.LocationService;
-import ru.alex.braim.specification.LocationSpecification;
 import ru.alex.braim.utils.ListUtils;
 
 import java.util.List;
@@ -42,7 +41,10 @@ public class LocationServiceImpl implements LocationService {
             throw new NotFoundException("animal with id = " + id + " not found");
         }
 
-        List<LocationProjection> locationProjectionList =  locationInfoRepository.findAll(LocationSpecification.getLocationPointByParams(dateRequestParams, id));
+        List<LocationProjection> locationProjectionList =  locationInfoRepository
+                .findLocationPointByParams(dateRequestParams.getStartDateTime(),
+                        dateRequestParams.getEndDateTime(),
+                        id);
 
         return ListUtils.skipAndGetElements(locationProjectionList, dateRequestParams.getFrom(), dateRequestParams.getSize());
     }

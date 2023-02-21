@@ -17,5 +17,5 @@ public class FromSizeParams {
     protected Integer from = 0;
 
     @Min(value = 1, message = "from cant be less than one")
-    protected Integer size;
+    protected Integer size = 10;
 }
