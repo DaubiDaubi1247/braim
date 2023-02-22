@@ -13,11 +13,4 @@ public class ListUtils {
                 .map(Identifiable::getId)
                 .collect(Collectors.toList());
     }
-
-    public static <T> List<T> skipAndGetElements(List<T> list, Integer from, Integer size) {
-        return list.stream()
-                .skip(from)
-                .limit(size)
-                .collect(Collectors.toList());
-    }
 }

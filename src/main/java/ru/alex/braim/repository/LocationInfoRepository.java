@@ -1,5 +1,7 @@
 package ru.alex.braim.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +10,6 @@ import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.entity.LocationInfo;
 
 import java.util.Date;
-import java.util.List;
 
 public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long>,
         JpaSpecificationExecutor<LocationProjection> {
@@ -20,7 +21,8 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
             "WHERE a.id = :animalId " +
             "   AND (CAST(:startDate AS timestamp)  IS null OR ci.chippingDateTime >= :startDate) " +
             "   AND (CAST(:endDate AS timestamp) IS null OR :endDate >= ci.chippingDateTime) ")
-    List<LocationProjection> findLocationPointByParams(@Param("startDate") Date startDate,
+    Page<LocationProjection> findLocationPointByParams(@Param("startDate") Date startDate,
                                                        @Param("endDate") Date endDate,
-                                                       @Param("animalId") Long animalId);
+                                                       @Param("animalId") Long animalId,
+                                                       Pageable pageable);
 }

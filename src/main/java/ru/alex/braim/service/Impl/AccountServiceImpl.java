@@ -2,6 +2,9 @@ package ru.alex.braim.service.Impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +17,6 @@ import ru.alex.braim.repository.AccountRepository;
 import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
 import ru.alex.braim.specification.AccountSpecification;
-import ru.alex.braim.utils.ListUtils;
 
 import java.util.List;
 
@@ -34,10 +36,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public List<AccountDto> getAccountsByParameters(@Valid AccountDto accountDto, @Valid FromSizeParams fromSizeParams) {
-        List<Account> accountList = accountRepository.findAll(AccountSpecification.
-                getAccountSpecificationByParameters(accountDto));
 
-        return accountMapper.toDtoList(ListUtils.skipAndGetElements(accountList, fromSizeParams.getFrom(), fromSizeParams.getSize()));
+        Pageable pageable = PageRequest.of(fromSizeParams.getFrom(), fromSizeParams.getSize());
+
+        Page<Account> accountList = accountRepository.findAll(AccountSpecification.
+                getAccountSpecificationByParameters(accountDto), pageable);
+
+        return accountMapper.toDtoList(accountList.getContent());
     }
 
     private Account getAccountEntityById(Long id) {

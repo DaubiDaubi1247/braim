@@ -2,6 +2,9 @@ package ru.alex.braim.service.Impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +18,6 @@ import ru.alex.braim.repository.LocationInfoRepository;
 import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.LocationService;
-import ru.alex.braim.utils.ListUtils;
 
 import java.util.List;
 
@@ -41,12 +43,13 @@ public class LocationServiceImpl implements LocationService {
             throw new NotFoundException("animal with id = " + id + " not found");
         }
 
-        List<LocationProjection> locationProjectionList =  locationInfoRepository
-                .findLocationPointByParams(dateRequestParams.getStartDateTime(),
-                        dateRequestParams.getEndDateTime(),
-                        id);
+        Pageable pageable = PageRequest.of(dateRequestParams.getFrom(), dateRequestParams.getSize());
 
-        return ListUtils.skipAndGetElements(locationProjectionList, dateRequestParams.getFrom(), dateRequestParams.getSize());
+        Page<LocationProjection> locationProjectionList =  locationInfoRepository
+                .findLocationPointByParams(dateRequestParams.getStartDateTime(),
+                        dateRequestParams.getEndDateTime(), id, pageable);
+
+        return locationProjectionList.getContent();
     }
 
     private LocationInfo getLocationInfoEntityById(Long id) {

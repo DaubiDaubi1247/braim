@@ -2,6 +2,9 @@ package ru.alex.braim.service.Impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +17,6 @@ import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.requestParam.AnimalRequestParams;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.specification.AnimalSpecification;
-import ru.alex.braim.utils.ListUtils;
 
 import java.util.List;
 
@@ -40,10 +42,13 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     @Transactional
     public List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification) {
-        List<AnimalProjection> animalProjectionList = animalRepository.findAll(AnimalSpecification
-                        .getAnimalProjectionListByParameters(animalDtoSpecification));
 
-        return ListUtils.skipAndGetElements(animalProjectionList, animalDtoSpecification.getFrom(), animalDtoSpecification.getSize());
+        Pageable pageable = PageRequest.of(animalDtoSpecification.getFrom(), animalDtoSpecification.getSize());
+
+        Page<AnimalProjection> animalProjectionList = animalRepository.findAll(AnimalSpecification
+                        .getAnimalProjectionListByParameters(animalDtoSpecification), pageable);
+
+        return animalProjectionList.getContent();
     }
 
     @Override
