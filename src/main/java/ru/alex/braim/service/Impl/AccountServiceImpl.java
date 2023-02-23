@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
+import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
@@ -43,6 +44,18 @@ public class AccountServiceImpl implements AccountService {
                 getAccountSpecificationByParameters(accountDto), pageable);
 
         return accountMapper.toDtoList(accountList.getContent());
+    }
+
+    @Override
+    @Transactional
+    public AccountDto createAccount(@Valid AccountDto accountDto) {
+        if (accountRepository.existsByEmail(accountDto.getEmail())) {
+            throw new AlreadyExistException("account with email = " + accountDto.getEmail() + " already exist");
+        }
+
+        Account accountEntity = accountMapper.toEntity(accountDto);
+
+        return accountMapper.toDto(accountRepository.save(accountEntity));
     }
 
     private Account getAccountEntityById(Long id) {

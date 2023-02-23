@@ -7,4 +7,5 @@ import ru.alex.braim.entity.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
+    boolean existsByEmail(String email);
 }
