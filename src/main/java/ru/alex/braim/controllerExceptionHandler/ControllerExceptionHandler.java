@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.BadRequestData;
 import ru.alex.braim.exception.NotFoundException;
 
@@ -24,5 +25,10 @@ public class ControllerExceptionHandler {
     @ExceptionHandler({BadRequestData.class, ConstraintViolationException.class})
     public ResponseEntity<ErrorMessage> badRequestData(RuntimeException exception) {
         return getResponseEntityWithStatus(HttpStatus.BAD_REQUEST, exception);
+    }
+
+    @ExceptionHandler({AlreadyExistException.class})
+    public ResponseEntity<ErrorMessage> alreadyExist(RuntimeException exception) {
+        return getResponseEntityWithStatus(HttpStatus.CONFLICT, exception);
     }
 }
