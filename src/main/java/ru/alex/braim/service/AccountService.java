@@ -11,4 +11,6 @@ public interface AccountService {
     AccountDto getAccountById(@Id Long id);
 
     List<AccountDto> getAccountsByParameters(@Valid AccountDto accountDto, @Valid FromSizeParams fromSizeParams);
+
+    AccountDto createAccount(@Valid AccountDto accountDto);
 }
