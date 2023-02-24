@@ -20,7 +20,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "WHERE an.id = ?1")
     AnimalProjection getAnimalProjectionById(Long id);
 
-    @Query(" SELECT a, cil.chippingDateTime, cil.chipper.id, cil.deathDateTime," +
+    @Query(" SELECT a, cil.chippingDateTime, cil.chipper.id, cil.deathDateTime, " +
             "li.id " +
             "FROM Animal a " +
             "JOIN a.gender gen " +
@@ -28,12 +28,13 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "JOIN a.chippingInfoList cil " +
             "JOIN a.animalTypeList atl " +
             "JOIN a.locationList li " +
-            "WHERE (CAST(:startDate AS timestamp)  IS null OR cil.chippingDateTime >= :#{arp.startDateTime}) " +
-            "   AND (CAST(:endDate AS timestamp) IS null OR :#{arp.endDateTime} >= cil.chippingDateTime) " +
-            "   AND (:#{arp.chipperId} IS null OR cil.chipper.id = :#{arp.chipperId}) " +
-            "   AND (:#{arp.chippingLocationId} IS null OR cil.id = :#{arp.chippingLocationId}) " +
-            "   AND (:#{arp.lifeStatus} IS null OR a.lifeStatus = :#{arp.lifeStatus}) " +
-            "   AND (:#{arp.gender} IS null OR a.gender.name = :#{arp.gender}) ")
-    Page<AnimalProjection> getAnimalProjectionByParams(@Param("arp") AnimalRequestParams animalRequestParams, Pageable pageable);
+            "WHERE (CAST(:#{#arp.startDateTime} AS timestamp) IS null OR cil.chippingDateTime >= :#{#arp.startDateTime}) " +
+            "   AND (CAST(:#{#arp.startDateTime} AS timestamp) IS null OR :#{#arp.endDateTime} >= cil.chippingDateTime) " +
+            "   AND (:#{#arp.chipperId} IS null OR cil.chipper.id = :#{#arp.chipperId}) " +
+            "   AND (:#{#arp.chippingLocationId} IS null OR cil.id = :#{#arp.chippingLocationId}) " +
+            "   AND (:#{#arp.lifeStatus} IS null OR a.lifeStatus = :#{#arp.lifeStatus}) " +
+            "   AND (:#{#arp.gender} IS null OR a.gender.name = :#{#arp.gender}) ")
+    Page<AnimalProjection> findAnimalProjectionByParams(@Param("arp") AnimalRequestParams animalRequestParams,
+                                                          Pageable pageable);
 
 }

@@ -16,7 +16,6 @@ import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.requestParam.AnimalRequestParams;
 import ru.alex.braim.service.AnimalService;
-import ru.alex.braim.specification.AnimalSpecification;
 
 import java.util.List;
 
@@ -45,8 +44,8 @@ public class AnimalServiceImpl implements AnimalService {
 
         Pageable pageable = PageRequest.of(animalDtoSpecification.getFrom(), animalDtoSpecification.getSize());
 
-        Page<AnimalProjection> animalProjectionList = animalRepository.findAll(AnimalSpecification
-                        .getAnimalProjectionListByParameters(animalDtoSpecification), pageable);
+        Page<AnimalProjection> animalProjectionList = animalRepository.
+                findAnimalProjectionByParams(animalDtoSpecification, pageable);
 
         return animalProjectionList.getContent();
     }
