@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
+import ru.alex.braim.dto.AccountCreateDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
 import ru.alex.braim.exception.AlreadyExistException;
@@ -36,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public List<AccountDto> getAccountsByParameters(@Valid AccountDto accountDto, @Valid FromSizeParams fromSizeParams) {
+    public List<AccountDto> getAccountsByParameters(AccountDto accountDto, @Valid FromSizeParams fromSizeParams) {
 
         Pageable pageable = PageRequest.of(fromSizeParams.getFrom(), fromSizeParams.getSize());
 
@@ -48,12 +49,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public AccountDto createAccount(@Valid AccountDto accountDto) {
+    public AccountDto createAccount(@Valid AccountCreateDto accountDto) {
         if (accountRepository.existsByEmail(accountDto.getEmail())) {
             throw new AlreadyExistException("account with email = " + accountDto.getEmail() + " already exist");
         }
 
-        Account accountEntity = accountMapper.toEntity(accountDto);
+        Account accountEntity = accountMapper.toEntityWithPassword(accountDto);
 
         return accountMapper.toDto(accountRepository.save(accountEntity));
     }

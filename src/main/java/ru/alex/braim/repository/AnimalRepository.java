@@ -20,16 +20,15 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "WHERE an.id = ?1")
     AnimalProjection getAnimalProjectionById(Long id);
 
-    @Query(" SELECT a, cil.chippingDateTime, cil.chipper.id, cil.deathDateTime, " +
-            "li.id " +
+    @Query(" SELECT a, cil.chippingDateTime, cil.chipper.id AS chipId, cil.deathDateTime, " +
+            "li.id AS locationId " +
             "FROM Animal a " +
-            "JOIN a.gender gen " +
-            "JOIN a.lifeStatus ls " +
+            "JOIN a.gender " +
             "JOIN a.chippingInfoList cil " +
             "JOIN a.animalTypeList atl " +
             "JOIN a.locationList li " +
-            "WHERE (CAST(:#{#arp.startDateTime} AS timestamp) IS null OR cil.chippingDateTime >= :#{#arp.startDateTime}) " +
-            "   AND (CAST(:#{#arp.startDateTime} AS timestamp) IS null OR :#{#arp.endDateTime} >= cil.chippingDateTime) " +
+            "WHERE  (:#{#arp.startDateTime} IS null OR cil.chippingDateTime >= :#{#arp.startDateTime}) " +
+            "   AND (:#{#arp.endDateTime} IS null OR :#{#arp.endDateTime} >= cil.chippingDateTime) " +
             "   AND (:#{#arp.chipperId} IS null OR cil.chipper.id = :#{#arp.chipperId}) " +
             "   AND (:#{#arp.chippingLocationId} IS null OR cil.id = :#{#arp.chippingLocationId}) " +
             "   AND (:#{#arp.lifeStatus} IS null OR a.lifeStatus = :#{#arp.lifeStatus}) " +

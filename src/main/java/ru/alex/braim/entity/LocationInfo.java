@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.alex.braim.utils.interfaces.Identifiable;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-public class LocationInfo {
+public class LocationInfo implements Identifiable {
 
     @Column(name = "id")
     @Id

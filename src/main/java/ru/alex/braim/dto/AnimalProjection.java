@@ -11,15 +11,19 @@ public interface AnimalProjection {
     Float getWeight();
     Float getLength();
     Float getHeight();
+
+    @Value("#{target.getGender().name}")
     String getGender();
     String getLifeStatus();
 
+    @Value("#{target.getChipId}")
     Integer getChipperId();
-
     Date getChippingDateTime();
+
+    @Value("#{target.getLocationId}")
     Long getChippingLocationId();
 
-    @Value("#{@listUtils.toLongList(target.animal_chipping)}")
+    @Value("#{@listUtils.toLongList(target.getLocationList())}")
     List<Long> getVisitedLocations();
     Date getDeathDateTime();
 }

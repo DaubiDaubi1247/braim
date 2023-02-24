@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.alex.braim.dto.AccountCreateDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.service.AccountService;
 
@@ -18,7 +19,7 @@ public class RegistrationController {
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto accountDto) {
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountCreateDto accountDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.createAccount(accountDto));
     }
 }
