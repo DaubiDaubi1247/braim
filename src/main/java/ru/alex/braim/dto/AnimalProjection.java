@@ -14,7 +14,6 @@ public interface AnimalProjection {
     String getGender();
     String getLifeStatus();
 
-    @Value("#{target.chip_info.chipper_id}")
     Integer getChipperId();
 
     Date getChippingDateTime();

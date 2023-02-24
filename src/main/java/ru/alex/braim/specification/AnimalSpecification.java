@@ -27,7 +27,7 @@ public class AnimalSpecification {
                 .get(String.valueOf(ChippingInfo_.chippingDateTime)), endDate);
     }
 
-    private static  <T extends Number>  Specification<AnimalProjection> equalsById(T id, String columnName) {
+    private static  <T extends Number> Specification<AnimalProjection> equalsById(T id, String columnName) {
         if (id == null) {
             return null;
         }
