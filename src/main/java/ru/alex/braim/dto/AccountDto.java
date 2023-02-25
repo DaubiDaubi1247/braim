@@ -21,6 +21,7 @@ public class AccountDto {
     private String lastName;
 
     @Email(message = "email doesnt matches pattern")
+    @NotBlank(message = "email cant be empty")
     private String email;
 
 }

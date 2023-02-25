@@ -5,10 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
+import ru.alex.braim.config.AccountDetailtPrincImpl;
 import ru.alex.braim.dto.AccountCreateDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
@@ -25,9 +30,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Validated
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Override
     @Transactional
@@ -50,6 +57,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDto createAccount(@Valid AccountCreateDto accountDto) {
+
         if (accountRepository.existsByEmail(accountDto.getEmail())) {
             throw new AlreadyExistException("account with email = " + accountDto.getEmail() + " already exist");
         }
@@ -62,5 +70,15 @@ public class AccountServiceImpl implements AccountService {
     private Account getAccountEntityById(Long id) {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("аккаунт с id = " + id + " не найден"));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        System.out.println("\n\n\n\n-----------------" + username + "-------------------------\n\n\n\n\n");
+
+        Account account = accountRepository.findByEmail(username);
+
+        return new AccountDetailtPrincImpl(account);
     }
 }
