@@ -21,8 +21,6 @@ public class AccountController {
     public ResponseEntity<AccountDto> getAccountInfo(@PathVariable Long accountId,
                                                      @RequestHeader Map<String, String> headers) {
 
-//        byte[] a = Base64.getDecoder().decode(headers.get("authorization").split(" ")[1]);
-//        String ab = new String(a);
         return ResponseEntity.ok(accountService.getAccountById(accountId));
     }
 
