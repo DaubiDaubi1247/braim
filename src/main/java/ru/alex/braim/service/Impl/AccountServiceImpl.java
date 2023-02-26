@@ -80,7 +80,13 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
             throw new NotEqualsAccounts("not equals emails in updated account and transferred");
         }
 
-        return null;
+        if (accountRepository.existsByEmail(accountDto.getEmail())) {
+            throw new AlreadyExistException("account with email = " + accountDto.getEmail() + " already exist");
+        }
+
+        Account accountForSave = accountMapper.toEntityWithPassword(accountDto);
+
+        return accountMapper.toDto(accountRepository.save(accountForSave));
     }
 
     private Account getAccountEntityById(Long id) {
