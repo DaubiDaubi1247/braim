@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
+import ru.alex.braim.utils.decoder.Decoder;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import java.util.Map;
 public class AccountController {
 
     private final AccountService accountService;
+
+    private final Decoder decoder;
 
     @GetMapping("/{accountId}")
     public ResponseEntity<AccountDto> getAccountInfo(@PathVariable Long accountId,

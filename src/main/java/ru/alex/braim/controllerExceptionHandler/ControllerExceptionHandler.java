@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.BadRequestData;
+import ru.alex.braim.exception.NotEqualsAccounts;
 import ru.alex.braim.exception.NotFoundException;
 
 @RestControllerAdvice
@@ -30,5 +31,10 @@ public class ControllerExceptionHandler {
     @ExceptionHandler({AlreadyExistException.class})
     public ResponseEntity<ErrorMessage> alreadyExist(RuntimeException exception) {
         return getResponseEntityWithStatus(HttpStatus.CONFLICT, exception);
+    }
+
+    @ExceptionHandler({NotEqualsAccounts.class})
+    public ResponseEntity<ErrorMessage> notEqualsAccountsInfo(RuntimeException exception) {
+        return getResponseEntityWithStatus(HttpStatus.FORBIDDEN, exception);
     }
 }

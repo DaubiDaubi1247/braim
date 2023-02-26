@@ -5,6 +5,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AccountCreateDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.requestParam.FromSizeParams;
+import ru.alex.braim.utils.decoder.AuthData;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface AccountService {
 
     AccountDto createAccount(@Valid AccountCreateDto accountDto);
 
-    AccountDto updateAccount(@Valid AccountCreateDto accountDto, @Id Long id);
+    AccountDto updateAccount(@Valid AccountCreateDto accountDto, @Id Long id, AuthData authData);
 }

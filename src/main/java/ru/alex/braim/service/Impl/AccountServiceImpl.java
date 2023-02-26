@@ -18,12 +18,14 @@ import ru.alex.braim.dto.AccountCreateDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
 import ru.alex.braim.exception.AlreadyExistException;
+import ru.alex.braim.exception.NotEqualsAccounts;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
 import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
 import ru.alex.braim.specification.AccountSpecification;
+import ru.alex.braim.utils.decoder.AuthData;
 
 import java.util.List;
 
@@ -71,8 +73,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     @Transactional
-    public AccountDto updateAccount(@Valid AccountCreateDto accountDto, @Id Long id) {
+    public AccountDto updateAccount(@Valid AccountCreateDto accountDto, @Id Long id, AuthData authData) {
         Account account = getAccountEntityById(id);
+
+        if (!account.getEmail().equals(authData.getEmail())) {
+            throw new NotEqualsAccounts("not equals emails in updated account and transferred");
+        }
 
         return null;
     }

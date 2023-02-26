@@ -1,10 +1,12 @@
 package ru.alex.braim.utils.decoder.decoderImpl;
 
+import org.springframework.stereotype.Component;
 import ru.alex.braim.utils.decoder.AuthData;
 import ru.alex.braim.utils.decoder.Decoder;
 
 import java.util.Base64;
 
+@Component
 public class Base64Decoder implements Decoder {
     @Override
     public AuthData decode(String code) {
