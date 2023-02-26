@@ -1,4 +1,4 @@
-package ru.alex.braim.config;
+package ru.alex.braim.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

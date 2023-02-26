@@ -1,4 +1,4 @@
-package ru.alex.braim.config;
+package ru.alex.braim.config.security;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

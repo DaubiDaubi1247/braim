@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
-import ru.alex.braim.config.AccountDetailtPrincImpl;
+import ru.alex.braim.config.security.AccountDetailtPrincImpl;
 import ru.alex.braim.dto.AccountCreateDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
