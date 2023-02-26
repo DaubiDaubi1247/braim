@@ -1,7 +1,7 @@
 package ru.alex.braim.mapper;
 
 import org.mapstruct.Mapper;
-import ru.alex.braim.dto.AccountCreateDto;
+import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
 
@@ -14,7 +14,7 @@ public interface AccountMapper {
 
     Account toEntity(AccountDto accountDto);
 
-    Account toEntityWithPassword(AccountCreateDto accountCreateDto);
+    Account toEntityWithPassword(AccountWithPasswordDto accountCreateDto);
 
     List<AccountDto> toDtoList(List<Account> accountList);
 }

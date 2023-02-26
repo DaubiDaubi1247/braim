@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @Getter
 @SuperBuilder
-public class AccountCreateDto extends AccountDto{
+public class AccountWithPasswordDto extends AccountDto{
     @NotBlank(message = "password cant be empty")
     private String password;
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AccountDto;
+import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
 import ru.alex.braim.utils.decoder.Decoder;
@@ -21,8 +22,7 @@ public class AccountController {
     private final Decoder decoder;
 
     @GetMapping("/{accountId}")
-    public ResponseEntity<AccountDto> getAccountInfo(@PathVariable Long accountId,
-                                                     @RequestHeader Map<String, String> headers) {
+    public ResponseEntity<AccountDto> getAccountInfo(@PathVariable Long accountId) {
 
         return ResponseEntity.ok(accountService.getAccountById(accountId));
     }
@@ -33,5 +33,14 @@ public class AccountController {
             FromSizeParams fromSizeParams) {
 
         return ResponseEntity.ok(accountService.getAccountsByParameters(accountDto, fromSizeParams));
+    }
+
+    @PutMapping("/{accountId}")
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long accountId,
+                                                    @RequestBody AccountWithPasswordDto account,
+                                                    @RequestHeader Map<String, String> headers) {
+
+        return ResponseEntity.ok(accountService.updateAccount(account, accountId,
+                decoder.decode(headers.get("authorization"))));
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.config.security.AccountDetailtPrincImpl;
-import ru.alex.braim.dto.AccountCreateDto;
+import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
 import ru.alex.braim.exception.AlreadyExistException;
@@ -58,7 +58,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     @Transactional
-    public AccountDto createAccount(@Valid AccountCreateDto accountDto) {
+    public AccountDto createAccount(@Valid AccountWithPasswordDto accountDto) {
 
         if (accountRepository.existsByEmail(accountDto.getEmail())) {
             throw new AlreadyExistException("account with email = " + accountDto.getEmail() + " already exist");
@@ -73,7 +73,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     @Transactional
-    public AccountDto updateAccount(@Valid AccountCreateDto accountDto, @Id Long id, AuthData authData) {
+    public AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id, AuthData authData) {
         Account account = getAccountEntityById(id);
 
         if (!account.getEmail().equals(authData.getEmail())) {
