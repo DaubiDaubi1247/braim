@@ -69,15 +69,29 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         return accountMapper.toDto(accountRepository.save(accountEntity));
     }
 
+    @Override
+    @Transactional
+    public AccountDto updateAccount(@Valid AccountCreateDto accountDto, @Id Long id) {
+        Account account = getAccountEntityById(id);
+
+        return null;
+    }
+
     private Account getAccountEntityById(Long id) {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("аккаунт с id = " + id + " не найден"));
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(email);
+        Account account = getAccountEntityByEmail(email);
 
         return new AccountDetailtPrincImpl(account);
+    }
+
+    private Account getAccountEntityByEmail(String email) {
+       return accountRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("account with email = " + email + " not found"));
     }
 }

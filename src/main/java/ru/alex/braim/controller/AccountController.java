@@ -8,6 +8,7 @@ import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/accounts")
@@ -17,7 +18,11 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/{accountId}")
-    public ResponseEntity<AccountDto> getAccountInfo(@PathVariable Long accountId) {
+    public ResponseEntity<AccountDto> getAccountInfo(@PathVariable Long accountId,
+                                                     @RequestHeader Map<String, String> headers) {
+
+//        byte[] a = Base64.getDecoder().decode(headers.get("authorization").split(" ")[1]);
+//        String ab = new String(a);
         return ResponseEntity.ok(accountService.getAccountById(accountId));
     }
 

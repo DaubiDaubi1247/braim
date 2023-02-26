@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import ru.alex.braim.entity.Account;
 
+import java.util.Optional;
+
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
     boolean existsByEmail(String email);
 
-    Account findByEmail(String email);
+    Optional<Account> findByEmail(String email);
 
 }
