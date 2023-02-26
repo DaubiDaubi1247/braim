@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     @Transactional
@@ -62,6 +62,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
             throw new AlreadyExistException("account with email = " + accountDto.getEmail() + " already exist");
         }
 
+        accountDto.setPassword(bCryptPasswordEncoder.encode(accountDto.getPassword()));
+
         Account accountEntity = accountMapper.toEntityWithPassword(accountDto);
 
         return accountMapper.toDto(accountRepository.save(accountEntity));
@@ -73,11 +75,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        System.out.println("\n\n\n\n-----------------" + username + "-------------------------\n\n\n\n\n");
-
-        Account account = accountRepository.findByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Account account = accountRepository.findByEmail(email);
 
         return new AccountDetailtPrincImpl(account);
     }
