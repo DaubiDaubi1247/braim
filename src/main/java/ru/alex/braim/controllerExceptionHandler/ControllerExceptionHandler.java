@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.alex.braim.exception.AlreadyExistException;
-import ru.alex.braim.exception.BadRequestData;
-import ru.alex.braim.exception.NotEqualsAccounts;
-import ru.alex.braim.exception.NotFoundException;
+import ru.alex.braim.exception.*;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
@@ -23,7 +20,7 @@ public class ControllerExceptionHandler {
         return getResponseEntityWithStatus(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler({BadRequestData.class, ConstraintViolationException.class})
+    @ExceptionHandler({BadRequestData.class, ConstraintViolationException.class, AccountHaveAnimal.class})
     public ResponseEntity<ErrorMessage> badRequestData(RuntimeException exception) {
         return getResponseEntityWithStatus(HttpStatus.BAD_REQUEST, exception);
     }

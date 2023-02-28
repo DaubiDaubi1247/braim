@@ -17,6 +17,7 @@ import ru.alex.braim.config.security.AccountDetailtPrincImpl;
 import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
+import ru.alex.braim.exception.AccountHaveAnimal;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.NotEqualsAccounts;
 import ru.alex.braim.exception.NotFoundException;
@@ -76,7 +77,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id, AuthData authData) {
         Account account = getAccountEntityById(id);
 
-        if (!account.getEmail().equals(authData.getEmail())) {
+        if (accountEmailEqualWithEmailFromHeader(authData, account)) {
             throw new NotEqualsAccounts("not equals emails in updated account and transferred");
         }
 
@@ -87,6 +88,25 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Account accountForSave = accountMapper.toEntityWithPassword(accountDto);
 
         return accountMapper.toDto(accountRepository.save(accountForSave));
+    }
+
+    private boolean accountEmailEqualWithEmailFromHeader(AuthData authData, Account account) {
+        return !account.getEmail().equals(authData.getEmail());
+    }
+
+    @Override
+    public void deleteAccount(Long id, AuthData authData) {
+        Account account = getAccountEntityById(id);
+
+        if (accountEmailEqualWithEmailFromHeader(authData, account)) {
+            throw new NotEqualsAccounts("not equals emails in updated account and transferred");
+        }
+
+        if (accountRepository.accountHaveAnimals(id)) {
+            throw new AccountHaveAnimal("account with id = " + id + " have animal");
+        }
+
+        accountRepository.delete(account);
     }
 
     private Account getAccountEntityById(Long id) {

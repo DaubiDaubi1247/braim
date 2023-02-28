@@ -30,6 +30,7 @@ public class AccountSpecification {
 
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(Account_.email), email);
     }
+
     public static Specification<Account> getAccountSpecificationByParameters(AccountDto accountDto) {
         return Specification.where(equalsLikeFirstName(accountDto.getFirstName()))
                 .and(equalsLikeSecondName(accountDto.getLastName()))
