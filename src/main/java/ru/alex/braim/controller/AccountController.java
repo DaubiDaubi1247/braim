@@ -1,6 +1,7 @@
 package ru.alex.braim.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AccountDto;
@@ -42,5 +43,15 @@ public class AccountController {
 
         return ResponseEntity.ok(accountService.updateAccount(account, accountId,
                 decoder.decode(headers.get("authorization"))));
+    }
+
+    @DeleteMapping(" /{accountId}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId,
+                                              @RequestHeader Map<String, String> headers) {
+
+        accountService.deleteAccount(accountId,
+                decoder.decode(headers.get("authorization")));
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
