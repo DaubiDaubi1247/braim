@@ -9,4 +9,6 @@ public interface AnimalTypeService {
 
     AnimalTypeDto createType(@Valid AnimalTypeDto animalTypeDto);
 
+    AnimalTypeDto updateType(@Valid AnimalTypeDto animalTypeDto, @Id Long id);
+
 }

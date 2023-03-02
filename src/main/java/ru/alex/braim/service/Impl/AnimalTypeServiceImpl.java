@@ -30,11 +30,26 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Override
     @Transactional
     public AnimalTypeDto createType(@Valid AnimalTypeDto animalTypeDto) {
+        throwIfTypeExists(animalTypeDto);
+
+        AnimalType animalType = animalTypeMapper.toEntity(animalTypeDto);
+
+        return animalTypeMapper.toDto(animalTypeRepository.save(animalType));
+    }
+
+    private void throwIfTypeExists(AnimalTypeDto animalTypeDto) {
         if (animalTypeRepository.existsByType(animalTypeDto.getType())) {
             throw new AlreadyExistException("type with name = " + animalTypeDto.getType() + " already exist");
         }
+    }
 
-        AnimalType animalType = animalTypeMapper.toEntity(animalTypeDto);
+    @Override
+    @Transactional
+    public AnimalTypeDto updateType(@Valid AnimalTypeDto animalTypeDto, @Id Long id) {
+        throwIfTypeExists(animalTypeDto);
+
+        AnimalType animalType = getAnimalTypeEntityById(id);
+        animalType.setType(animalType.getType());
 
         return animalTypeMapper.toDto(animalTypeRepository.save(animalType));
     }
