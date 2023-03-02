@@ -1,6 +1,7 @@
 package ru.alex.braim.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AnimalTypeDto;
@@ -20,6 +21,6 @@ public class AnimalTypeController {
 
     @PostMapping
     public ResponseEntity<AnimalTypeDto> createType(@RequestBody AnimalTypeDto animalTypeDto) {
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body(animalTypeService.createType(animalTypeDto));
     }
 }

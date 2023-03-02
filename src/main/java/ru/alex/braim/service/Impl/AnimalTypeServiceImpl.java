@@ -1,5 +1,6 @@
 package ru.alex.braim.service.Impl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
 
     @Override
     @Transactional
-    public AnimalTypeDto createType(AnimalTypeDto animalTypeDto) {
+    public AnimalTypeDto createType(@Valid AnimalTypeDto animalTypeDto) {
         if (animalTypeRepository.existsByType(animalTypeDto.getType())) {
             throw new AlreadyExistException("type with name = " + animalTypeDto.getType() + " already exist");
         }
