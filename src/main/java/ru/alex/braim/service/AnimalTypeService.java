@@ -11,4 +11,6 @@ public interface AnimalTypeService {
 
     AnimalTypeDto updateType(@Valid AnimalTypeDto animalTypeDto, @Id Long id);
 
+    void deleteType(@Id Long id);
+
 }

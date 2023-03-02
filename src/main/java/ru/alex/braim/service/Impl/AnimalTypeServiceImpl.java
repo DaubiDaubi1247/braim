@@ -54,6 +54,13 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
         return animalTypeMapper.toDto(animalTypeRepository.save(animalType));
     }
 
+    @Override
+    @Transactional
+    public void deleteType(@Id Long id) {
+        AnimalType animalType = getAnimalTypeEntityById(id);
+        animalTypeRepository.delete(animalType);
+    }
+
     private AnimalType getAnimalTypeEntityById(Long id) {
         return animalTypeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("animal type with id = " + id + " not found"));
