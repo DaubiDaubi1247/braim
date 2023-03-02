@@ -20,7 +20,7 @@ public class ControllerExceptionHandler {
         return getResponseEntityWithStatus(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler({BadRequestData.class, ConstraintViolationException.class, AccountHaveAnimal.class})
+    @ExceptionHandler({BadRequestData.class, ConstraintViolationException.class, ConnectionWithAnimal.class})
     public ResponseEntity<ErrorMessage> badRequestData(RuntimeException exception) {
         return getResponseEntityWithStatus(HttpStatus.BAD_REQUEST, exception);
     }

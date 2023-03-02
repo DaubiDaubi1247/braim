@@ -13,6 +13,7 @@ import ru.alex.braim.dto.LocationInfoDto;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.entity.LocationInfo;
 import ru.alex.braim.exception.AlreadyExistException;
+import ru.alex.braim.exception.ConnectionWithAnimal;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.LocationInfoMapper;
 import ru.alex.braim.repository.LocationInfoRepository;
@@ -64,6 +65,18 @@ public class LocationServiceImpl implements LocationService {
         locationInfo.setLongitude(locationInfo.getLongitude());
 
         return locationInfoMapper.toDto(locationInfoRepository.save(locationInfo));
+    }
+
+    @Override
+    @Transactional
+    public void deleteLocation(Long id) {
+        LocationInfo locationInfo = getLocationInfoEntityById(id);
+
+        if (locationInfo.getAnimalList().size() != 0) {
+            throw new ConnectionWithAnimal("location with id = " + id + " connection with animal");
+        }
+
+        locationInfoRepository.delete(locationInfo);
     }
 
     private boolean existByLatitudeAndLongitude(LocationInfoDto locationInfoDto) {

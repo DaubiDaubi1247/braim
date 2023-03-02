@@ -17,7 +17,7 @@ import ru.alex.braim.config.security.AccountDetailtPrincImpl;
 import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
-import ru.alex.braim.exception.AccountHaveAnimal;
+import ru.alex.braim.exception.ConnectionWithAnimal;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.NotEqualsAccounts;
 import ru.alex.braim.exception.NotFoundException;
@@ -103,7 +103,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
 
         if (accountRepository.accountHaveAnimals(id)) {
-            throw new AccountHaveAnimal("account with id = " + id + " have animal");
+            throw new ConnectionWithAnimal("account with id = " + id + " have animal");
         }
 
         accountRepository.delete(account);
