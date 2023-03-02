@@ -1,6 +1,7 @@
 package ru.alex.braim.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.LocationInfoDto;
@@ -20,6 +21,6 @@ public class LocationController {
 
     @PostMapping
     public ResponseEntity<LocationInfoDto> createLocation(@RequestBody LocationInfoDto locationInfoDto) {
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.createLocation(locationInfoDto));
     }
 }
