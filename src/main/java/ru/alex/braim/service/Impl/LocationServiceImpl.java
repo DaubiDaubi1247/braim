@@ -50,9 +50,29 @@ public class LocationServiceImpl implements LocationService {
         return locationInfoMapper.toDto(locationInfoRepository.save(locationInfo));
     }
 
+    @Override
+    @Transactional
+    public LocationInfoDto updateLocation(@Valid LocationInfoDto locationInfoDto, @Id Long id) {
+
+        if (existByLatitudeAndLongitude(locationInfoDto)) {
+            throw new AlreadyExistException("location with latitude = " + locationInfoDto.getLatitude() +
+                    " and longitude = " + locationInfoDto.getLongitude() + " already exist");
+        }
+
+        LocationInfo locationInfo = getLocationInfoEntityById(id);
+        locationInfo.setLatitude(locationInfoDto.getLatitude());
+        locationInfo.setLongitude(locationInfo.getLongitude());
+
+        return locationInfoMapper.toDto(locationInfoRepository.save(locationInfo));
+    }
+
     private boolean existByLatitudeAndLongitude(LocationInfoDto locationInfoDto) {
         return locationInfoRepository.existByLatitudeAndLongitude(locationInfoDto.getLatitude(),
                 locationInfoDto.getLongitude());
+    }
+
+    private boolean existById(Long id) {
+        return locationInfoRepository.existsById(id);
     }
 
     @Override

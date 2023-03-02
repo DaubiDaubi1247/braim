@@ -13,5 +13,7 @@ public interface LocationService {
 
     LocationInfoDto createLocation(@Valid LocationInfoDto locationInfoDto);
 
+    LocationInfoDto updateLocation(@Valid LocationInfoDto locationInfoDto, @Id Long id);
+
     List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id);
 }

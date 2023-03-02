@@ -23,4 +23,5 @@ public class LocationController {
     public ResponseEntity<LocationInfoDto> createLocation(@RequestBody LocationInfoDto locationInfoDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(locationService.createLocation(locationInfoDto));
     }
+
 }
