@@ -7,4 +7,6 @@ import ru.alex.braim.entity.LocationInfo;
 @Mapper(componentModel = "spring")
 public interface LocationInfoMapper {
     LocationInfoDto toDto(LocationInfo locationInfo);
+
+    LocationInfo toEntity(LocationInfoDto locationInfoDto);
 }

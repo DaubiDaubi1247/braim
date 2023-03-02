@@ -11,5 +11,7 @@ import java.util.List;
 public interface LocationService {
     LocationInfoDto getLocationById(@Id Long id);
 
+    LocationInfoDto createLocation(@Valid LocationInfoDto locationInfoDto);
+
     List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id);
 }

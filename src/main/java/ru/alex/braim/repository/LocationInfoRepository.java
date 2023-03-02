@@ -25,4 +25,6 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
                                                        @Param("endDate") Date endDate,
                                                        @Param("animalId") Long animalId,
                                                        Pageable pageable);
+
+    boolean existByLatitudeAndLongitude(Double latitude, Double longitude);
 }

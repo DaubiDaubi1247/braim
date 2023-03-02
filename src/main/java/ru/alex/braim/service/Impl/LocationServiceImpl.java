@@ -12,6 +12,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.LocationInfoDto;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.entity.LocationInfo;
+import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.LocationInfoMapper;
 import ru.alex.braim.repository.LocationInfoRepository;
@@ -34,6 +35,24 @@ public class LocationServiceImpl implements LocationService {
     @Transactional
     public LocationInfoDto getLocationById(@Id Long id) {
         return locationInfoMapper.toDto(getLocationInfoEntityById(id));
+    }
+
+    @Override
+    @Transactional
+    public LocationInfoDto createLocation(@Valid LocationInfoDto locationInfoDto) {
+        if (existByLatitudeAndLongitude(locationInfoDto)) {
+            throw new AlreadyExistException("location with latitude = " + locationInfoDto.getLatitude() +
+                    " and longitude = " + locationInfoDto.getLongitude() + " already exist");
+        }
+
+        LocationInfo locationInfo = locationInfoMapper.toEntity(locationInfoDto);
+
+        return locationInfoMapper.toDto(locationInfoRepository.save(locationInfo));
+    }
+
+    private boolean existByLatitudeAndLongitude(LocationInfoDto locationInfoDto) {
+        return locationInfoRepository.existByLatitudeAndLongitude(locationInfoDto.getLatitude(),
+                locationInfoDto.getLongitude());
     }
 
     @Override
