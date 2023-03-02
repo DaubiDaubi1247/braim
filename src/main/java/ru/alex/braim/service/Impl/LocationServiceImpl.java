@@ -67,7 +67,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     private boolean existByLatitudeAndLongitude(LocationInfoDto locationInfoDto) {
-        return locationInfoRepository.existByLatitudeAndLongitude(locationInfoDto.getLatitude(),
+        return locationInfoRepository.existsByLatitudeAndLongitude(locationInfoDto.getLatitude(),
                 locationInfoDto.getLongitude());
     }
 

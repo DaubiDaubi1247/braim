@@ -24,4 +24,11 @@ public class LocationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(locationService.createLocation(locationInfoDto));
     }
 
+    @PutMapping("/{pointId}")
+    public ResponseEntity<LocationInfoDto> updateLocation(@PathVariable Long pointId,
+                                                          @RequestBody LocationInfoDto locationInfoDto) {
+
+        return ResponseEntity.ok(locationService.updateLocation(locationInfoDto, pointId));
+    }
+
 }
