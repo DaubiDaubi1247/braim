@@ -23,4 +23,11 @@ public class AnimalTypeController {
     public ResponseEntity<AnimalTypeDto> createType(@RequestBody AnimalTypeDto animalTypeDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(animalTypeService.createType(animalTypeDto));
     }
+
+    @PutMapping("/{typeId}")
+    public ResponseEntity<AnimalTypeDto> updateType(@PathVariable Long typeId,
+                                                    @RequestBody AnimalTypeDto animalTypeDto) {
+
+        return ResponseEntity.ok(animalTypeService.updateType(animalTypeDto, typeId));
+    }
 }
