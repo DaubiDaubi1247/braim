@@ -30,4 +30,11 @@ public class AnimalTypeController {
 
         return ResponseEntity.ok(animalTypeService.updateType(animalTypeDto, typeId));
     }
+
+    @DeleteMapping("/{typeId}")
+    public ResponseEntity<Void> deleteType(@PathVariable Long typeId) {
+        animalTypeService.deleteType(typeId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
