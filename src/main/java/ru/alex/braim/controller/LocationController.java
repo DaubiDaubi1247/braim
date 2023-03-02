@@ -31,4 +31,12 @@ public class LocationController {
         return ResponseEntity.ok(locationService.updateLocation(locationInfoDto, pointId));
     }
 
+    @DeleteMapping("/{pointId}")
+    public ResponseEntity<Void> deleteLocation(@PathVariable Long pointId) {
+
+        locationService.deleteLocation(pointId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
