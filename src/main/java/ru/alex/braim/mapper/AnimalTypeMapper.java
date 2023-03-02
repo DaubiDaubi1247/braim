@@ -8,4 +8,6 @@ import ru.alex.braim.entity.AnimalType;
 public interface AnimalTypeMapper {
 
     AnimalTypeDto toDto(AnimalType animalType);
+
+    AnimalType toEntity(AnimalTypeDto animalTypeDto);
 }

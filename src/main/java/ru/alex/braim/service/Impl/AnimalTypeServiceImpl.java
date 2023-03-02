@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalTypeDto;
 import ru.alex.braim.entity.AnimalType;
+import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalTypeMapper;
 import ru.alex.braim.repository.AnimalTypeRepository;
@@ -23,6 +24,18 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Transactional
     public AnimalTypeDto getAnimalTypeById(@Id Long id) {
         return animalTypeMapper.toDto(getAnimalTypeEntityById(id));
+    }
+
+    @Override
+    @Transactional
+    public AnimalTypeDto createType(AnimalTypeDto animalTypeDto) {
+        if (animalTypeRepository.existsByType(animalTypeDto.getType())) {
+            throw new AlreadyExistException("type with name = " + animalTypeDto.getType() + " already exist");
+        }
+
+        AnimalType animalType = animalTypeMapper.toEntity(animalTypeDto);
+
+        return animalTypeMapper.toDto(animalTypeRepository.save(animalType));
     }
 
     private AnimalType getAnimalTypeEntityById(Long id) {
