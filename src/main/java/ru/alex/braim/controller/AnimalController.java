@@ -58,4 +58,11 @@ public class AnimalController {
 
         return ResponseEntity.ok(animalService.getAnimalListByParams(animalDtoSpecification));
     }
+
+    @PostMapping("/{animalId}/types/{typeId}")
+    public ResponseEntity<AnimalProjection> addTypeToAnimal(@PathVariable Long animalId,
+                                                            @PathVariable Long typeId) {
+
+        return ResponseEntity.ok(animalService.addTypeToAnimal(animalId, typeId));
+    }
 }
