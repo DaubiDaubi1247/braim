@@ -103,12 +103,35 @@ public class AnimalServiceImpl implements AnimalService {
         Animal animal = getAnimalEntityById(animalId);
         AnimalType animalType = animalTypeService.getAnimalTypeEntityById(typeId);
 
-        if (animal.getAnimalTypeList().contains(animalType)) {
-            throw new AlreadyExistException("");
-        }
+        throwIfTypeAlreadyExist(animal, animalType);
 
         animal.getAnimalTypeList().add(animalType);
         animalRepository.save(animal);
+
+        return animalRepository.getAnimalProjectionById(animalId);
+    }
+
+    private static void throwIfTypeAlreadyExist(Animal animal, AnimalType animalType) {
+        if (animal.getAnimalTypeList().contains(animalType)) {
+            throw new AlreadyExistException("");
+        }
+    }
+
+    @Override
+    @Transactional
+    public AnimalProjection changeTypeAnimal(@Id Long oldTypeId, @Id Long newTypeId, @Id Long animalId) {
+        Animal animal = getAnimalEntityById(animalId);
+        AnimalType oldAnimalType = animalTypeService.getAnimalTypeEntityById(oldTypeId);
+        AnimalType newAnimalType = animalTypeService.getAnimalTypeEntityById(newTypeId);
+
+        int oldTypeIndex = animal.getAnimalTypeList().indexOf(oldAnimalType);
+
+        if (oldTypeIndex == -1) {
+            throw new NotFoundException("");
+        }
+
+        throwIfTypeAlreadyExist(animal, newAnimalType);
+        animal.getAnimalTypeList().set(oldTypeIndex, newAnimalType);
 
         return animalRepository.getAnimalProjectionById(animalId);
     }
