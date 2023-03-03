@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.dto.LocationProjection;
+import ru.alex.braim.dto.OldAndNewTypes;
 import ru.alex.braim.requestParam.AnimalRequestParams;
 import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.AnimalService;
@@ -64,5 +65,12 @@ public class AnimalController {
                                                             @PathVariable Long typeId) {
 
         return ResponseEntity.ok(animalService.addTypeToAnimal(animalId, typeId));
+    }
+
+    @PutMapping("/{animalId}/types")
+    public ResponseEntity<AnimalProjection> changeTypeToAnimal(@PathVariable Long animalId,
+                                                               @RequestBody OldAndNewTypes oldAndNewTypes) {
+
+        return ResponseEntity.ok(animalService.changeTypeAnimal(animalId, oldAndNewTypes));
     }
 }
