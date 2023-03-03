@@ -44,13 +44,8 @@ public class Animal {
     @Builder.Default
     private String lifeStatus = LifeStatusEnum.ALIVE.getLifeStatus();
 
-    @ManyToMany
-    @JoinTable(
-            name = "animal_chipping",
-            joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn(name = "chiping_id")
-    )
-    List<ChippingInfo> chippingInfoList;
+    @OneToOne(mappedBy = "animal")
+    ChippingInfo chippingInfo;
 
     @ManyToMany
     @JoinTable(

@@ -12,7 +12,7 @@ public interface ChippingInfoRepository extends JpaRepository<ChippingInfo, Long
 
     @Query(" SELECT ci " +
             "FROM ChippingInfo ci " +
-            "JOIN ci.animalList al " +
+            "JOIN ci.animal al " +
             "WHERE al.id = :id")
     Optional<ChippingInfo> findChippingInfoByAnimalId(Long id);
 

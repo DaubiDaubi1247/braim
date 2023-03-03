@@ -16,7 +16,7 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
 
     @Query(" SELECT li.id, ci.chippingDateTime, ci.id " +
             "FROM Animal a " +
-            "JOIN a.chippingInfoList ci " +
+            "JOIN a.chippingInfo ci " +
             "JOIN a.locationList li " +
             "WHERE a.id = :animalId " +
             "   AND (CAST(:startDate AS timestamp)  IS null OR ci.chippingDateTime >= :startDate) " +

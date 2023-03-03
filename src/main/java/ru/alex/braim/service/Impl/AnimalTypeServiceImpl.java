@@ -2,6 +2,7 @@ package ru.alex.braim.service.Impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,10 @@ import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalTypeMapper;
 import ru.alex.braim.repository.AnimalTypeRepository;
 import ru.alex.braim.service.AnimalTypeService;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -56,12 +61,37 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
 
     @Override
     @Transactional
+    public List<AnimalType> getAnimalTypeList(List<Long> idList) {
+
+        if (containsDuplicate(idList)) {
+            throw new DuplicateKeyException("");
+        }
+
+        return animalTypeRepository.findAllById(idList);
+    }
+
+    private boolean containsDuplicate(List<Long> idList) {
+        Set<Long> set = new HashSet<>();
+
+        for (Long id : idList) {
+            if (set.contains(id)) {
+                return true;
+            }
+
+            set.add(id);
+        }
+
+        return false;
+    }
+
+    @Override
+    @Transactional
     public void deleteType(@Id Long id) {
         AnimalType animalType = getAnimalTypeEntityById(id);
         animalTypeRepository.delete(animalType);
     }
 
-    private AnimalType getAnimalTypeEntityById(Long id) {
+    private AnimalType getAnimalTypeEntityById(@Id Long id) {
         return animalTypeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("animal type with id = " + id + " not found"));
     }

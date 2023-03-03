@@ -9,13 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
+import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.AnimalProjection;
-import ru.alex.braim.entity.Animal;
+import ru.alex.braim.entity.*;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.requestParam.AnimalRequestParams;
+import ru.alex.braim.service.AccountService;
 import ru.alex.braim.service.AnimalService;
+import ru.alex.braim.service.AnimalTypeService;
+import ru.alex.braim.service.LocationService;
+import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.util.List;
 
@@ -25,6 +30,10 @@ import java.util.List;
 public class AnimalServiceImpl implements AnimalService {
 
     private final AnimalRepository animalRepository;
+    private final AnimalTypeService animalTypeService;
+    private final AccountService accountService;
+    private final LocationService locationService;
+
     private final AnimalMapper animalMapper;
 
     @Override
@@ -36,6 +45,27 @@ public class AnimalServiceImpl implements AnimalService {
         }
 
         return animalRepository.getAnimalProjectionById(id);
+    }
+
+    @Override
+    @Transactional
+    public AnimalProjection createAnimal(AnimalDto animalDto) {
+        List<AnimalType> animalType = animalTypeService.getAnimalTypeList(animalDto.getAnimalsTypes());
+        Account account = accountService.getAccountEntityById(Long.valueOf(animalDto.getChipperId()));
+        LocationInfo locationInfo = locationService.getLocationEntityById(animalDto.getChippingLocationId());
+
+        Animal newAnimal = animalMapper.toEntity(animalDto);
+        ChippingInfo chippingInfo = new ChippingInfo();
+        chippingInfo.setChipper(account);
+
+        newAnimal.setAnimalTypeList(animalType);
+        newAnimal.setLifeStatus(LifeStatusEnum.ALIVE.getLifeStatus());
+        newAnimal.getLocationList().add(locationInfo);
+        newAnimal.setChippingInfo(chippingInfo);
+
+        Animal savedAnimal = animalRepository.save(newAnimal);
+
+        return animalRepository.getAnimalProjectionById(savedAnimal.getId());
     }
 
     @Override

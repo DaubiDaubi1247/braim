@@ -13,11 +13,10 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account> {
     boolean existsByEmail(String email);
 
-    @Query(" SELECT EXISTS (SELECT al " +
+    @Query(" SELECT EXISTS (SELECT ci.animal " +
             "FROM ChippingInfo ci " +
             "JOIN ci.chipper c " +
-            "JOIN ci.animalList al " +
-            "WHERE c.id = :id)")
+            "WHERE c.id = :id and ci.animal is not null )")
     boolean accountHaveAnimals(@Param("id") Long id);
 
     Optional<Account> findByEmail(String email);

@@ -10,7 +10,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "chip_info")
@@ -35,12 +34,12 @@ public class ChippingInfo implements Identifiable {
     @JoinColumn(name = "chipper_id")
     private Account chipper;
 
-    @ManyToMany(mappedBy = "chippingInfoList")
-    private List<Animal> animalList;
+    @OneToOne
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
 
     @Column(name = "death_time")
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date deathDateTime;
+    private Date deathDateTime = null;
 
 }

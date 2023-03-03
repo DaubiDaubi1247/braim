@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import ru.alex.braim.annotation.Id;
+import ru.alex.braim.annotation.IdList;
 
 import java.util.List;
 
@@ -40,11 +42,16 @@ public class AnimalDto {
     @Enumerated(EnumType.STRING)
     private String gender;
 
-    @NotBlank
-    @Enumerated(EnumType.STRING)
     private String lifeStatus;
 
     @NotNull(message = "animalsTypes cant be null")
     @Size.List({@Size (min = 1)})
+    @IdList
     private List<Long> animalsTypes;
+
+    @Id
+    private Integer chipperId;
+
+    @Id
+    private Long chippingLocationId;
 }

@@ -109,7 +109,9 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         accountRepository.delete(account);
     }
 
-    private Account getAccountEntityById(Long id) {
+    @Override
+    @Transactional
+    public Account getAccountEntityById(@Id Long id) {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("аккаунт с id = " + id + " не найден"));
     }

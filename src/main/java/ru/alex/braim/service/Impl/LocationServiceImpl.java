@@ -2,6 +2,7 @@ package ru.alex.braim.service.Impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,12 +31,14 @@ public class LocationServiceImpl implements LocationService {
 
     private final LocationInfoRepository locationInfoRepository;
     private final LocationInfoMapper locationInfoMapper;
-    private final AnimalService animalService;
+
+    @Setter
+    private AnimalService animalService;
 
     @Override
     @Transactional
     public LocationInfoDto getLocationById(@Id Long id) {
-        return locationInfoMapper.toDto(getLocationInfoEntityById(id));
+        return locationInfoMapper.toDto(getLocationEntityById(id));
     }
 
     @Override
@@ -60,7 +63,7 @@ public class LocationServiceImpl implements LocationService {
                     " and longitude = " + locationInfoDto.getLongitude() + " already exist");
         }
 
-        LocationInfo locationInfo = getLocationInfoEntityById(id);
+        LocationInfo locationInfo = getLocationEntityById(id);
         locationInfo.setLatitude(locationInfoDto.getLatitude());
         locationInfo.setLongitude(locationInfo.getLongitude());
 
@@ -70,7 +73,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     @Transactional
     public void deleteLocation(Long id) {
-        LocationInfo locationInfo = getLocationInfoEntityById(id);
+        LocationInfo locationInfo = getLocationEntityById(id);
 
         if (locationInfo.getAnimalList().size() != 0) {
             throw new ConnectionWithAnimal("location with id = " + id + " connection with animal");
@@ -82,10 +85,6 @@ public class LocationServiceImpl implements LocationService {
     private boolean existByLatitudeAndLongitude(LocationInfoDto locationInfoDto) {
         return locationInfoRepository.existsByLatitudeAndLongitude(locationInfoDto.getLatitude(),
                 locationInfoDto.getLongitude());
-    }
-
-    private boolean existById(Long id) {
-        return locationInfoRepository.existsById(id);
     }
 
     @Override
@@ -104,7 +103,9 @@ public class LocationServiceImpl implements LocationService {
         return locationProjectionList.getContent();
     }
 
-    private LocationInfo getLocationInfoEntityById(Long id) {
+    @Override
+    @Transactional
+    public LocationInfo getLocationEntityById(Long id) {
         return locationInfoRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("location with id = " + id + " not found"));
     }

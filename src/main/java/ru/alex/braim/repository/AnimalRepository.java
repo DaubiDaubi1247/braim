@@ -13,9 +13,10 @@ import ru.alex.braim.requestParam.AnimalRequestParams;
 
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecificationExecutor<AnimalProjection> {
+
     @Query(" SELECT an, chil, atl.type " +
             "FROM Animal an " +
-            "JOIN an.chippingInfoList chil " +
+            "JOIN an.chippingInfo chil " +
             "JOIN an.animalTypeList atl " +
             "WHERE an.id = ?1")
     AnimalProjection getAnimalProjectionById(Long id);
@@ -24,7 +25,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "li.id AS locationId " +
             "FROM Animal a " +
             "JOIN a.gender " +
-            "JOIN a.chippingInfoList cil " +
+            "JOIN a.chippingInfo cil " +
             "JOIN a.animalTypeList atl " +
             "JOIN a.locationList li " +
             "WHERE  (:#{#arp.startDateTime} IS null OR cil.chippingDateTime >= :#{#arp.startDateTime}) " +

@@ -1,6 +1,7 @@
 package ru.alex.braim.controllerExceptionHandler;
 
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,7 +26,7 @@ public class ControllerExceptionHandler {
         return getResponseEntityWithStatus(HttpStatus.BAD_REQUEST, exception);
     }
 
-    @ExceptionHandler({AlreadyExistException.class})
+    @ExceptionHandler({AlreadyExistException.class, DuplicateKeyException.class})
     public ResponseEntity<ErrorMessage> alreadyExist(RuntimeException exception) {
         return getResponseEntityWithStatus(HttpStatus.CONFLICT, exception);
     }
