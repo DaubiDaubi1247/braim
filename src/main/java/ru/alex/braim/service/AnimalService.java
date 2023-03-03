@@ -19,6 +19,8 @@ public interface AnimalService {
 
     AnimalProjection changeTypeAnimal(@Id Long oldTypeId, @Id Long newTypeId, @Id Long animalId);
 
+    AnimalProjection deleteTypeFromAnimal(@Id Long animalId, @Id Long typeId);
+
     void deleteAnimal(@Id Long id);
 
     List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification);

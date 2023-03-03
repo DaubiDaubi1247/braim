@@ -124,7 +124,7 @@ public class AnimalServiceImpl implements AnimalService {
         AnimalType oldAnimalType = animalTypeService.getAnimalTypeEntityById(oldTypeId);
         AnimalType newAnimalType = animalTypeService.getAnimalTypeEntityById(newTypeId);
 
-        int oldTypeIndex = animal.getAnimalTypeList().indexOf(oldAnimalType);
+        int oldTypeIndex = getOldTypeIndex(animal, oldAnimalType);
 
         if (oldTypeIndex == -1) {
             throw new NotFoundException("");
@@ -132,6 +132,32 @@ public class AnimalServiceImpl implements AnimalService {
 
         throwIfTypeAlreadyExist(animal, newAnimalType);
         animal.getAnimalTypeList().set(oldTypeIndex, newAnimalType);
+
+        return animalRepository.getAnimalProjectionById(animalId);
+    }
+
+    private static int getOldTypeIndex(Animal animal, AnimalType oldAnimalType) {
+        int oldTypeIndex = animal.getAnimalTypeList().indexOf(oldAnimalType);
+
+        if (oldTypeIndex == -1) {
+            throw new NotFoundException("");
+        }
+
+        return oldTypeIndex;
+    }
+
+    @Override
+    @Transactional
+    public AnimalProjection deleteTypeFromAnimal(@Id Long animalId, @Id Long typeId) {
+        Animal animal = getAnimalEntityById(animalId);
+        AnimalType animalType = animalTypeService.getAnimalTypeEntityById(typeId);
+
+        if (animal.getAnimalTypeList().size() == 1 && animal.getAnimalTypeList().get(0).equals(animalType)) {
+            throw new IncomparableData();
+        }
+
+        int oldTypeIndex = getOldTypeIndex(animal, animalType);
+        animal.getAnimalTypeList().remove(oldTypeIndex);
 
         return animalRepository.getAnimalProjectionById(animalId);
     }
