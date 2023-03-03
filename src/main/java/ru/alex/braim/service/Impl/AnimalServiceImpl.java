@@ -12,6 +12,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.entity.*;
+import ru.alex.braim.exception.ConnectionWithAnimal;
 import ru.alex.braim.exception.IncomparableData;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
@@ -93,6 +94,18 @@ public class AnimalServiceImpl implements AnimalService {
         animalRepository.save(updateAnimal);
 
         return animalRepository.getAnimalProjectionById(animal.getId());
+    }
+
+    @Override
+    @Transactional
+    public void deleteAnimal(Long id) {
+        Animal animal = getAnimalEntityById(id);
+
+        if (!animal.getLocationList().isEmpty()) {
+            throw new ConnectionWithAnimal("");
+        }
+
+        animalRepository.delete(animal);
     }
 
     private static boolean setAliveForDeadAnimal(AnimalDto animalDto, Animal animal) {

@@ -15,6 +15,8 @@ public interface AnimalService {
 
     AnimalProjection updateAnimal(@Valid AnimalDto animalDto, @Id Long id);
 
+    void deleteAnimal(@Id Long id);
+
     List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification);
 
     boolean animalExistById(@Id Long id);
