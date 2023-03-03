@@ -73,4 +73,11 @@ public class AnimalController {
 
         return ResponseEntity.ok(animalService.changeTypeAnimal(animalId, oldAndNewTypes));
     }
+
+    @DeleteMapping("/{animalId}/types/{typeId}")
+    public ResponseEntity<AnimalProjection> deleteTypeFromAnimal(@PathVariable Long animalId,
+                                                            @PathVariable Long typeId) {
+
+        return ResponseEntity.ok(animalService.deleteTypeFromAnimal(animalId, typeId));
+    }
 }
