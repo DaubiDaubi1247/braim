@@ -27,7 +27,12 @@ public class AnimalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(animalService.createAnimal(animalDto));
     }
 
+    @PutMapping("/{animalId}")
+    public ResponseEntity<AnimalProjection> updateAnimal(@PathVariable Long animalId,
+                                                         @RequestBody AnimalDto animalDto) {
 
+        return ResponseEntity.ok(animalService.updateAnimal(animalDto, animalId));
+    }
 
     @GetMapping("/{animalId}")
     public ResponseEntity<AnimalProjection> getAnimalById(@PathVariable Long animalId) {
