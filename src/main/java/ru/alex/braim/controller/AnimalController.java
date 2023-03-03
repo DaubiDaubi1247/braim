@@ -34,6 +34,13 @@ public class AnimalController {
         return ResponseEntity.ok(animalService.updateAnimal(animalDto, animalId));
     }
 
+    @DeleteMapping("/{animalId}")
+    public ResponseEntity<Void> deleteAnimal(@PathVariable Long animalId) {
+
+        animalService.deleteAnimal(animalId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/{animalId}")
     public ResponseEntity<AnimalProjection> getAnimalById(@PathVariable Long animalId) {
         return ResponseEntity.ok(animalService.getAnimalById(animalId));
