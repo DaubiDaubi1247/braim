@@ -12,6 +12,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.entity.*;
+import ru.alex.braim.exception.IncomparableData;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
@@ -23,6 +24,7 @@ import ru.alex.braim.service.LocationService;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +51,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public AnimalProjection createAnimal(AnimalDto animalDto) {
+    public AnimalProjection createAnimal(@Valid AnimalDto animalDto) {
         List<AnimalType> animalType = animalTypeService.getAnimalTypeList(animalDto.getAnimalsTypes());
         Account account = accountService.getAccountEntityById(Long.valueOf(animalDto.getChipperId()));
         LocationInfo locationInfo = locationService.getLocationEntityById(animalDto.getChippingLocationId());
@@ -66,6 +68,36 @@ public class AnimalServiceImpl implements AnimalService {
         Animal savedAnimal = animalRepository.save(newAnimal);
 
         return animalRepository.getAnimalProjectionById(savedAnimal.getId());
+    }
+
+    @Override
+    @Transactional
+    public AnimalProjection updateAnimal(@Valid AnimalDto animalDto, @Id Long id) {
+        Account account = accountService.getAccountEntityById(Long.valueOf(animalDto.getChipperId()));
+        LocationInfo locationInfo = locationService.getLocationEntityById(animalDto.getChippingLocationId());
+        Animal animal = getAnimalEntityById(id);
+
+        if (setAliveForDeadAnimal(animalDto, animal)) {
+            throw new IncomparableData();
+        }
+
+        if (Objects.equals(animal.getLocationList().get(0).getId(), animalDto.getChippingLocationId())) {
+            throw new IncomparableData();
+        }
+
+        Animal updateAnimal = animalMapper.toEntity(animalDto);
+        updateAnimal.getChippingInfo().setChipper(account);
+        updateAnimal.getLocationList().add(locationInfo);
+        updateAnimal.setId(animal.getId());
+
+        animalRepository.save(updateAnimal);
+
+        return animalRepository.getAnimalProjectionById(animal.getId());
+    }
+
+    private static boolean setAliveForDeadAnimal(AnimalDto animalDto, Animal animal) {
+        return animal.getLifeStatus().equals(LifeStatusEnum.DEAD.getLifeStatus())
+                && animalDto.getLifeStatus().equals(LifeStatusEnum.ALIVE.getLifeStatus());
     }
 
     @Override

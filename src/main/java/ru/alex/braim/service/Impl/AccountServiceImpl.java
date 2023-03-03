@@ -86,6 +86,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
 
         Account accountForSave = accountMapper.toEntityWithPassword(accountDto);
+        accountForSave.setId(account.getId());
 
         return accountMapper.toDto(accountRepository.save(accountForSave));
     }

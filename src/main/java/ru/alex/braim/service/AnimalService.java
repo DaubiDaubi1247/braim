@@ -13,6 +13,8 @@ public interface AnimalService {
 
     AnimalProjection createAnimal(@Valid AnimalDto animalDto);
 
+    AnimalProjection updateAnimal(@Valid AnimalDto animalDto, @Id Long id);
+
     List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification);
 
     boolean animalExistById(@Id Long id);
