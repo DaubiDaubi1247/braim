@@ -16,6 +16,8 @@ public interface AnimalTypeService {
 
     List<AnimalType> getAnimalTypeList(List<Long> id);
 
+    AnimalType getAnimalTypeEntityById(@Id Long id);
+
     void deleteType(@Id Long id);
 
 }

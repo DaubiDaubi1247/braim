@@ -91,7 +91,9 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
         animalTypeRepository.delete(animalType);
     }
 
-    private AnimalType getAnimalTypeEntityById(@Id Long id) {
+    @Override
+    @Transactional
+    public AnimalType getAnimalTypeEntityById(@Id Long id) {
         return animalTypeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("animal type with id = " + id + " not found"));
     }

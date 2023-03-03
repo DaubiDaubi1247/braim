@@ -12,6 +12,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.entity.*;
+import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.ConnectionWithAnimal;
 import ru.alex.braim.exception.IncomparableData;
 import ru.alex.braim.exception.NotFoundException;
@@ -94,6 +95,22 @@ public class AnimalServiceImpl implements AnimalService {
         animalRepository.save(updateAnimal);
 
         return animalRepository.getAnimalProjectionById(animal.getId());
+    }
+
+    @Override
+    @Transactional
+    public AnimalProjection addTypeToAnimal(@Id Long animalId, @Id Long typeId) {
+        Animal animal = getAnimalEntityById(animalId);
+        AnimalType animalType = animalTypeService.getAnimalTypeEntityById(typeId);
+
+        if (animal.getAnimalTypeList().contains(animalType)) {
+            throw new AlreadyExistException("");
+        }
+
+        animal.getAnimalTypeList().add(animalType);
+        animalRepository.save(animal);
+
+        return animalRepository.getAnimalProjectionById(animalId);
     }
 
     @Override
