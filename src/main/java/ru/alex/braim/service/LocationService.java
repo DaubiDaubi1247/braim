@@ -18,6 +18,8 @@ public interface LocationService {
 
     LocationInfoDto updateLocation(@Valid LocationInfoDto locationInfoDto, @Id Long id);
 
+    LocationProjection addLocationToAnimal(@Id Long animalId, @Id Long pointId);
+
     void deleteLocation(@Id Long id);
 
     List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id);

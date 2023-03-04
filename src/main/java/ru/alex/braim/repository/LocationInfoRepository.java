@@ -26,5 +26,12 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
                                                        @Param("animalId") Long animalId,
                                                        Pageable pageable);
 
+    @Query(" SELECT li.id, ci.chippingDateTime, ci.id " +
+            "FROM Animal a " +
+            "JOIN a.chippingInfo ci " +
+            "JOIN a.locationList li " +
+            "WHERE a.id = :animalId")
+    LocationProjection findLocationProjectionByAnimalId(@Param("animalId") Long animalId);
+
     boolean existsByLatitudeAndLongitude(Double latitude, Double longitude);
 }

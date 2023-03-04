@@ -198,7 +198,9 @@ public class AnimalServiceImpl implements AnimalService {
         return animalRepository.existsById(id);
     }
 
-    private Animal getAnimalEntityById(Long id) {
+    @Override
+    @Transactional
+    public Animal getAnimalEntityById(@Id Long id) {
         return animalRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("animal with id = " + id + " not found"));
     }

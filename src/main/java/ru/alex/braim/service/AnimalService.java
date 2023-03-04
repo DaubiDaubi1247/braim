@@ -5,12 +5,15 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.dto.OldAndNewTypes;
+import ru.alex.braim.entity.Animal;
 import ru.alex.braim.requestParam.AnimalRequestParams;
 
 import java.util.List;
 
 public interface AnimalService {
     AnimalProjection getAnimalById(@Id Long id);
+
+    Animal getAnimalEntityById(@Id Long id);
 
     AnimalProjection createAnimal(@Valid AnimalDto animalDto);
 

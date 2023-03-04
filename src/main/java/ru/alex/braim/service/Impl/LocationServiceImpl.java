@@ -12,15 +12,18 @@ import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.LocationInfoDto;
 import ru.alex.braim.dto.LocationProjection;
+import ru.alex.braim.entity.Animal;
 import ru.alex.braim.entity.LocationInfo;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.ConnectionWithAnimal;
+import ru.alex.braim.exception.IncomparableData;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.LocationInfoMapper;
 import ru.alex.braim.repository.LocationInfoRepository;
 import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.LocationService;
+import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.util.List;
 
@@ -68,6 +71,37 @@ public class LocationServiceImpl implements LocationService {
         locationInfo.setLongitude(locationInfo.getLongitude());
 
         return locationInfoMapper.toDto(locationInfoRepository.save(locationInfo));
+    }
+
+    @Override
+    @Transactional
+    public LocationProjection addLocationToAnimal(@Id Long animalId, @Id Long pointId) {
+
+        Animal animal = animalService.getAnimalEntityById(pointId);
+        LocationInfo locationInfo = getLocationEntityById(pointId);
+
+        throwIfIncomporableData(animal, locationInfo);
+
+        animal.getLocationList().add(locationInfo);
+        locationInfo.getAnimalList().add(animal);
+
+        locationInfoRepository.save(locationInfo);
+
+        return locationInfoRepository.findLocationProjectionByAnimalId(animalId);
+    }
+
+    private static void throwIfIncomporableData(Animal animal, LocationInfo locationInfo) {
+        if (animal.getLifeStatus().equals(LifeStatusEnum.DEAD.getLifeStatus())) {
+            throw new IncomparableData();
+        }
+
+        if (animal.getLocationList().size() == 1) {
+            throw new IncomparableData();
+        }
+
+        if (animal.getLocationList().get(animal.getLocationList().size() - 1).equals(locationInfo)) {
+            throw new IncomparableData();
+        }
     }
 
     @Override
