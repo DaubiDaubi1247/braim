@@ -125,7 +125,7 @@ public class LocationServiceImpl implements LocationService {
 
     private static boolean isIncompatibleData(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
 
-        return isChippingLocation(locationInfoDto, animal) ||
+        return  isChippingLocation(locationInfoDto, animal) ||
                 isPointIsAlreadyNearby(locationInfoDto, animal, indexUpdatedPoint) ||
                 isEqualsPoints(locationInfoDto);
     }
@@ -153,6 +153,27 @@ public class LocationServiceImpl implements LocationService {
         }
 
         locationInfoRepository.delete(locationInfo);
+    }
+
+    @Override
+    @Transactional
+    public void deleteLocationPointFromAnimal(@Id Long animalId, @Id Long visitedPointId) {
+        Animal animal = animalService.getAnimalEntityById(animalId);
+        LocationInfo locationInfo = getLocationEntityById(visitedPointId);
+
+        int indexDelLocation = animal.getLocationList().indexOf(locationInfo);
+        if (indexDelLocation == -1) {
+            throw new NotFoundException("");
+        }
+
+        if (indexDelLocation == 0) {
+            if (animal.getLocationList().get(indexDelLocation).equals(animal.getChippingInfo().getLocationInfo())) {
+                animal.getLocationList().subList(0, 2).clear();
+            }
+        }
+
+        animal.getLocationList().remove(indexDelLocation);
+
     }
 
     private boolean existByLatitudeAndLongitude(LocationInfoDto locationInfoDto) {

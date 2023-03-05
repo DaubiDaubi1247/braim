@@ -42,4 +42,8 @@ public class ChippingInfo implements Identifiable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deathDateTime = null;
 
+    @OneToOne
+    @JoinColumn(name = "location_id")
+    private LocationInfo locationInfo;
+
 }

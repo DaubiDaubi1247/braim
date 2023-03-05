@@ -25,5 +25,7 @@ public interface LocationService {
 
     void deleteLocation(@Id Long id);
 
+    void deleteLocationPointFromAnimal(@Id Long animalId, @Id Long visitedPointId);
+
     List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id);
 }

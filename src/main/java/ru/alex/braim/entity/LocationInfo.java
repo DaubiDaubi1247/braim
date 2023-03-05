@@ -33,4 +33,8 @@ public class LocationInfo implements Identifiable {
 
     @ManyToMany(mappedBy = "locationList")
     private List<Animal> animalList;
+
+    @OneToOne(mappedBy = "locationInfo")
+    private ChippingInfo chippingInfo;
+
 }
