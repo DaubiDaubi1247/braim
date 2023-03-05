@@ -14,7 +14,7 @@ public class AnimalTypeController {
 
     private final AnimalTypeService animalTypeService;
 
-    @GetMapping("/types/{typeId}")
+    @GetMapping("/{typeId}")
     public ResponseEntity<AnimalTypeDto> getAnimalTypeById(@PathVariable Long typeId) {
         return ResponseEntity.ok(animalTypeService.getAnimalTypeById(typeId));
     }

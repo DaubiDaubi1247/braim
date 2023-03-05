@@ -2,7 +2,6 @@ package ru.alex.braim.service.Impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,14 +16,11 @@ import ru.alex.braim.entity.Animal;
 import ru.alex.braim.entity.LocationInfo;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.ConnectionWithAnimal;
-import ru.alex.braim.exception.IncompatibleData;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.LocationInfoMapper;
 import ru.alex.braim.repository.LocationInfoRepository;
 import ru.alex.braim.requestParam.DateRequestParams;
-import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.LocationService;
-import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.util.List;
 import java.util.Objects;
@@ -36,9 +32,6 @@ public class LocationServiceImpl implements LocationService {
 
     private final LocationInfoRepository locationInfoRepository;
     private final LocationInfoMapper locationInfoMapper;
-
-    @Setter
-    private AnimalService animalService;
 
     @Override
     @Transactional
@@ -75,55 +68,7 @@ public class LocationServiceImpl implements LocationService {
         return locationInfoMapper.toDto(locationInfoRepository.save(locationInfo));
     }
 
-    @Override
-    @Transactional
-    public LocationProjection addLocationToAnimal(@Id Long animalId, @Id Long pointId) {
-
-        Animal animal = animalService.getAnimalEntityById(pointId);
-        LocationInfo locationInfo = getLocationEntityById(pointId);
-
-        if (animal.getLifeStatus().equals(LifeStatusEnum.DEAD.getLifeStatus())) {
-            throw new IncompatibleData();
-        }
-
-        if (animal.getLocationList().size() == 1) {
-            throw new IncompatibleData();
-        }
-
-        if (animal.getLocationList().get(animal.getLocationList().size() - 1).equals(locationInfo)) {
-            throw new IncompatibleData();
-        }
-
-        animal.getLocationList().add(locationInfo);
-        animalService.saveAnimal(animal);
-
-        return locationInfoRepository.findLocationProjectionByAnimalId(animalId);
-    }
-
-    @Override
-    @Transactional
-    public LocationProjection updateLocationPoint(@Id Long animalId, @Valid LocationPointDto locationInfoDto) {
-        Animal animal = animalService.getAnimalEntityById(animalId);
-        LocationInfo locationInfo = getLocationEntityById(locationInfoDto.getVisitedLocationPointId());
-        LocationInfo newLocationInfo = getLocationEntityById(locationInfoDto.getLocationPointId());
-
-        int indexUpdatedPoint = animal.getLocationList().indexOf(locationInfo);
-
-        if (isIncompatibleData(locationInfoDto, animal, indexUpdatedPoint)) {
-            throw new IncompatibleData();
-        }
-
-        if (!animal.getLocationList().contains(locationInfo)) {
-            throw new NotFoundException("");
-        }
-
-        animal.getLocationList().set(indexUpdatedPoint, newLocationInfo);
-        animalService.saveAnimal(animal);
-
-        return locationInfoRepository.findLocationProjectionByAnimalId(animalId);
-    }
-
-    private static boolean isIncompatibleData(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
+    public static boolean isIncompatibleData(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
 
         return  isChippingLocation(locationInfoDto, animal) ||
                 isPointIsAlreadyNearby(locationInfoDto, animal, indexUpdatedPoint) ||
@@ -157,23 +102,8 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public void deleteLocationPointFromAnimal(@Id Long animalId, @Id Long visitedPointId) {
-        Animal animal = animalService.getAnimalEntityById(animalId);
-        LocationInfo locationInfo = getLocationEntityById(visitedPointId);
-
-        int indexDelLocation = animal.getLocationList().indexOf(locationInfo);
-        if (indexDelLocation == -1) {
-            throw new NotFoundException("");
-        }
-
-        if (indexDelLocation == 0) {
-            if (animal.getLocationList().get(indexDelLocation).equals(animal.getChippingInfo().getLocationInfo())) {
-                animal.getLocationList().subList(0, 2).clear();
-            }
-        }
-
-        animal.getLocationList().remove(indexDelLocation);
-
+    public LocationProjection findLocationProjectionByAnimalId(Long animalId) {
+        return locationInfoRepository.findLocationProjectionByAnimalId(animalId);
     }
 
     private boolean existByLatitudeAndLongitude(LocationInfoDto locationInfoDto) {
@@ -183,10 +113,8 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id) {
-        if (animalService.animalExistById(id)) {
-            throw new NotFoundException("animal with id = " + id + " not found");
-        }
+    public List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams,
+                                                                @Id Long id) {
 
         Pageable pageable = PageRequest.of(dateRequestParams.getFrom(), dateRequestParams.getSize());
 

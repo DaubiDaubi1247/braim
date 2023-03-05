@@ -37,6 +37,7 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
     private final AnimalTypeService animalTypeService;
     private final AccountService accountService;
+
     private final LocationService locationService;
 
     private final AnimalMapper animalMapper;

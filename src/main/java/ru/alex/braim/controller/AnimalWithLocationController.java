@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.LocationPointDto;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.requestParam.DateRequestParams;
-import ru.alex.braim.service.LocationService;
+import ru.alex.braim.service.AnimalWithLocationService;
 
 import java.util.List;
 
@@ -16,33 +16,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimalWithLocationController {
 
-    private final LocationService locationService;
+    private final AnimalWithLocationService animalWithLocationService;
 
     @GetMapping("/{animalId}/locations")
     public ResponseEntity<List<LocationProjection>> getVisitedLocation(@PathVariable Long animalId,
                                                                        DateRequestParams dateRequestParams) {
-        return ResponseEntity.ok(locationService.getLocationVisitedPointList(dateRequestParams, animalId));
+        return ResponseEntity.ok(animalWithLocationService.getLocationVisitedPointList(dateRequestParams, animalId));
     }
 
     @PostMapping("/{animalId}/locations/{pointId}")
     public ResponseEntity<LocationProjection> addLocationPointToAnimal(@PathVariable Long animalId,
                                                                       @PathVariable Long pointId) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(locationService.addLocationToAnimal(animalId, pointId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(animalWithLocationService.addLocationToAnimal(animalId, pointId));
     }
 
     @PutMapping("/{animalId}/locations")
     public ResponseEntity<LocationProjection> updateVisitedLocation(@PathVariable Long animalId,
                                                                     @RequestBody LocationPointDto locationInfoDto) {
 
-        return ResponseEntity.ok(locationService.updateLocationPoint(animalId, locationInfoDto));
+        return ResponseEntity.ok(animalWithLocationService.updateLocationPoint(animalId, locationInfoDto));
     }
 
     @DeleteMapping("/{animalId}/locations/{visitedPointId}")
     public ResponseEntity<Void> deleteVisitedLocationFromAnimal(@PathVariable Long animalId,
                                                                 @PathVariable Long visitedPointId) {
 
-        locationService.deleteLocationPointFromAnimal(animalId, visitedPointId);
+        animalWithLocationService.deleteLocationPointFromAnimal(animalId, visitedPointId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
