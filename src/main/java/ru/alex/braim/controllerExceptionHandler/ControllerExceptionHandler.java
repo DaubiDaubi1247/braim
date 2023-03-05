@@ -22,7 +22,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler({BadRequestData.class, ConstraintViolationException.class, ConnectionWithAnimal.class,
-            IncomparableData.class})
+            IncompatibleData.class})
     public ResponseEntity<ErrorMessage> badRequestData(RuntimeException exception) {
         return getResponseEntityWithStatus(HttpStatus.BAD_REQUEST, exception);
     }

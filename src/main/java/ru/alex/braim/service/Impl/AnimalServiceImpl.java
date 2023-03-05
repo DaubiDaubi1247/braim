@@ -15,7 +15,7 @@ import ru.alex.braim.dto.OldAndNewTypes;
 import ru.alex.braim.entity.*;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.ConnectionWithAnimal;
-import ru.alex.braim.exception.IncomparableData;
+import ru.alex.braim.exception.IncompatibleData;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
@@ -81,11 +81,11 @@ public class AnimalServiceImpl implements AnimalService {
         Animal animal = getAnimalEntityById(id);
 
         if (setAliveForDeadAnimal(animalDto, animal)) {
-            throw new IncomparableData();
+            throw new IncompatibleData();
         }
 
         if (Objects.equals(animal.getLocationList().get(0).getId(), animalDto.getChippingLocationId())) {
-            throw new IncomparableData();
+            throw new IncompatibleData();
         }
 
         Animal updateAnimal = animalMapper.toEntity(animalDto);
@@ -154,7 +154,7 @@ public class AnimalServiceImpl implements AnimalService {
         AnimalType animalType = animalTypeService.getAnimalTypeEntityById(typeId);
 
         if (animal.getAnimalTypeList().size() == 1 && animal.getAnimalTypeList().get(0).equals(animalType)) {
-            throw new IncomparableData();
+            throw new IncompatibleData();
         }
 
         int oldTypeIndex = getOldTypeIndex(animal, animalType);
@@ -190,6 +190,12 @@ public class AnimalServiceImpl implements AnimalService {
                 findAnimalProjectionByParams(animalDtoSpecification, pageable);
 
         return animalProjectionList.getContent();
+    }
+
+    @Override
+    @Transactional
+    public void saveAnimal(Animal animal) {
+        animalRepository.save(animal);
     }
 
     @Override

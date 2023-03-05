@@ -11,12 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.LocationInfoDto;
+import ru.alex.braim.dto.LocationPointDto;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.entity.LocationInfo;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.ConnectionWithAnimal;
-import ru.alex.braim.exception.IncomparableData;
+import ru.alex.braim.exception.IncompatibleData;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.LocationInfoMapper;
 import ru.alex.braim.repository.LocationInfoRepository;
@@ -26,6 +27,7 @@ import ru.alex.braim.service.LocationService;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -80,28 +82,65 @@ public class LocationServiceImpl implements LocationService {
         Animal animal = animalService.getAnimalEntityById(pointId);
         LocationInfo locationInfo = getLocationEntityById(pointId);
 
-        throwIfIncomporableData(animal, locationInfo);
+        if (animal.getLifeStatus().equals(LifeStatusEnum.DEAD.getLifeStatus())) {
+            throw new IncompatibleData();
+        }
+
+        if (animal.getLocationList().size() == 1) {
+            throw new IncompatibleData();
+        }
+
+        if (animal.getLocationList().get(animal.getLocationList().size() - 1).equals(locationInfo)) {
+            throw new IncompatibleData();
+        }
 
         animal.getLocationList().add(locationInfo);
-        locationInfo.getAnimalList().add(animal);
-
-        locationInfoRepository.save(locationInfo);
+        animalService.saveAnimal(animal);
 
         return locationInfoRepository.findLocationProjectionByAnimalId(animalId);
     }
 
-    private static void throwIfIncomporableData(Animal animal, LocationInfo locationInfo) {
-        if (animal.getLifeStatus().equals(LifeStatusEnum.DEAD.getLifeStatus())) {
-            throw new IncomparableData();
+    @Override
+    @Transactional
+    public LocationProjection updateLocationPoint(@Id Long animalId, @Valid LocationPointDto locationInfoDto) {
+        Animal animal = animalService.getAnimalEntityById(animalId);
+        LocationInfo locationInfo = getLocationEntityById(locationInfoDto.getVisitedLocationPointId());
+        LocationInfo newLocationInfo = getLocationEntityById(locationInfoDto.getLocationPointId());
+
+        int indexUpdatedPoint = animal.getLocationList().indexOf(locationInfo);
+
+        if (isIncompatibleData(locationInfoDto, animal, indexUpdatedPoint)) {
+            throw new IncompatibleData();
         }
 
-        if (animal.getLocationList().size() == 1) {
-            throw new IncomparableData();
+        if (!animal.getLocationList().contains(locationInfo)) {
+            throw new NotFoundException("");
         }
 
-        if (animal.getLocationList().get(animal.getLocationList().size() - 1).equals(locationInfo)) {
-            throw new IncomparableData();
-        }
+        animal.getLocationList().set(indexUpdatedPoint, newLocationInfo);
+        animalService.saveAnimal(animal);
+
+        return locationInfoRepository.findLocationProjectionByAnimalId(animalId);
+    }
+
+    private static boolean isIncompatibleData(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
+
+        return isChippingLocation(locationInfoDto, animal) ||
+                isPointIsAlreadyNearby(locationInfoDto, animal, indexUpdatedPoint) ||
+                isEqualsPoints(locationInfoDto);
+    }
+
+    private static boolean isEqualsPoints(LocationPointDto locationInfoDto) {
+        return Objects.equals(locationInfoDto.getLocationPointId(), locationInfoDto.getVisitedLocationPointId());
+    }
+
+    private static boolean isPointIsAlreadyNearby(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
+        return Objects.equals(animal.getLocationList().get(indexUpdatedPoint - 1).getId(), locationInfoDto.getLocationPointId()) ||
+                Objects.equals(animal.getLocationList().get(indexUpdatedPoint + 1).getId(), locationInfoDto.getLocationPointId());
+    }
+
+    private static boolean isChippingLocation(LocationPointDto locationInfoDto, Animal animal) {
+        return Objects.equals(animal.getChippingInfo().getId(), locationInfoDto.getLocationPointId());
     }
 
     @Override
