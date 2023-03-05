@@ -37,4 +37,13 @@ public class AnimalWithLocationController {
 
         return ResponseEntity.ok(locationService.updateLocationPoint(animalId, locationInfoDto));
     }
+
+    @DeleteMapping("/{animalId}/locations/{visitedPointId}")
+    public ResponseEntity<Void> deleteVisitedLocationFromAnimal(@PathVariable Long animalId,
+                                                                @PathVariable Long visitedPointId) {
+
+        locationService.deleteLocationPointFromAnimal(animalId, visitedPointId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
