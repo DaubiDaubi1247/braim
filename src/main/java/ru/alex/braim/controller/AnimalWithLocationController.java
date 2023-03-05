@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.alex.braim.dto.LocationPointDto;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.LocationService;
@@ -28,5 +29,12 @@ public class AnimalWithLocationController {
                                                                       @PathVariable Long pointId) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(locationService.addLocationToAnimal(animalId, pointId));
+    }
+
+    @PutMapping("/{animalId}/locations")
+    public ResponseEntity<LocationProjection> updateVisitedLocation(@PathVariable Long animalId,
+                                                                    @RequestBody LocationPointDto locationInfoDto) {
+
+        return ResponseEntity.ok(locationService.updateLocationPoint(animalId, locationInfoDto));
     }
 }
