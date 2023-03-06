@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,5 +28,5 @@ public class Gender {
     private String name;
 
     @OneToMany(mappedBy = "gender")
-    private List<Animal> animals;
+    private List<Animal> animals = new ArrayList<>();
 }

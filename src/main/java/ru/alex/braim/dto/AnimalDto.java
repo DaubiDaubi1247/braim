@@ -2,10 +2,7 @@ package ru.alex.braim.dto;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +18,6 @@ import java.util.List;
 @SuperBuilder
 public class AnimalDto {
 
-    @NotNull
     private Long id;
 
     @NotNull(message = "weight cant be empty")
@@ -47,9 +43,10 @@ public class AnimalDto {
     @NotNull(message = "animalsTypes cant be null")
     @Size.List({@Size (min = 1)})
     @IdList
-    private List<Long> animalsTypes;
+    private List<Long> animalTypes;
 
-    @Id
+    @NotNull
+    @Min(1)
     private Integer chipperId;
 
     @Id

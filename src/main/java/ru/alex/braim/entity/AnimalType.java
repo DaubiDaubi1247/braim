@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,5 +25,5 @@ public class AnimalType {
     private String type;
 
     @ManyToMany(mappedBy = "animalTypeList")
-    private List<Animal> animalList;
+    private List<Animal> animalList = new ArrayList<>();
 }

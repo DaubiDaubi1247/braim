@@ -20,10 +20,7 @@ import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.requestParam.AnimalRequestParams;
-import ru.alex.braim.service.AccountService;
-import ru.alex.braim.service.AnimalService;
-import ru.alex.braim.service.AnimalTypeService;
-import ru.alex.braim.service.LocationService;
+import ru.alex.braim.service.*;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.util.List;
@@ -37,6 +34,7 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
     private final AnimalTypeService animalTypeService;
     private final AccountService accountService;
+    private final ChippingInfoService chippingInfoService;
 
     private final LocationService locationService;
 
@@ -56,22 +54,30 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     @Transactional
     public AnimalProjection createAnimal(@Valid AnimalDto animalDto) {
-        List<AnimalType> animalType = animalTypeService.getAnimalTypeList(animalDto.getAnimalsTypes());
+        List<AnimalType> animalType = animalTypeService.getAnimalTypeList(animalDto.getAnimalTypes());
         Account account = accountService.getAccountEntityById(Long.valueOf(animalDto.getChipperId()));
         LocationInfo locationInfo = locationService.getLocationEntityById(animalDto.getChippingLocationId());
 
         Animal newAnimal = animalMapper.toEntity(animalDto);
         ChippingInfo chippingInfo = new ChippingInfo();
         chippingInfo.setChipper(account);
+        chippingInfo.setLocationInfo(locationInfo);
+
 
         newAnimal.setAnimalTypeList(animalType);
         newAnimal.setLifeStatus(LifeStatusEnum.ALIVE.getLifeStatus());
         newAnimal.getLocationList().add(locationInfo);
         newAnimal.setChippingInfo(chippingInfo);
 
+        chippingInfo.setAnimal(newAnimal);
+
+        ChippingInfo chippingInfo1 = chippingInfoService.saveChippingInfo(chippingInfo);
+
         Animal savedAnimal = animalRepository.save(newAnimal);
 
-        return animalRepository.getAnimalProjectionById(savedAnimal.getId());
+        AnimalProjection animalProjection = animalRepository.getAnimalProjectionById(savedAnimal.getId());
+
+        return animalProjection;
     }
 
     @Override

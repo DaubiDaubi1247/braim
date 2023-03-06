@@ -8,6 +8,6 @@ import ru.alex.braim.entity.Animal;
 @Mapper(componentModel = "spring")
 public interface AnimalMapper {
 
-    @Mapping(target = "gender.name", source = "animalDto.gender")
+   // @Mapping(target = "gender.name", source = "animalDto.gender")
     Animal toEntity(AnimalDto animalDto);
 }

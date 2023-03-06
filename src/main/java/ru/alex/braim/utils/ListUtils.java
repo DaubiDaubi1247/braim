@@ -13,8 +13,4 @@ public class ListUtils {
                 .map(Identifiable::getId)
                 .collect(Collectors.toList());
     }
-
-    public static <T> T getLastEl(List<T> list) {
-        return list.get(list.size() - 1);
-    }
 }

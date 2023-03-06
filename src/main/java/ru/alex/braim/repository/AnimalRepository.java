@@ -14,7 +14,7 @@ import ru.alex.braim.requestParam.AnimalRequestParams;
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecificationExecutor<AnimalProjection> {
 
-    @Query(" SELECT an, chil, atl.type " +
+    @Query(" SELECT an.id, chil.chippingDateTime, chil.chipper.id AS chipperId, chil.deathDateTime, atl.type " +
             "FROM Animal an " +
             "JOIN an.chippingInfo chil " +
             "JOIN an.animalTypeList atl " +
@@ -24,7 +24,6 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
     @Query(" SELECT a, cil.chippingDateTime, cil.chipper.id AS chipId, cil.deathDateTime, " +
             "li.id AS locationId " +
             "FROM Animal a " +
-            "JOIN a.gender " +
             "JOIN a.chippingInfo cil " +
             "JOIN a.animalTypeList atl " +
             "JOIN a.locationList li " +
@@ -33,7 +32,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "   AND (:#{#arp.chipperId} IS null OR cil.chipper.id = :#{#arp.chipperId}) " +
             "   AND (:#{#arp.chippingLocationId} IS null OR cil.id = :#{#arp.chippingLocationId}) " +
             "   AND (:#{#arp.lifeStatus} IS null OR a.lifeStatus = :#{#arp.lifeStatus}) " +
-            "   AND (:#{#arp.gender} IS null OR a.gender.name = :#{#arp.gender}) ")
+            "   AND (:#{#arp.gender} IS null OR a.gender = :#{#arp.gender}) ")
     Page<AnimalProjection> findAnimalProjectionByParams(@Param("arp") AnimalRequestParams animalRequestParams,
                                                           Pageable pageable);
 

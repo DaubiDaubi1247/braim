@@ -25,7 +25,6 @@ public class ChippingInfo implements Identifiable {
     private Long id;
 
     @Column(name = "chip_date")
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date chippingDateTime;

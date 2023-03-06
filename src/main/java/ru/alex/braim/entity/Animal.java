@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,9 +36,9 @@ public class Animal {
     @NotNull
     private Float height;
 
-    @ManyToOne
-    @JoinColumn(name = "gender_id")
-    private Gender gender;
+    @Column(name = "gender")
+    @NotNull
+    private String gender;
 
     @Column(name = "life_status")
     @NotNull
@@ -53,7 +54,8 @@ public class Animal {
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "type_id")
     )
-    private List<AnimalType> animalTypeList;
+    @Builder.Default
+    private List<AnimalType> animalTypeList = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -61,5 +63,8 @@ public class Animal {
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "location_id")
     )
-    private List<LocationInfo> locationList;
+    @Builder.Default
+    private List<LocationInfo> locationList = new ArrayList<>();
+
+
 }

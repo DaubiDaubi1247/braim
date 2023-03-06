@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,7 +33,7 @@ public class LocationInfo implements Identifiable {
     private Double longitude;
 
     @ManyToMany(mappedBy = "locationList")
-    private List<Animal> animalList;
+    private List<Animal> animalList = new ArrayList<>();
 
     @OneToOne(mappedBy = "locationInfo")
     private ChippingInfo chippingInfo;
