@@ -1,11 +1,7 @@
 package ru.alex.braim.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
@@ -35,6 +31,7 @@ public class ChippingInfo implements Identifiable {
 
     @OneToOne
     @JoinColumn(name = "animal_id")
+    @ToString.Exclude
     private Animal animal;
 
     @Column(name = "death_time")

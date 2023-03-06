@@ -2,10 +2,7 @@ package ru.alex.braim.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.util.ArrayList;
@@ -45,10 +42,11 @@ public class Animal {
     @Builder.Default
     private String lifeStatus = LifeStatusEnum.ALIVE.getLifeStatus();
 
-    @OneToOne(mappedBy = "animal")
+    @OneToOne(mappedBy = "animal", cascade = CascadeType.PERSIST)
+    @ToString.Exclude
     ChippingInfo chippingInfo;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "animal_type",
             joinColumns = @JoinColumn(name = "animal_id"),
@@ -57,7 +55,7 @@ public class Animal {
     @Builder.Default
     private List<AnimalType> animalTypeList = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "animal_location",
             joinColumns = @JoinColumn(name = "animal_id"),

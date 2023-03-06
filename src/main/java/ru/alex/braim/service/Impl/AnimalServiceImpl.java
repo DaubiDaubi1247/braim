@@ -54,6 +54,15 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     @Transactional
     public AnimalProjection createAnimal(@Valid AnimalDto animalDto) {
+        Animal savedAnimal = saveAnimal(animalDto);
+
+        AnimalProjection animalProjection = animalRepository.getAnimalProjectionById(savedAnimal.getId());
+
+        return animalProjection;
+    }
+
+
+    private Animal saveAnimal(AnimalDto animalDto) {
         List<AnimalType> animalType = animalTypeService.getAnimalTypeList(animalDto.getAnimalTypes());
         Account account = accountService.getAccountEntityById(Long.valueOf(animalDto.getChipperId()));
         LocationInfo locationInfo = locationService.getLocationEntityById(animalDto.getChippingLocationId());
@@ -70,14 +79,10 @@ public class AnimalServiceImpl implements AnimalService {
         newAnimal.setChippingInfo(chippingInfo);
 
         chippingInfo.setAnimal(newAnimal);
+//
+//        ChippingInfo chippingInfo1 = chippingInfoService.saveChippingInfo(chippingInfo);
 
-        ChippingInfo chippingInfo1 = chippingInfoService.saveChippingInfo(chippingInfo);
-
-        Animal savedAnimal = animalRepository.save(newAnimal);
-
-        AnimalProjection animalProjection = animalRepository.getAnimalProjectionById(savedAnimal.getId());
-
-        return animalProjection;
+        return animalRepository.save(newAnimal);
     }
 
     @Override
