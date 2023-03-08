@@ -34,25 +34,34 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
     @Transactional
     public LocationProjection addLocationToAnimal(@Id Long animalId, @Id Long pointId) {
 
-        Animal animal = animalService.getAnimalEntityById(pointId);
+        Animal animal = animalService.getAnimalEntityById(animalId);
         LocationInfo locationInfo = locationService.getLocationEntityById(pointId);
 
         if (animal.getLifeStatus().equals(LifeStatusEnum.DEAD.getLifeStatus())) {
-            throw new IncompatibleData();
+            throw new IncompatibleData("animal died");
         }
 
-        if (animal.getLocationList().size() == 1) {
-            throw new IncompatibleData();
+        if (isAnimalNotMove(animal, locationInfo)) {
+            throw new IncompatibleData("animal not move");
         }
 
-        if (animal.getLocationList().get(animal.getLocationList().size() - 1).equals(locationInfo)) {
-            throw new IncompatibleData();
+        if (isSamePoints(animal, locationInfo)) {
+            throw new IncompatibleData("try update point to the same");
         }
 
         animal.getLocationList().add(locationInfo);
         animalService.saveAnimal(animal);
 
         return locationService.findLocationProjectionByAnimalId(animalId);
+    }
+
+    private static boolean isSamePoints(Animal animal, LocationInfo locationInfo) {
+        return animal.getLocationList().size() != 0 &&
+                animal.getLocationList().get(animal.getLocationList().size() - 1).equals(locationInfo);
+    }
+
+    private static boolean isAnimalNotMove(Animal animal, LocationInfo locationInfo) {
+        return animal.getChippingInfo().getLocationInfo().equals(locationInfo);
     }
 
     @Override
@@ -64,13 +73,14 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
 
         int indexUpdatedPoint = animal.getLocationList().indexOf(locationInfo);
 
+        if (indexUpdatedPoint == -1) {
+            throw new NotFoundException("");
+        }
+
         if (isIncompatibleData(locationInfoDto, animal, indexUpdatedPoint)) {
             throw new IncompatibleData();
         }
 
-        if (!animal.getLocationList().contains(locationInfo)) {
-            throw new NotFoundException("");
-        }
 
         animal.getLocationList().set(indexUpdatedPoint, newLocationInfo);
         animalService.saveAnimal(animal);

@@ -60,6 +60,7 @@ public class Animal {
             name = "animal_location",
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "location_id")
+
     )
     @Builder.Default
     private List<LocationInfo> locationList = new ArrayList<>();
