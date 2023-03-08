@@ -29,7 +29,5 @@ public interface AnimalService {
 
     List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification);
 
-    void saveAnimal(Animal animal);
-
     boolean animalExistById(@Id Long id);
 }

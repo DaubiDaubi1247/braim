@@ -24,7 +24,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "FROM Animal a " +
             "JOIN a.chippingInfo cil " +
             "JOIN a.animalTypeList atl " +
-            "JOIN a.locationList li " +
+            "JOIN a.animalLocations li " +
             "WHERE  (:#{#arp.startDateTime} IS null OR cil.chippingDateTime >= :#{#arp.startDateTime}) " +
             "   AND (:#{#arp.endDateTime} IS null OR :#{#arp.endDateTime} >= cil.chippingDateTime) " +
             "   AND (:#{#arp.chipperId} IS null OR cil.chipper.id = :#{#arp.chipperId}) " +

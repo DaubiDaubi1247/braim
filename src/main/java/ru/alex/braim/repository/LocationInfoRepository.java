@@ -17,7 +17,7 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
     @Query(" SELECT li.id, ci.chippingDateTime, ci.id " +
             "FROM Animal a " +
             "JOIN a.chippingInfo ci " +
-            "JOIN a.locationList li " +
+            "JOIN a.animalLocations li " +
             "WHERE a.id = :animalId " +
             "   AND (CAST(:startDate AS timestamp)  IS null OR ci.chippingDateTime >= :startDate) " +
             "   AND (CAST(:endDate AS timestamp) IS null OR :endDate >= ci.chippingDateTime) ")
@@ -26,12 +26,10 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
                                                        @Param("animalId") Long animalId,
                                                        Pageable pageable);
 
-    @Query(" SELECT li.id, ci.chippingDateTime, ci.id " +
-            "FROM Animal a " +
-            "JOIN a.chippingInfo ci " +
-            "JOIN a.locationList li " +
-            "WHERE a.id = :animalId")
-    LocationProjection findLocationProjectionByAnimalId(@Param("animalId") Long animalId);
+    @Query(" SELECT a " +
+            "FROM AnimalLocation a " +
+            "WHERE a.id = :animalLocationId")
+    LocationProjection findLocationProjectionByAnimalId(@Param("animalLocationId") Long animalLocationId);
 
     boolean existsByLatitudeAndLongitude(Double latitude, Double longitude);
 }

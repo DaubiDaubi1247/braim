@@ -12,7 +12,9 @@ import java.util.List;
 @Table(name = "animal")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Builder
 public class Animal {
 
@@ -55,15 +57,25 @@ public class Animal {
     @Builder.Default
     private List<AnimalType> animalTypeList = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "animal_location",
-            joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn(name = "location_id")
-
-    )
+    @OneToMany(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Builder.Default
-    private List<LocationInfo> locationList = new ArrayList<>();
+    private List<AnimalLocation> animalLocations = new ArrayList<>();
 
+    public Long addLocationToAnimal(LocationInfo locationInfo) {
+        AnimalLocation animalLocation = new AnimalLocation();
+        animalLocation.setLocationInfo(locationInfo);
+        animalLocation.setAnimal(this);
+
+        animalLocations.add(animalLocation);
+
+        return animalLocation.getId();
+    }
+
+    public List<LocationInfo> animalLocationToLocationInfo() {
+        return animalLocations.stream().
+                map(AnimalLocation::getLocationInfo).
+                toList();
+
+    }
 
 }

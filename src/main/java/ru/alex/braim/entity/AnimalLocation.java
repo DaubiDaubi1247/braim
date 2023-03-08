@@ -1,16 +1,24 @@
 package ru.alex.braim.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "animal_location")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class AnimalLocation {
+
+    public AnimalLocation(LocationInfo locationInfo) {
+        this.locationInfo = locationInfo;
+    }
+
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,4 +30,9 @@ public class AnimalLocation {
     @ManyToOne
     @JoinColumn(name = "animal_id")
     private Animal animal;
+
+    @Column(name = "visit_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date visitedDate;
 }

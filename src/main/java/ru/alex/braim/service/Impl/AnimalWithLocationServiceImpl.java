@@ -9,6 +9,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.LocationPointDto;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.entity.Animal;
+import ru.alex.braim.entity.AnimalLocation;
 import ru.alex.braim.entity.LocationInfo;
 import ru.alex.braim.exception.IncompatibleData;
 import ru.alex.braim.exception.NotFoundException;
@@ -49,15 +50,17 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
             throw new IncompatibleData("try update point to the same");
         }
 
-        animal.getLocationList().add(locationInfo);
-        animalService.saveAnimal(animal);
+        animal.addLocationToAnimal(locationInfo);
 
         return locationService.findLocationProjectionByAnimalId(animalId);
     }
 
     private static boolean isSamePoints(Animal animal, LocationInfo locationInfo) {
-        return animal.getLocationList().size() != 0 &&
-                animal.getLocationList().get(animal.getLocationList().size() - 1).equals(locationInfo);
+        return animal.getAnimalLocations().size() != 0 &&
+                animal.getAnimalLocations().
+                        get(animal.getAnimalLocations().size() - 1).
+                        getLocationInfo().
+                        equals(locationInfo);
     }
 
     private static boolean isAnimalNotMove(Animal animal, LocationInfo locationInfo) {
@@ -71,7 +74,7 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         LocationInfo locationInfo = locationService.getLocationEntityById(locationInfoDto.getVisitedLocationPointId());
         LocationInfo newLocationInfo = locationService.getLocationEntityById(locationInfoDto.getLocationPointId());
 
-        int indexUpdatedPoint = animal.getLocationList().indexOf(locationInfo);
+        int indexUpdatedPoint = animal.animalLocationToLocationInfo().indexOf(locationInfo);
 
         if (indexUpdatedPoint == -1) {
             throw new NotFoundException("");
@@ -82,8 +85,7 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         }
 
 
-        animal.getLocationList().set(indexUpdatedPoint, newLocationInfo);
-        animalService.saveAnimal(animal);
+        animal.getAnimalLocations().set(indexUpdatedPoint, new AnimalLocation(newLocationInfo));
 
         return locationService.findLocationProjectionByAnimalId(animalId);
     }
@@ -94,19 +96,19 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         Animal animal = animalService.getAnimalEntityById(animalId);
         LocationInfo locationInfo = locationService.getLocationEntityById(visitedPointId);
 
-        int indexDelLocation = animal.getLocationList().indexOf(locationInfo);
+        int indexDelLocation = animal.animalLocationToLocationInfo().indexOf(locationInfo);
         if (indexDelLocation == -1) {
             throw new NotFoundException("");
         }
 
         if (indexDelLocation == 0) {
-            if (animal.getLocationList().get(indexDelLocation).equals(animal.getChippingInfo().getLocationInfo())) {
-                animal.getLocationList().subList(0, 2).clear();
+            if (animal.animalLocationToLocationInfo().
+                    get(indexDelLocation).equals(animal.getChippingInfo().getLocationInfo())) {
+                animal.getAnimalLocations().subList(0, 2).clear();
             }
         }
 
-        animal.getLocationList().remove(indexDelLocation);
-
+        animal.getAnimalTypeList().remove(indexDelLocation);
     }
 
     @Override

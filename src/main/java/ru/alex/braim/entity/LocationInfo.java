@@ -2,10 +2,7 @@ package ru.alex.braim.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
 import java.util.ArrayList;
@@ -16,7 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 public class LocationInfo implements Identifiable {
 
     @Column(name = "id")
@@ -32,8 +31,9 @@ public class LocationInfo implements Identifiable {
     @NotNull
     private Double longitude;
 
-    @ManyToMany(mappedBy = "locationList")
-    private List<Animal> animalList = new ArrayList<>();
+    @OneToMany(mappedBy = "locationInfo", cascade = CascadeType.PERSIST)
+    @Builder.Default
+    private List<AnimalLocation> animalLocationList = new ArrayList<>();
 
     @OneToOne(mappedBy = "locationInfo")
     private ChippingInfo chippingInfo;

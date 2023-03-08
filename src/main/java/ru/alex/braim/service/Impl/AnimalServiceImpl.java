@@ -89,13 +89,16 @@ public class AnimalServiceImpl implements AnimalService {
             throw new IncompatibleData();
         }
 
-        if (Objects.equals(animal.getLocationList().get(0).getId(), animalDto.getChippingLocationId())) {
+        if (Objects.equals(animal.getAnimalLocations().get(0).getId(), animalDto.getChippingLocationId())) {
             throw new IncompatibleData();
         }
 
+        AnimalLocation animalLocation = new AnimalLocation();
+        animalLocation.setLocationInfo(locationInfo);
+
         Animal updateAnimal = animalMapper.toEntity(animalDto);
         updateAnimal.getChippingInfo().setChipper(account);
-        updateAnimal.getLocationList().add(locationInfo);
+        updateAnimal.getAnimalLocations().add(animalLocation);
         updateAnimal.setId(animal.getId());
 
         animalRepository.save(updateAnimal);
@@ -138,6 +141,7 @@ public class AnimalServiceImpl implements AnimalService {
 
         throwIfTypeAlreadyExist(animal, newAnimalType);
         animal.getAnimalTypeList().set(oldTypeIndex, newAnimalType);
+        animalRepository.save(animal);
 
         return animalRepository.getAnimalProjectionById(animalId);
     }
@@ -164,6 +168,7 @@ public class AnimalServiceImpl implements AnimalService {
 
         int oldTypeIndex = getOldTypeIndex(animal, animalType);
         animal.getAnimalTypeList().remove(oldTypeIndex);
+        animalRepository.save(animal);
 
         return animalRepository.getAnimalProjectionById(animalId);
     }
@@ -173,7 +178,7 @@ public class AnimalServiceImpl implements AnimalService {
     public void deleteAnimal(Long id) {
         Animal animal = getAnimalEntityById(id);
 
-        if (!animal.getLocationList().isEmpty()) {
+        if (!animal.getAnimalLocations().isEmpty()) {
             throw new ConnectionWithAnimal("");
         }
 
@@ -195,12 +200,6 @@ public class AnimalServiceImpl implements AnimalService {
                 findAnimalProjectionByParams(animalDtoSpecification, pageable);
 
         return animalProjectionList.getContent();
-    }
-
-    @Override
-    @Transactional
-    public void saveAnimal(Animal animal) {
-        animalRepository.save(animal);
     }
 
     @Override

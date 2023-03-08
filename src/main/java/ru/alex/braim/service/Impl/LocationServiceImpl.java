@@ -80,8 +80,11 @@ public class LocationServiceImpl implements LocationService {
     }
 
     private static boolean isPointIsAlreadyNearby(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
-        return Objects.equals(animal.getLocationList().get(indexUpdatedPoint - 1).getId(), locationInfoDto.getLocationPointId()) ||
-                Objects.equals(animal.getLocationList().get(indexUpdatedPoint + 1).getId(), locationInfoDto.getLocationPointId());
+        return Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint - 1).getLocationInfo().getId(),
+                        locationInfoDto.getLocationPointId())
+                ||
+                Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint + 1).getLocationInfo().getId(),
+                        locationInfoDto.getLocationPointId());
     }
 
     private static boolean isChippingLocation(LocationPointDto locationInfoDto, Animal animal) {
@@ -93,7 +96,7 @@ public class LocationServiceImpl implements LocationService {
     public void deleteLocation(Long id) {
         LocationInfo locationInfo = getLocationEntityById(id);
 
-        if (locationInfo.getAnimalList().size() != 0) {
+        if (locationInfo.getAnimalLocationList().size() != 0) {
             throw new ConnectionWithAnimal("location with id = " + id + " connection with animal");
         }
 
@@ -102,8 +105,8 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public LocationProjection findLocationProjectionByAnimalId(Long animalId) {
-        return locationInfoRepository.findLocationProjectionByAnimalId(animalId);
+    public LocationProjection findLocationProjectionByAnimalId(Long animalLocationId) {
+        return locationInfoRepository.findLocationProjectionByAnimalId(animalLocationId);
     }
 
     private boolean existByLatitudeAndLongitude(LocationInfoDto locationInfoDto) {
