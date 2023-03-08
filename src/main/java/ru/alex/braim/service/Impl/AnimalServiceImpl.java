@@ -34,7 +34,6 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
     private final AnimalTypeService animalTypeService;
     private final AccountService accountService;
-    private final ChippingInfoService chippingInfoService;
 
     private final LocationService locationService;
 
@@ -56,9 +55,7 @@ public class AnimalServiceImpl implements AnimalService {
     public AnimalProjection createAnimal(@Valid AnimalDto animalDto) {
         Animal savedAnimal = saveAnimal(animalDto);
 
-        AnimalProjection animalProjection = animalRepository.getAnimalProjectionById(savedAnimal.getId());
-
-        return animalProjection;
+        return animalRepository.getAnimalProjectionById(savedAnimal.getId());
     }
 
 
@@ -72,15 +69,11 @@ public class AnimalServiceImpl implements AnimalService {
         chippingInfo.setChipper(account);
         chippingInfo.setLocationInfo(locationInfo);
 
-
         newAnimal.setAnimalTypeList(animalType);
         newAnimal.setLifeStatus(LifeStatusEnum.ALIVE.getLifeStatus());
-        newAnimal.getLocationList().add(locationInfo);
         newAnimal.setChippingInfo(chippingInfo);
 
         chippingInfo.setAnimal(newAnimal);
-//
-//        ChippingInfo chippingInfo1 = chippingInfoService.saveChippingInfo(chippingInfo);
 
         return animalRepository.save(newAnimal);
     }

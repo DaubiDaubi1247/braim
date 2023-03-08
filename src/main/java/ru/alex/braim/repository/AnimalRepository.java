@@ -14,9 +14,8 @@ import ru.alex.braim.requestParam.AnimalRequestParams;
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecificationExecutor<AnimalProjection> {
 
-    @Query(" SELECT an.id, chil.chippingDateTime, chil.chipper.id AS chipperId, chil.deathDateTime " +
+    @Query(" SELECT an " +
             "FROM Animal an " +
-            "JOIN an.chippingInfo chil " +
             "WHERE an.id = :id")
     AnimalProjection getAnimalProjectionById(@Param("id") Long id);
 

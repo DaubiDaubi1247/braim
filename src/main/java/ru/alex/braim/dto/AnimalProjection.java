@@ -8,21 +8,27 @@ import java.util.List;
 public interface AnimalProjection {
 
     Long getId();
-//    Float getWeight();
-//    Float getLength();
-//    Float getHeight();
+    Float getWeight();
+    Float getLength();
+    Float getHeight();
+    String getGender();
+    String getLifeStatus();
+
+    @Value("#{target.chippingInfo.getChipper().getId()}")
+    Integer getChipperId();
+
+    @Value("#{target.chippingInfo.getChippingDateTime()}")
+    Date getChippingDateTime();
+
+    @Value("#{target.chippingInfo.getLocationInfo().getId()}")
+    Long getChippingLocationId();
 //
-//    String getGender();
-//    String getLifeStatus();
+   @Value("#{@listUtils.toLongList(target.animalTypeList)}")
+   List<Long> getAnimalTypes();
 //
-//    Integer getChipperId();
-//    Date getChippingDateTime();
+    @Value("#{@listUtils.toLongList(target.locationList)}")
+    List<Long> getVisitedLocations();
 //
-//    @Value("#{target.getLocationId}")
-//    Long getChippingLocationId();
-//
-//    @Value("#{@listUtils.toLongList(target.getLocationList())}")
-//    List<Long> getVisitedLocations();
-//
-//    Date getDeathDateTime();
+    @Value("#{target.chippingInfo.getDeathDateTime()}")
+    Date getDeathDateTime();
 }
