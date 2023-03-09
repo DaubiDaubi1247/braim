@@ -40,9 +40,9 @@ public class AnimalDto {
 
     private String lifeStatus;
 
-    @NotNull(message = "animalsTypes cant be null")
-    @Size.List({@Size (min = 1)})
-    @IdList
+//    @NotNull(message = "animalsTypes cant be null")
+//    @Size.List({@Size (min = 1)})
+//    @IdList
     private List<Long> animalTypes;
 
     @NotNull

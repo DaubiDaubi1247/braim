@@ -35,7 +35,7 @@ public class LocationInfo implements Identifiable {
     @Builder.Default
     private List<AnimalLocation> animalLocationList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "locationInfo")
-    private ChippingInfo chippingInfo;
+    @OneToMany(mappedBy = "locationInfo")
+    private List<ChippingInfo> chippingInfo;
 
 }

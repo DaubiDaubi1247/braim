@@ -23,6 +23,7 @@ import ru.alex.braim.requestParam.AnimalRequestParams;
 import ru.alex.braim.service.*;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,21 +90,34 @@ public class AnimalServiceImpl implements AnimalService {
             throw new IncompatibleData();
         }
 
-        if (Objects.equals(animal.getAnimalLocations().get(0).getId(), animalDto.getChippingLocationId())) {
+        if (animal.getAnimalLocations().size() != 0 && Objects.equals(animal.getAnimalLocations().get(0).getId(), animalDto.getChippingLocationId())) {
             throw new IncompatibleData();
         }
 
-        AnimalLocation animalLocation = new AnimalLocation();
-        animalLocation.setLocationInfo(locationInfo);
+        animal.setGender(animalDto.getGender());
+        animal.setHeight(animal.getHeight());
+        animal.setWeight(animal.getWeight());
 
-        Animal updateAnimal = animalMapper.toEntity(animalDto);
-        updateAnimal.getChippingInfo().setChipper(account);
-        updateAnimal.getAnimalLocations().add(animalLocation);
-        updateAnimal.setId(animal.getId());
+        ChippingInfo newChippingInfo = new ChippingInfo();
+        newChippingInfo.setChipper(account);
+        newChippingInfo.setLocationInfo(locationInfo);
 
-        animalRepository.save(updateAnimal);
+        animal.setChippingInfo(newChippingInfo);
+
+        animal.setLifeStatus(animalDto.getLifeStatus());
+
+        if (isDie(animalDto, animal)) {
+            animal.getChippingInfo().setDeathDateTime(new Timestamp(System.currentTimeMillis()));
+        }
+
+//        animalRepository.save(updateAnimal);
 
         return animalRepository.getAnimalProjectionById(animal.getId());
+    }
+
+    private static boolean isDie(AnimalDto animalDto, Animal animal) {
+        return animalDto.getLifeStatus().equals(LifeStatusEnum.DEAD.getLifeStatus())
+                && animal.getChippingInfo().getChippingDateTime() == null;
     }
 
     @Override

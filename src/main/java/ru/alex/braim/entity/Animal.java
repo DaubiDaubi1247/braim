@@ -44,8 +44,7 @@ public class Animal {
     @Builder.Default
     private String lifeStatus = LifeStatusEnum.ALIVE.getLifeStatus();
 
-    @OneToOne(mappedBy = "animal", cascade = CascadeType.PERSIST)
-    @ToString.Exclude
+    @OneToOne(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     ChippingInfo chippingInfo;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
