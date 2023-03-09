@@ -196,6 +196,8 @@ public class AnimalServiceImpl implements AnimalService {
             throw new ConnectionWithAnimal("");
         }
 
+        animal.getAnimalTypeList().clear();
+
         animalRepository.delete(animal);
     }
 

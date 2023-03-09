@@ -44,19 +44,14 @@ public class Animal {
     @Builder.Default
     private String lifeStatus = LifeStatusEnum.ALIVE.getLifeStatus();
 
-    @OneToOne(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     ChippingInfo chippingInfo;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "animal_type",
-            joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn(name = "type_id")
-    )
+    @ManyToMany(mappedBy = "animalList", cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<AnimalType> animalTypeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @Builder.Default
     private List<AnimalLocation> animalLocations = new ArrayList<>();
 
