@@ -3,6 +3,7 @@ package ru.alex.braim.config.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -46,7 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/registration")
                         .permitAll()
-                        .requestMatchers("/accounts/{accountId}")
+                        .requestMatchers(HttpMethod.GET, "/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
