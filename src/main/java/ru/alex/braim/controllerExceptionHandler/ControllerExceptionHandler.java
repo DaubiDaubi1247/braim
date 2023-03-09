@@ -32,7 +32,7 @@ public class ControllerExceptionHandler {
         return getResponseEntityWithStatus(HttpStatus.CONFLICT, exception);
     }
 
-    @ExceptionHandler({NotEqualsAccounts.class})
+    @ExceptionHandler({NotEqualsAccounts.class, AccountNotFound.class})
     public ResponseEntity<ErrorMessage> notEqualsAccountsInfo(RuntimeException exception) {
         return getResponseEntityWithStatus(HttpStatus.FORBIDDEN, exception);
     }

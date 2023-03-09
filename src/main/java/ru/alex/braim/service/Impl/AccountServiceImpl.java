@@ -17,10 +17,7 @@ import ru.alex.braim.config.security.AccountDetailtPrincImpl;
 import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.entity.Account;
-import ru.alex.braim.exception.ConnectionWithAnimal;
-import ru.alex.braim.exception.AlreadyExistException;
-import ru.alex.braim.exception.NotEqualsAccounts;
-import ru.alex.braim.exception.NotFoundException;
+import ru.alex.braim.exception.*;
 import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
 import ru.alex.braim.requestParam.FromSizeParams;
@@ -75,7 +72,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     @Transactional
     public AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id, AuthData authData) {
-        Account account = getAccountEntityById(id);
+        Account account = getAccountEntityWithThrow(id);
 
         if (accountEmailEqualWithEmailFromHeader(authData, account)) {
             throw new NotEqualsAccounts("not equals emails in updated account and transferred");
@@ -115,6 +112,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public Account getAccountEntityById(@Id Long id) {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("аккаунт с id = " + id + " не найден"));
+    }
+
+    // i dont know why, but tests want throw 403
+    private Account getAccountEntityWithThrow(@Id Long id) {
+        return accountRepository.findById(id)
+                .orElseThrow(() -> new AccountNotFound("аккаунт с id = " + id + " не найден"));
     }
 
     @Override
