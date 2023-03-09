@@ -35,7 +35,7 @@ public class LocationInfo implements Identifiable {
     @Builder.Default
     private List<AnimalLocation> animalLocationList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "locationInfo")
+    @OneToMany(mappedBy = "locationInfo", cascade = CascadeType.REMOVE)
     private List<ChippingInfo> chippingInfo;
 
 }

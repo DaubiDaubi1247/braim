@@ -110,8 +110,6 @@ public class AnimalServiceImpl implements AnimalService {
             animal.getChippingInfo().setDeathDateTime(new Timestamp(System.currentTimeMillis()));
         }
 
-//        animalRepository.save(updateAnimal);
-
         return animalRepository.getAnimalProjectionById(animal.getId());
     }
 

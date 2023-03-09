@@ -93,14 +93,18 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public void deleteLocation(Long id) {
+    public void deleteLocation(@Id Long id) {
         LocationInfo locationInfo = getLocationEntityById(id);
 
-        if (locationInfo.getAnimalLocationList().size() != 0) {
+        if (isLocationConnectWithAnimal(locationInfo)) {
             throw new ConnectionWithAnimal("location with id = " + id + " connection with animal");
         }
 
         locationInfoRepository.delete(locationInfo);
+    }
+
+    private static boolean isLocationConnectWithAnimal(LocationInfo locationInfo) {
+        return locationInfo.getAnimalLocationList().size() != 0 || locationInfo.getChippingInfo().size() != 0;
     }
 
     @Override
