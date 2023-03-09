@@ -20,7 +20,7 @@ public interface LocationService {
 
     void deleteLocation(@Id Long id);
 
-    LocationProjection findLocationProjectionByAnimalId(@Id Long animalId);
+    LocationProjection findLocationProjectionByAnimalId(@Id Long animalLocationId);
 
     List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id);
 }

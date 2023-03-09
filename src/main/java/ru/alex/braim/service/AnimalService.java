@@ -30,4 +30,6 @@ public interface AnimalService {
     List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification);
 
     boolean animalExistById(@Id Long id);
+
+    void flushAnimal();
 }

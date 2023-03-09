@@ -209,6 +209,11 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
+    public void flushAnimal() {
+        animalRepository.flush();
+    }
+
+    @Override
     @Transactional
     public Animal getAnimalEntityById(@Id Long id) {
         return animalRepository.findById(id)

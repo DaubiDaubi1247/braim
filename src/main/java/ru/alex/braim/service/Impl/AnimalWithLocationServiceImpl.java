@@ -50,9 +50,12 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
             throw new IncompatibleData("try update point to the same");
         }
 
-        animal.addLocationToAnimal(locationInfo);
+        AnimalLocation animalLocation = new AnimalLocation(locationInfo);
 
-        return locationService.findLocationProjectionByAnimalId(animalId);
+        animal.addLocationToAnimal(animalLocation);
+        animalService.flushAnimal();
+
+        return locationService.findLocationProjectionByAnimalId(animalLocation.getId());
     }
 
     private static boolean isSamePoints(Animal animal, LocationInfo locationInfo) {
@@ -84,10 +87,11 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
             throw new IncompatibleData();
         }
 
+        AnimalLocation animalLocation = new AnimalLocation(newLocationInfo);
+        animal.getAnimalLocations().set(indexUpdatedPoint, animalLocation);
+        animalService.flushAnimal();
 
-        animal.getAnimalLocations().set(indexUpdatedPoint, new AnimalLocation(newLocationInfo));
-
-        return locationService.findLocationProjectionByAnimalId(animalId);
+        return locationService.findLocationProjectionByAnimalId(animalLocation.getId());
     }
 
     @Override

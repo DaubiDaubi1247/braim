@@ -105,7 +105,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public LocationProjection findLocationProjectionByAnimalId(Long animalLocationId) {
+    public LocationProjection findLocationProjectionByAnimalId(@Id Long animalLocationId) {
         return locationInfoRepository.findLocationProjectionByAnimalId(animalLocationId);
     }
 

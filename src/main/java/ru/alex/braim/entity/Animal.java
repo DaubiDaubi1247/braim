@@ -61,14 +61,10 @@ public class Animal {
     @Builder.Default
     private List<AnimalLocation> animalLocations = new ArrayList<>();
 
-    public Long addLocationToAnimal(LocationInfo locationInfo) {
-        AnimalLocation animalLocation = new AnimalLocation();
-        animalLocation.setLocationInfo(locationInfo);
+    public void addLocationToAnimal(AnimalLocation animalLocation) {
         animalLocation.setAnimal(this);
 
         animalLocations.add(animalLocation);
-
-        return animalLocation.getId();
     }
 
     public List<LocationInfo> animalLocationToLocationInfo() {
