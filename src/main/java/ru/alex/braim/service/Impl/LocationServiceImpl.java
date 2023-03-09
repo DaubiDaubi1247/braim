@@ -13,6 +13,7 @@ import ru.alex.braim.dto.LocationInfoDto;
 import ru.alex.braim.dto.LocationPointDto;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.entity.Animal;
+import ru.alex.braim.entity.AnimalLocation;
 import ru.alex.braim.entity.LocationInfo;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.ConnectionWithAnimal;
@@ -70,25 +71,27 @@ public class LocationServiceImpl implements LocationService {
 
     public static boolean isIncompatibleData(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
 
-        return  isChippingLocation(locationInfoDto, animal) ||
-                isPointIsAlreadyNearby(locationInfoDto, animal, indexUpdatedPoint) ||
-                isEqualsPoints(locationInfoDto);
+        return  (indexUpdatedPoint == 0 && isChippingLocation(locationInfoDto, animal)) ||
+                (indexUpdatedPoint > 0 && isPointIsAlreadyNearby(locationInfoDto, animal, indexUpdatedPoint)) ||
+                isEqualsPoints(locationInfoDto, animal.getAnimalLocations().get(indexUpdatedPoint));
     }
 
-    private static boolean isEqualsPoints(LocationPointDto locationInfoDto) {
-        return Objects.equals(locationInfoDto.getLocationPointId(), locationInfoDto.getVisitedLocationPointId());
+    private static boolean isEqualsPoints(LocationPointDto locationInfoDto, AnimalLocation animalLocation) {
+        return Objects.equals(animalLocation.getLocationInfo().getId(), locationInfoDto.getLocationPointId());
     }
 
     private static boolean isPointIsAlreadyNearby(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
-        return Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint - 1).getLocationInfo().getId(),
+        return  indexUpdatedPoint < animal.getAnimalLocations().size() - 1 &&
+                (Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint - 1).getLocationInfo().getId(),
                         locationInfoDto.getLocationPointId())
                 ||
                 Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint + 1).getLocationInfo().getId(),
-                        locationInfoDto.getLocationPointId());
+                        locationInfoDto.getLocationPointId()));
     }
 
     private static boolean isChippingLocation(LocationPointDto locationInfoDto, Animal animal) {
-        return Objects.equals(animal.getChippingInfo().getId(), locationInfoDto.getLocationPointId());
+        return Objects.equals(animal.getChippingInfo().getLocationInfo().getId(),
+                locationInfoDto.getLocationPointId());
     }
 
     @Override
@@ -96,14 +99,14 @@ public class LocationServiceImpl implements LocationService {
     public void deleteLocation(@Id Long id) {
         LocationInfo locationInfo = getLocationEntityById(id);
 
-        if (isLocationConnectWithAnimal(locationInfo)) {
+        if (isLocationConnectWithAnima(locationInfo)) {
             throw new ConnectionWithAnimal("location with id = " + id + " connection with animal");
         }
 
         locationInfoRepository.delete(locationInfo);
     }
 
-    private static boolean isLocationConnectWithAnimal(LocationInfo locationInfo) {
+    private static boolean isLocationConnectWithAnima(LocationInfo locationInfo) {
         return locationInfo.getAnimalLocationList().size() != 0 || locationInfo.getChippingInfo().size() != 0;
     }
 

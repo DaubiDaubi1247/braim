@@ -3,6 +3,7 @@ package ru.alex.braim.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import ru.alex.braim.utils.interfaces.Identifiable;
 
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AnimalLocation {
+public class AnimalLocation implements Identifiable {
 
     public AnimalLocation(LocationInfo locationInfo) {
         this.locationInfo = locationInfo;

@@ -17,6 +17,7 @@ import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.AnimalWithLocationService;
 import ru.alex.braim.service.LocationService;
+import ru.alex.braim.utils.ListUtils;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.util.List;
@@ -74,24 +75,25 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
     @Transactional
     public LocationProjection updateLocationPoint(@Id Long animalId, @Valid LocationPointDto locationInfoDto) {
         Animal animal = animalService.getAnimalEntityById(animalId);
-        LocationInfo locationInfo = locationService.getLocationEntityById(locationInfoDto.getVisitedLocationPointId());
         LocationInfo newLocationInfo = locationService.getLocationEntityById(locationInfoDto.getLocationPointId());
 
-        int indexUpdatedPoint = animal.animalLocationToLocationInfo().indexOf(locationInfo);
+        int animalLocationIndex = ListUtils.indexOfById(animal.getAnimalLocations(),
+                locationInfoDto.getVisitedLocationPointId());
 
-        if (indexUpdatedPoint == -1) {
-            throw new NotFoundException("");
+        if (animalLocationIndex == -1) {
+            throw new NotFoundException("animalLocation with id =" + locationInfoDto.getVisitedLocationPointId() + " not found");
         }
 
-        if (isIncompatibleData(locationInfoDto, animal, indexUpdatedPoint)) {
+        if (isIncompatibleData(locationInfoDto, animal, animalLocationIndex)) {
             throw new IncompatibleData();
         }
 
-        AnimalLocation animalLocation = new AnimalLocation(newLocationInfo);
-        animal.getAnimalLocations().set(indexUpdatedPoint, animalLocation);
+        animal.getAnimalLocations().get(animalLocationIndex).setLocationInfo(newLocationInfo);
         animalService.flushAnimal();
 
-        return locationService.findLocationProjectionByAnimalId(animalLocation.getId());
+        return locationService.findLocationProjectionByAnimalId(animal.getAnimalLocations()
+                .get(animalLocationIndex)
+                .getId());
     }
 
     @Override
