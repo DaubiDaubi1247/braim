@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -58,6 +61,11 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Transactional
     public AccountDto createAccount(@Valid AccountWithPasswordDto accountDto) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            throw new AccountException("");
+        }
+
         if (accountRepository.existsByEmail(accountDto.getEmail())) {
             throw new AlreadyExistException("account with email = " + accountDto.getEmail() + " already exist");
         }
@@ -74,7 +82,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id, AuthData authData) {
         Account account = getAccountEntityWithThrow(id);
 
-        if (accountEmailEqualWithEmailFromHeader(authData, account)) {
+        if (accountEmailNotEqualWithEmailFromHeader(authData, account)) {
             throw new NotEqualsAccounts("not equals emails in updated account and transferred");
         }
 
@@ -88,7 +96,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         return accountMapper.toDto(accountRepository.save(accountForSave));
     }
 
-    private boolean accountEmailEqualWithEmailFromHeader(AuthData authData, Account account) {
+    private boolean accountEmailNotEqualWithEmailFromHeader(AuthData authData, Account account) {
         return !account.getEmail().equals(authData.getEmail());
     }
 
@@ -96,7 +104,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public void deleteAccount(Long id, AuthData authData) {
         Account account = getAccountEntityById(id);
 
-        if (accountEmailEqualWithEmailFromHeader(authData, account)) {
+        if (accountEmailNotEqualWithEmailFromHeader(authData, account)) {
             throw new NotEqualsAccounts("not equals emails in updated account and transferred");
         }
 
@@ -117,7 +125,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     // i dont know why, but tests want throw 403
     private Account getAccountEntityWithThrow(@Id Long id) {
         return accountRepository.findById(id)
-                .orElseThrow(() -> new AccountNotFound("аккаунт с id = " + id + " не найден"));
+                .orElseThrow(() -> new AccountException("аккаунт с id = " + id + " не найден"));
     }
 
     @Override

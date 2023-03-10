@@ -13,8 +13,8 @@ import ru.alex.braim.annotation.Id;
 public class OldAndNewTypes {
 
     @Id
-    private Long oldType;
+    private Long oldTypeId;
 
     @Id
-    private Long newType;
+    private Long newTypeId;
 }

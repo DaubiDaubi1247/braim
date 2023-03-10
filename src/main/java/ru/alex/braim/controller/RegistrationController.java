@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.dto.AccountDto;
+import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.service.AccountService;
+import ru.alex.braim.utils.decoder.Decoder;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ import ru.alex.braim.service.AccountService;
 public class RegistrationController {
 
     private final AccountService accountService;
+    private final Decoder decoder;
 
     @PostMapping
     public ResponseEntity<AccountDto> createAccount(@RequestBody AccountWithPasswordDto accountDto) {

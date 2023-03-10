@@ -20,7 +20,10 @@ import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.requestParam.AnimalRequestParams;
-import ru.alex.braim.service.*;
+import ru.alex.braim.service.AccountService;
+import ru.alex.braim.service.AnimalService;
+import ru.alex.braim.service.AnimalTypeService;
+import ru.alex.braim.service.LocationService;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
 import java.sql.Timestamp;
@@ -90,8 +93,8 @@ public class AnimalServiceImpl implements AnimalService {
             throw new IncompatibleData();
         }
 
-        if (animal.getAnimalLocations().size() != 0 && Objects.equals(animal.getAnimalLocations().get(0).getId(), animalDto.getChippingLocationId())) {
-            throw new IncompatibleData();
+        if (animal.getAnimalLocations().size() > 0 && Objects.equals(animal.getAnimalLocations().get(0).getLocationInfo().getId(), animalDto.getChippingLocationId())) {
+            throw new IncompatibleData("new chipping id == first visited point");
         }
 
         animal.setGender(animalDto.getGender());
@@ -124,7 +127,7 @@ public class AnimalServiceImpl implements AnimalService {
         Animal animal = getAnimalEntityById(animalId);
         AnimalType animalType = animalTypeService.getAnimalTypeEntityById(typeId);
 
-        throwIfTypeAlreadyExist(animal, animalType);
+        throwIfTypesAlreadyExist(animal, animalType);
 
         animal.getAnimalTypeList().add(animalType);
         animalRepository.save(animal);
@@ -132,9 +135,9 @@ public class AnimalServiceImpl implements AnimalService {
         return animalRepository.getAnimalProjectionById(animalId);
     }
 
-    private static void throwIfTypeAlreadyExist(Animal animal, AnimalType animalType) {
+    private static void throwIfTypesAlreadyExist(Animal animal, AnimalType animalType) {
         if (animal.getAnimalTypeList().contains(animalType)) {
-            throw new AlreadyExistException("");
+            throw new AlreadyExistException("new animalType with id = " + animalType.getId() + " aldready exist");
         }
     }
 
@@ -142,30 +145,27 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public AnimalProjection changeTypeAnimal(@Id Long animalId, @Valid OldAndNewTypes oldAndNewTypes) {
         Animal animal = getAnimalEntityById(animalId);
-        AnimalType oldAnimalType = animalTypeService.getAnimalTypeEntityById(oldAndNewTypes.getOldType());
-        AnimalType newAnimalType = animalTypeService.getAnimalTypeEntityById(oldAndNewTypes.getNewType());
+        AnimalType oldAnimalType = animalTypeService.getAnimalTypeEntityById(oldAndNewTypes.getOldTypeId());
+        AnimalType newAnimalType = animalTypeService.getAnimalTypeEntityById(oldAndNewTypes.getNewTypeId());
 
         int oldTypeIndex = getOldTypeIndex(animal, oldAnimalType);
 
         if (oldTypeIndex == -1) {
-            throw new NotFoundException("");
+            throw new NotFoundException("old type with id = " + oldAndNewTypes.getOldTypeId() + " doesnt exist animal");
         }
 
-        throwIfTypeAlreadyExist(animal, newAnimalType);
+        throwIfTypesAlreadyExist(animal, newAnimalType);
         animal.getAnimalTypeList().set(oldTypeIndex, newAnimalType);
-        animalRepository.save(animal);
+        flushAnimal();
 
         return animalRepository.getAnimalProjectionById(animalId);
     }
 
     private static int getOldTypeIndex(Animal animal, AnimalType oldAnimalType) {
-        int oldTypeIndex = animal.getAnimalTypeList().indexOf(oldAnimalType);
 
-        if (oldTypeIndex == -1) {
-            throw new NotFoundException("");
-        }
+        System.out.println("\n\n\n --- " + animal.getAnimalTypeList().stream().map(AnimalType::getId).toList() + "\n\n\n\n\n");
 
-        return oldTypeIndex;
+        return animal.getAnimalTypeList().indexOf(oldAnimalType);
     }
 
     @Override
