@@ -186,6 +186,9 @@ public class AnimalServiceImpl implements AnimalService {
         }
 
         int oldTypeIndex = getOldTypeIndex(animal, animalType);
+        if (oldTypeIndex == -1) {
+            throw new NotFoundException("animal havent type with id = " + typeId);
+        }
         animal.getAnimalTypeList().get(oldTypeIndex).removeAnimal(animal);
         animal.getAnimalTypeList().remove(oldTypeIndex);
 
