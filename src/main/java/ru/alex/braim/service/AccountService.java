@@ -21,5 +21,5 @@ public interface AccountService {
 
     AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id, AuthData authData);
 
-    void deleteAccount(@Id Long id, AuthData authData);
+    void deleteAccount(@Id Long id);
 }

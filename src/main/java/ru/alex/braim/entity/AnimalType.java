@@ -32,4 +32,8 @@ public class AnimalType implements Identifiable {
             inverseJoinColumns = @JoinColumn(name = "animal_id")
     )
     private List<Animal> animalList = new ArrayList<>();
+
+    public void removeAnimal(Animal animal) {
+        animalList.remove(animal);
+    }
 }

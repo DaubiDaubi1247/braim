@@ -121,7 +121,7 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
     @Transactional
     public List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams,
                                                                 @Id Long id) {
-        if (animalService.animalExistById(id)) {
+        if (!animalService.animalExistById(id)) {
             throw new NotFoundException("animal with id = " + id + " not found");
         }
 

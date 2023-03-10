@@ -47,7 +47,7 @@ public class Animal {
     @OneToOne(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     ChippingInfo chippingInfo;
 
-    @ManyToMany(mappedBy = "animalList", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "animalList", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Builder.Default
     private List<AnimalType> animalTypeList = new ArrayList<>();
 

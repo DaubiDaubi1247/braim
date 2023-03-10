@@ -79,6 +79,11 @@ public class AnimalServiceImpl implements AnimalService {
         chippingInfo.setLocationInfo(locationInfo);
 
         newAnimal.setAnimalTypeList(animalTypeList);
+
+        for (AnimalType animalType : animalTypeList) {
+            animalType.getAnimalList().add(newAnimal);
+        }
+
         newAnimal.setLifeStatus(LifeStatusEnum.ALIVE.getLifeStatus());
         newAnimal.setChippingInfo(chippingInfo);
 
@@ -197,6 +202,10 @@ public class AnimalServiceImpl implements AnimalService {
 
         if (!animal.getAnimalLocations().isEmpty()) {
             throw new ConnectionWithAnimal("");
+        }
+
+        for (AnimalType animalType : animal.getAnimalTypeList()) {
+            animalType.removeAnimal(animal);
         }
 
         animal.getAnimalTypeList().clear();

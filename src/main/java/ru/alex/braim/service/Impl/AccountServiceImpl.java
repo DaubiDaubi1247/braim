@@ -101,11 +101,13 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
-    public void deleteAccount(Long id, AuthData authData) {
+    @Transactional
+    public void deleteAccount(@Id Long id) {
         Account account = getAccountEntityById(id);
 
-        if (accountEmailNotEqualWithEmailFromHeader(authData, account)) {
-            throw new NotEqualsAccounts("not equals emails in updated account and transferred");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            throw new AccountException("");
         }
 
         if (accountRepository.accountHaveAnimals(id)) {

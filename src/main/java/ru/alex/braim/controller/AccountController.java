@@ -45,12 +45,10 @@ public class AccountController {
                 decoder.decode(headers.get("authorization"))));
     }
 
-    @DeleteMapping(" /{accountId}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId,
-                                              @RequestHeader Map<String, String> headers) {
+    @DeleteMapping("/{accountId}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId) {
 
-        accountService.deleteAccount(accountId,
-                decoder.decode(headers.get("authorization")));
+        accountService.deleteAccount(accountId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
