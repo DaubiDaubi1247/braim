@@ -1,14 +1,17 @@
 package ru.alex.braim.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import ru.alex.braim.annotation.EnumValue;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.annotation.IdList;
+import ru.alex.braim.utils.enums.GenderEnum;
 
 import java.util.List;
 
@@ -35,14 +38,12 @@ public class AnimalDto {
     private Float height;
 
     @NotBlank(message = "gender cant be empty")
-    @Enumerated(EnumType.STRING)
+    @EnumValue(enumClass = GenderEnum.class)
     private String gender;
 
     private String lifeStatus;
 
-//    @NotNull(message = "animalsTypes cant be null")
-//    @Size.List({@Size (min = 1)})
-//    @IdList
+    @IdList
     private List<Long> animalTypes;
 
     @NotNull

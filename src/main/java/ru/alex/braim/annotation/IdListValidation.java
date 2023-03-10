@@ -4,8 +4,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class IdListValidation implements ConstraintValidator<IdList, List<Long>> {
     private List<Long> longs;
@@ -21,7 +19,7 @@ public class IdListValidation implements ConstraintValidator<IdList, List<Long>>
             return true;
         }
 
-        return longs.stream()
+        return longs.size() > 0 && longs.stream()
                 .noneMatch(el -> el == null || el <= 0);
     }
 

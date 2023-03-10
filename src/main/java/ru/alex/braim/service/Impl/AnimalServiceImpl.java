@@ -64,7 +64,12 @@ public class AnimalServiceImpl implements AnimalService {
 
 
     private Animal saveAnimal(AnimalDto animalDto) {
-        List<AnimalType> animalType = animalTypeService.getAnimalTypeList(animalDto.getAnimalTypes());
+        List<AnimalType> animalTypeList = animalTypeService.getAnimalTypeList(animalDto.getAnimalTypes());
+
+        if (animalTypeList.size() != animalDto.getAnimalTypes().size()) {
+            throw new NotFoundException("1 or more type not found");
+        }
+
         Account account = accountService.getAccountEntityById(Long.valueOf(animalDto.getChipperId()));
         LocationInfo locationInfo = locationService.getLocationEntityById(animalDto.getChippingLocationId());
 
@@ -73,7 +78,7 @@ public class AnimalServiceImpl implements AnimalService {
         chippingInfo.setChipper(account);
         chippingInfo.setLocationInfo(locationInfo);
 
-        newAnimal.setAnimalTypeList(animalType);
+        newAnimal.setAnimalTypeList(animalTypeList);
         newAnimal.setLifeStatus(LifeStatusEnum.ALIVE.getLifeStatus());
         newAnimal.setChippingInfo(chippingInfo);
 
