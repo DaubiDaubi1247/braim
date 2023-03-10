@@ -103,10 +103,11 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     @Transactional
     public void deleteAccount(@Id Long id) {
-        Account account = getAccountEntityById(id);
+        Account account = getAccountEntityWithThrow(id);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+
+        if (!account.getEmail().equals(authentication.getName())) {
             throw new AccountException("");
         }
 

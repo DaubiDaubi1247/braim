@@ -82,11 +82,13 @@ public class LocationServiceImpl implements LocationService {
 
     private static boolean isPointIsAlreadyNearby(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
         return  indexUpdatedPoint < animal.getAnimalLocations().size() - 1 &&
-                (Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint - 1).getLocationInfo().getId(),
-                        locationInfoDto.getLocationPointId())
-                ||
-                Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint + 1).getLocationInfo().getId(),
-                        locationInfoDto.getLocationPointId()));
+                (
+                    Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint - 1).getLocationInfo().getId(),
+                            locationInfoDto.getLocationPointId())
+                    ||
+                    Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint + 1).getLocationInfo().getId(),
+                            locationInfoDto.getLocationPointId())
+                );
     }
 
     private static boolean isChippingLocation(LocationPointDto locationInfoDto, Animal animal) {

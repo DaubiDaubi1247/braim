@@ -172,9 +172,6 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     private static int getOldTypeIndex(Animal animal, AnimalType oldAnimalType) {
-
-        System.out.println("\n\n\n --- " + animal.getAnimalTypeList().stream().map(AnimalType::getId).toList() + "\n\n\n\n\n");
-
         return animal.getAnimalTypeList().indexOf(oldAnimalType);
     }
 
@@ -189,7 +186,9 @@ public class AnimalServiceImpl implements AnimalService {
         }
 
         int oldTypeIndex = getOldTypeIndex(animal, animalType);
+        animal.getAnimalTypeList().get(oldTypeIndex).removeAnimal(animal);
         animal.getAnimalTypeList().remove(oldTypeIndex);
+
         animalRepository.save(animal);
 
         return animalRepository.getAnimalProjectionById(animalId);
