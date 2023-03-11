@@ -26,7 +26,7 @@ public interface AnimalProjection {
    @Value("#{@listUtils.toLongList(target.animalTypeList)}")
    List<Long> getAnimalTypes();
 //
-    @Value("#{@listUtils.animalLocationToIdList(target.getAnimalLocations())}")
+    @Value("#{@listUtils.toLongList(target.getAnimalLocations())}")
     List<Long> getVisitedLocations();
 //
     @Value("#{target.chippingInfo.getDeathDateTime()}")

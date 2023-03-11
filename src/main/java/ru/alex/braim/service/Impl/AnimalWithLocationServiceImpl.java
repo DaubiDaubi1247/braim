@@ -52,6 +52,7 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         }
 
         AnimalLocation animalLocation = new AnimalLocation(locationInfo);
+        animalLocation.setAnimal(animal);
 
         animal.addLocationToAnimal(animalLocation);
         animalService.flushAnimal();

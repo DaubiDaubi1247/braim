@@ -19,14 +19,14 @@ public class AnimalWithTypeController {
     public ResponseEntity<AnimalProjection> addTypeToAnimal(@PathVariable Long animalId,
                                                             @PathVariable Long typeId) {
 
-        return ResponseEntity.ok(animalService.addTypeToAnimal(animalId, typeId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(animalService.addTypeToAnimal(animalId, typeId));
     }
 
     @PutMapping("/{animalId}/types")
     public ResponseEntity<AnimalProjection> changeTypeToAnimal(@PathVariable Long animalId,
                                                                @RequestBody OldAndNewTypes oldAndNewTypes) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(animalService.changeTypeAnimal(animalId, oldAndNewTypes));
+        return ResponseEntity.ok(animalService.changeTypeAnimal(animalId, oldAndNewTypes));
     }
 
     @DeleteMapping("/{animalId}/types/{typeId}")
