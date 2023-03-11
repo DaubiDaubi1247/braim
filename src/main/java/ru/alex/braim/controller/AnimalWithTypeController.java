@@ -1,6 +1,7 @@
 package ru.alex.braim.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AnimalProjection;
@@ -25,7 +26,7 @@ public class AnimalWithTypeController {
     public ResponseEntity<AnimalProjection> changeTypeToAnimal(@PathVariable Long animalId,
                                                                @RequestBody OldAndNewTypes oldAndNewTypes) {
 
-        return ResponseEntity.ok(animalService.changeTypeAnimal(animalId, oldAndNewTypes));
+        return ResponseEntity.status(HttpStatus.CREATED).body(animalService.changeTypeAnimal(animalId, oldAndNewTypes));
     }
 
     @DeleteMapping("/{animalId}/types/{typeId}")

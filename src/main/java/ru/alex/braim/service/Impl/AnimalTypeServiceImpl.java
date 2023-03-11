@@ -10,6 +10,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalTypeDto;
 import ru.alex.braim.entity.AnimalType;
 import ru.alex.braim.exception.AlreadyExistException;
+import ru.alex.braim.exception.ConnectionWithAnimal;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalTypeMapper;
 import ru.alex.braim.repository.AnimalTypeRepository;
@@ -88,6 +89,11 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     @Transactional
     public void deleteType(@Id Long id) {
         AnimalType animalType = getAnimalTypeEntityById(id);
+
+        if (animalType.getAnimalList().size() != 0) {
+            throw new ConnectionWithAnimal("type with id = " + id + " connection wit animal");
+        }
+
         animalTypeRepository.delete(animalType);
     }
 
