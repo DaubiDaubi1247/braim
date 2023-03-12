@@ -73,7 +73,7 @@ public class LocationServiceImpl implements LocationService {
     public static boolean isIncompatibleData(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
 
         return  (indexUpdatedPoint == 0 && isChippingLocation(locationInfoDto, animal)) ||
-                (indexUpdatedPoint > 0 && isPointIsAlreadyNearby(locationInfoDto, animal, indexUpdatedPoint)) ||
+                isPointIsAlreadyNearby(locationInfoDto, animal, indexUpdatedPoint) ||
                 isEqualsPoints(locationInfoDto, animal.getAnimalLocations().get(indexUpdatedPoint));
     }
 
@@ -82,15 +82,19 @@ public class LocationServiceImpl implements LocationService {
     }
 
     private static boolean isPointIsAlreadyNearby(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
-        System.out.println("\n\n\n " + indexUpdatedPoint + "\n\n\n\n");
-        return  indexUpdatedPoint < animal.getAnimalLocations().size() - 1 &&
-                (
-                    Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint - 1).getLocationInfo().getId(),
-                            locationInfoDto.getLocationPointId())
-                    ||
-                    Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint + 1).getLocationInfo().getId(),
-                            locationInfoDto.getLocationPointId())
-                );
+        return isEqualsPreviousPoint(locationInfoDto, animal, indexUpdatedPoint) ||
+                isEqualsNextPoint(locationInfoDto, animal, indexUpdatedPoint);
+    }
+
+    private static boolean isEqualsNextPoint(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
+        return indexUpdatedPoint < animal.getAnimalLocations().size() - 1 &&
+                Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint + 1).getLocationInfo().getId(),
+                    locationInfoDto.getLocationPointId());
+    }
+
+    private static boolean isEqualsPreviousPoint(LocationPointDto locationInfoDto, Animal animal, int indexUpdatedPoint) {
+        return indexUpdatedPoint > 0 && Objects.equals(animal.getAnimalLocations().get(indexUpdatedPoint - 1).getLocationInfo().getId(),
+                locationInfoDto.getLocationPointId());
     }
 
     private static boolean isChippingLocation(LocationPointDto locationInfoDto, Animal animal) {

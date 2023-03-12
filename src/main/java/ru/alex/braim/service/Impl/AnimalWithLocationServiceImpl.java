@@ -43,6 +43,10 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
             throw new IncompatibleData("animal died");
         }
 
+        if (animal.getChippingInfo().getLocationInfo().equals(locationInfo)) {
+            throw new IncompatibleData("animal now in chipping point");
+        }
+
         if (isAnimalNotMove(animal, locationInfo)) {
             throw new IncompatibleData("animal not move");
         }
@@ -95,7 +99,7 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         }
 
         if (isIncompatibleData(locationInfoDto, animal, animalLocationIndex)) {
-            throw new IncompatibleData();
+            throw new IncompatibleData("point already nearby");
         }
 
         animal.getAnimalLocations().get(animalLocationIndex).setLocationInfo(newLocationInfo);
