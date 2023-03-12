@@ -36,4 +36,5 @@ public class AnimalLocation implements Identifiable {
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date visitedDate;
+
 }

@@ -68,10 +68,6 @@ public class AnimalServiceImpl implements AnimalService {
     private Animal saveAnimal(AnimalDto animalDto) {
         List<AnimalType> animalTypeList = animalTypeService.getAnimalTypeList(animalDto.getAnimalTypes());
 
-        for (AnimalType animalType : animalTypeList) {
-            System.out.println("\n\n\n\n typeId == " + animalType.getId() + " === \n\n\n");
-        }
-
         if (animalTypeList.size() != animalDto.getAnimalTypes().size()) {
             throw new NotFoundException("1 or more type not found");
         }
@@ -84,11 +80,11 @@ public class AnimalServiceImpl implements AnimalService {
         chippingInfo.setChipper(account);
         chippingInfo.setLocationInfo(locationInfo);
 
-        newAnimal.setAnimalTypeList(animalTypeList);
-
         for (AnimalType animalType : animalTypeList) {
             animalType.getAnimalList().add(newAnimal);
         }
+
+        newAnimal.setAnimalTypeList(animalTypeList);
 
         newAnimal.setLifeStatus(LifeStatusEnum.ALIVE.getLifeStatus());
         newAnimal.setChippingInfo(chippingInfo);
@@ -130,7 +126,11 @@ public class AnimalServiceImpl implements AnimalService {
             animal.getChippingInfo().setDeathDateTime(new Timestamp(System.currentTimeMillis()));
         }
 
-        animalRepository.save(animal);
+//        animal.getAnimalTypeList().forEach(el -> System.out.println("\n\n\n animal types before save ===" + el.getId() + "\n\n\n"));
+//
+//        System.out.println("\n\n\n\n");
+//
+//        animal.getAnimalTypeList().forEach(el -> System.out.println("\n\n\n animal types after save ===" + el.getId() + "\n\n\n"));
 
         return animalRepository.getAnimalProjectionById(id);
     }

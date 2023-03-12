@@ -101,21 +101,27 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
     @Transactional
     public void deleteLocationPointFromAnimal(@Id Long animalId, @Id Long visitedPointId) {
         Animal animal = animalService.getAnimalEntityById(animalId);
-        LocationInfo locationInfo = locationService.getLocationEntityById(visitedPointId);
 
-        int indexDelLocation = animal.animalLocationToLocationInfo().indexOf(locationInfo);
+        int indexDelLocation = ListUtils.indexOfById(animal.getAnimalLocations(), visitedPointId);
         if (indexDelLocation == -1) {
-            throw new NotFoundException("");
+            throw new NotFoundException("location Info with id = " + visitedPointId + " not found" );
         }
 
-        if (indexDelLocation == 0) {
-            if (animal.animalLocationToLocationInfo().
-                    get(indexDelLocation).equals(animal.getChippingInfo().getLocationInfo())) {
+        if (indexDelLocation == 0 && animal.getAnimalLocations().size() > 1) {
+            if (animal.getAnimalLocations()
+                    .get(indexDelLocation + 1)
+                    .getLocationInfo()
+                    .equals(animal.getChippingInfo().getLocationInfo())) {
+
                 animal.getAnimalLocations().subList(0, 2).clear();
             }
+        } else {
+            animal.getAnimalLocations().remove(indexDelLocation);
+
         }
 
-        animal.getAnimalTypeList().remove(indexDelLocation);
+        animalService.flushAnimal();
+
     }
 
     @Override

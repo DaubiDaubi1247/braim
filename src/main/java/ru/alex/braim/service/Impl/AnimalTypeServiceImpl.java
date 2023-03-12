@@ -65,7 +65,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
     public List<AnimalType> getAnimalTypeList(List<Long> idList) {
 
         if (containsDuplicate(idList)) {
-            throw new DuplicateKeyException("");
+            throw new DuplicateKeyException("duplicate types");
         }
 
         return animalTypeRepository.findAllById(idList);
