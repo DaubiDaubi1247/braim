@@ -55,7 +55,7 @@ public class AnimalTypeServiceImpl implements AnimalTypeService {
         throwIfTypeExists(animalTypeDto);
 
         AnimalType animalType = getAnimalTypeEntityById(id);
-        animalType.setType(animalType.getType());
+        animalType.setType(animalTypeDto.getType());
 
         return animalTypeMapper.toDto(animalTypeRepository.save(animalType));
     }
