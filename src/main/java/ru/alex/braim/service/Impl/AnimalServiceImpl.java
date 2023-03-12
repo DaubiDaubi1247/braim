@@ -110,8 +110,8 @@ public class AnimalServiceImpl implements AnimalService {
         }
 
         animal.setGender(animalDto.getGender());
-        animal.setHeight(animal.getHeight());
-        animal.setWeight(animal.getWeight());
+        animal.setHeight(animalDto.getHeight());
+        animal.setWeight(animalDto.getWeight());
 
         ChippingInfo newChippingInfo = new ChippingInfo();
         newChippingInfo.setChipper(account);
@@ -124,6 +124,8 @@ public class AnimalServiceImpl implements AnimalService {
         if (isDie(animalDto, animal)) {
             animal.getChippingInfo().setDeathDateTime(new Timestamp(System.currentTimeMillis()));
         }
+
+        animalRepository.save(animal);
 
         return animalRepository.getAnimalProjectionById(animal.getId());
     }
