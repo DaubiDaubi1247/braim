@@ -16,7 +16,7 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
             "FROM AnimalLocation a " +
             "WHERE a.animal.id = :animalId " +
             "   AND (CAST(:startDate AS timestamp ) IS null OR a.visitedDate >= CAST(:startDate AS timestamp )) " +
-            "   AND (CAST(:endDate AS timestamp ) IS null OR CAST(:enDate AS timestamp ) >= a.visitedDate) ")
+            "   AND (CAST(:endDate AS timestamp ) IS null OR CAST(:endDate AS timestamp ) >= a.visitedDate) ")
     Page<LocationProjection> findLocationPointByParams(@Param("startDate") Date startDate,
                                                        @Param("endDate") Date endDate,
                                                        @Param("animalId") Long animalId,

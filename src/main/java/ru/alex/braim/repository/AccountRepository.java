@@ -12,7 +12,10 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpecificationExecutor<Account>{
+
     boolean existsByEmail(String email);
+
+    boolean existsByEmailAndIdNot(String email, Long id);
 
     @Query(nativeQuery = true,
             value = "SELECT * " +
@@ -29,8 +32,7 @@ public interface AccountRepository extends JpaRepository<Account, Long>, JpaSpec
 
     @Query(" SELECT EXISTS (SELECT ci.animal " +
             "FROM ChippingInfo ci " +
-            "JOIN ci.chipper c " +
-            "WHERE c.id = :id and ci.animal is not null )")
+            "WHERE ci.chipper.id = :id and ci.animal is not null )")
     boolean accountHaveAnimals(@Param("id") Long id);
 
     Optional<Account> findByEmail(String email);

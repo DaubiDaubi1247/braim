@@ -88,14 +88,16 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
             throw new NotEqualsAccounts("not equals emails in updated account and transferred");
         }
 
-        if (accountRepository.existsByEmail(accountDto.getEmail())) {
+        if (accountRepository.existsByEmailAndIdNot(accountDto.getEmail(), id)) {
             throw new AlreadyExistException("account with email = " + accountDto.getEmail() + " already exist");
         }
 
-        Account accountForSave = accountMapper.toEntityWithPassword(accountDto);
-        accountForSave.setId(account.getId());
+        account.setEmail(accountDto.getEmail());
+        account.setPassword(bCryptPasswordEncoder.encode(accountDto.getPassword()));
+        account.setLastName(accountDto.getLastName());
+        account.setFirstName(accountDto.getFirstName());
 
-        return accountMapper.toDto(accountRepository.save(accountForSave));
+        return accountMapper.toDto(accountRepository.save(account));
     }
 
     private boolean accountEmailNotEqualWithEmailFromHeader(AuthData authData, Account account) {
