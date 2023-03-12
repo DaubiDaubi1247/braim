@@ -69,7 +69,16 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
     }
 
     private static boolean isAnimalNotMove(Animal animal, LocationInfo locationInfo) {
-        return animal.getChippingInfo().getLocationInfo().equals(locationInfo);
+
+        if (animal.getAnimalLocations().size() == 0) {
+            return false;
+        }
+
+        LocationInfo lastVisitedLocation = animal.getAnimalLocations()
+                .get(animal.getAnimalLocations().size() - 1)
+                .getLocationInfo();
+
+        return lastVisitedLocation.equals(locationInfo);
     }
 
     @Override
