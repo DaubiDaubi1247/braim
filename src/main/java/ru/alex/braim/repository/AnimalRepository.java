@@ -11,6 +11,8 @@ import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.requestParam.AnimalRequestParams;
 
+import java.sql.Timestamp;
+
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecificationExecutor<AnimalProjection> {
 
@@ -19,19 +21,17 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "WHERE an.id = :id")
     AnimalProjection getAnimalProjectionById(@Param("id") Long id);
 
-    @Query(" SELECT a, cil.chippingDateTime, cil.chipper.id AS chipId, cil.deathDateTime, " +
-            "li.id AS locationId " +
+    @Query(" SELECT a " +
             "FROM Animal a " +
-            "JOIN a.chippingInfo cil " +
-            "JOIN a.animalTypeList atl " +
-            "JOIN a.animalLocations li " +
-            "WHERE  (:#{#arp.startDateTime} IS null OR cil.chippingDateTime >= :#{#arp.startDateTime}) " +
-            "   AND (:#{#arp.endDateTime} IS null OR :#{#arp.endDateTime} >= cil.chippingDateTime) " +
-            "   AND (:#{#arp.chipperId} IS null OR cil.chipper.id = :#{#arp.chipperId}) " +
-            "   AND (:#{#arp.chippingLocationId} IS null OR cil.id = :#{#arp.chippingLocationId}) " +
+            "WHERE  (Cast(:startDate as timestamp) IS null OR a.chippingInfo.chippingDateTime >= :startDate) " +
+            "   AND (Cast(:endDate as timestamp) IS null OR :endDate >= a.chippingInfo.chippingDateTime) " +
+            "   AND (:#{#arp.chipperId} IS null OR a.chippingInfo.chipper.id = :#{#arp.chipperId}) " +
+            "   AND (:#{#arp.chippingLocationId} IS null OR a.chippingInfo.id = :#{#arp.chippingLocationId}) " +
             "   AND (:#{#arp.lifeStatus} IS null OR a.lifeStatus = :#{#arp.lifeStatus}) " +
             "   AND (:#{#arp.gender} IS null OR a.gender = :#{#arp.gender}) ")
     Page<AnimalProjection> findAnimalProjectionByParams(@Param("arp") AnimalRequestParams animalRequestParams,
+                                                          @Param("startDate") Timestamp startDate,
+                                                          @Param("endDate") Timestamp endDate,
                                                           Pageable pageable);
 
 }

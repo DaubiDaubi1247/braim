@@ -1,16 +1,12 @@
 package ru.alex.braim.requestParam;
 
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @SuperBuilder
 public class FromSizeParams {
     @Min(value = 0, message = "from cant be less than zero")

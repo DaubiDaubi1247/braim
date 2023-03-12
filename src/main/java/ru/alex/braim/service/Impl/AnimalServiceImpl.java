@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,7 @@ import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.requestParam.AnimalRequestParams;
+import ru.alex.braim.requestParam.DateParamsForSql;
 import ru.alex.braim.service.AccountService;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.AnimalTypeService;
@@ -224,10 +226,12 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional
     public List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification) {
 
-        Pageable pageable = PageRequest.of(animalDtoSpecification.getFrom(), animalDtoSpecification.getSize());
+        Pageable pageable = PageRequest.of(animalDtoSpecification.getFrom(), animalDtoSpecification.getSize(), Sort.by(Animal_.ID));
+
+        DateParamsForSql dateParamsForSql = new DateParamsForSql(animalDtoSpecification.getStartDateTime(), animalDtoSpecification.getEndDateTime());
 
         Page<AnimalProjection> animalProjectionList = animalRepository.
-                findAnimalProjectionByParams(animalDtoSpecification, pageable);
+                findAnimalProjectionByParams(animalDtoSpecification,dateParamsForSql.getStartDate(), dateParamsForSql.getEndDate(), pageable);
 
         return animalProjectionList.getContent();
     }

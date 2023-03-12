@@ -2,9 +2,6 @@ package ru.alex.braim.service.Impl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,15 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.config.security.AccountDetailtPrincImpl;
-import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.dto.AccountDto;
+import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.entity.Account;
 import ru.alex.braim.exception.*;
 import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
 import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
-import ru.alex.braim.specification.AccountSpecification;
 import ru.alex.braim.utils.decoder.AuthData;
 
 import java.util.List;
@@ -49,12 +45,18 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Transactional
     public List<AccountDto> getAccountsByParameters(AccountDto accountDto, @Valid FromSizeParams fromSizeParams) {
 
-        Pageable pageable = PageRequest.of(fromSizeParams.getFrom(), fromSizeParams.getSize());
+        List<Account> accountPage = accountRepository.getAccountPageByParams(accountDto.getFirstName(),
+                accountDto.getLastName(),
+                accountDto.getEmail(),
+                fromSizeParams.getFrom(),
+                fromSizeParams.getSize());
+//        Page<Account> accountPage = accountRepository.findAll(AccountSpecification
+//                .getAccountSpecificationByParameters(accountDto), pageable);
 
-        Page<Account> accountList = accountRepository.findAll(AccountSpecification.
-                getAccountSpecificationByParameters(accountDto), pageable);
+//        List<Account> accountPage = accountRepository.findAll(AccountSpecification
+//                .getAccountSpecificationByParameters(accountDto));
 
-        return accountMapper.toDtoList(accountList.getContent());
+        return accountMapper.toDtoList(accountPage);
     }
 
     @Override

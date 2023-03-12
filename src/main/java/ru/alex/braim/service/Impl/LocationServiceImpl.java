@@ -20,6 +20,7 @@ import ru.alex.braim.exception.ConnectionWithAnimal;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.LocationInfoMapper;
 import ru.alex.braim.repository.LocationInfoRepository;
+import ru.alex.braim.requestParam.DateParamsForSql;
 import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.LocationService;
 
@@ -131,9 +132,10 @@ public class LocationServiceImpl implements LocationService {
 
         Pageable pageable = PageRequest.of(dateRequestParams.getFrom(), dateRequestParams.getSize());
 
-        Page<LocationProjection> locationProjectionList =  locationInfoRepository
-                .findLocationPointByParams(dateRequestParams.getStartDateTime(),dateRequestParams.getEndDateTime(),
-                        id, pageable);
+        DateParamsForSql dateParamsForSql = new DateParamsForSql(dateRequestParams.getStartDateTime(), dateRequestParams.getEndDateTime());
+
+        Page<LocationProjection> locationProjectionList = locationInfoRepository
+                .findLocationPointByParams(dateParamsForSql.getStartDate(), dateParamsForSql.getEndDate(), id, pageable);
 
         return locationProjectionList.getContent();
     }

@@ -23,7 +23,7 @@ public interface AnimalProjection {
     @Value("#{target.chippingInfo.getLocationInfo().getId()}")
     Long getChippingLocationId();
 //
-   @Value("#{@listUtils.toLongList(target.animalTypeList)}")
+   @Value("#{@listUtils.toLongList(target.getAnimalTypeList())}")
    List<Long> getAnimalTypes();
 //
     @Value("#{@listUtils.toLongList(target.getAnimalLocations())}")
