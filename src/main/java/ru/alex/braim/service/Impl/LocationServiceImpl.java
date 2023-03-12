@@ -65,7 +65,7 @@ public class LocationServiceImpl implements LocationService {
 
         LocationInfo locationInfo = getLocationEntityById(id);
         locationInfo.setLatitude(locationInfoDto.getLatitude());
-        locationInfo.setLongitude(locationInfo.getLongitude());
+        locationInfo.setLongitude(locationInfoDto.getLongitude());
 
         return locationInfoMapper.toDto(locationInfoRepository.save(locationInfo));
     }
