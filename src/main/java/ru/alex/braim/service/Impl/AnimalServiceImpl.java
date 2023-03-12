@@ -68,6 +68,10 @@ public class AnimalServiceImpl implements AnimalService {
     private Animal saveAnimal(AnimalDto animalDto) {
         List<AnimalType> animalTypeList = animalTypeService.getAnimalTypeList(animalDto.getAnimalTypes());
 
+        for (AnimalType animalType : animalTypeList) {
+            System.out.println("\n\n\n\n typeId == " + animalType.getId() + " === \n\n\n");
+        }
+
         if (animalTypeList.size() != animalDto.getAnimalTypes().size()) {
             throw new NotFoundException("1 or more type not found");
         }
@@ -112,6 +116,7 @@ public class AnimalServiceImpl implements AnimalService {
         animal.setGender(animalDto.getGender());
         animal.setHeight(animalDto.getHeight());
         animal.setWeight(animalDto.getWeight());
+        animal.setLength(animalDto.getLength());
 
         ChippingInfo newChippingInfo = new ChippingInfo();
         newChippingInfo.setChipper(account);
@@ -127,7 +132,7 @@ public class AnimalServiceImpl implements AnimalService {
 
         animalRepository.save(animal);
 
-        return animalRepository.getAnimalProjectionById(animal.getId());
+        return animalRepository.getAnimalProjectionById(id);
     }
 
     private static boolean isDie(AnimalDto animalDto, Animal animal) {
