@@ -2,11 +2,10 @@ package ru.alex.braim.service;
 
 import jakarta.validation.Valid;
 import ru.alex.braim.annotation.Id;
-import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.dto.AccountDto;
+import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.entity.Account;
 import ru.alex.braim.requestParam.FromSizeParams;
-import ru.alex.braim.utils.decoder.AuthData;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public interface AccountService {
 
     AccountDto createAccount(@Valid AccountWithPasswordDto accountDto);
 
-    AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id, AuthData authData);
+    AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id);
 
     void deleteAccount(@Id Long id);
 }

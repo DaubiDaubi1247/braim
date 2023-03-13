@@ -11,7 +11,6 @@ import ru.alex.braim.service.AccountService;
 import ru.alex.braim.utils.decoder.Decoder;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/accounts")
@@ -38,11 +37,9 @@ public class AccountController {
 
     @PutMapping("/{accountId}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable Long accountId,
-                                                    @RequestBody AccountWithPasswordDto account,
-                                                    @RequestHeader Map<String, String> headers) {
+                                                    @RequestBody AccountWithPasswordDto account) {
 
-        return ResponseEntity.ok(accountService.updateAccount(account, accountId,
-                decoder.decode(headers.get("authorization"))));
+        return ResponseEntity.ok(accountService.updateAccount(account, accountId));
     }
 
     @DeleteMapping("/{accountId}")

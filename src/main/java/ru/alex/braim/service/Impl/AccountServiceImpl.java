@@ -81,11 +81,13 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     @Transactional
-    public AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id, AuthData authData) {
+    public AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id) {
         Account account = getAccountEntityWithThrow(id);
 
-        if (accountEmailNotEqualWithEmailFromHeader(authData, account)) {
-            throw new NotEqualsAccounts("not equals emails in updated account and transferred");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!account.getEmail().equals(authentication.getName())) {
+            throw new AccountException("");
         }
 
         if (accountRepository.existsByEmailAndIdNot(accountDto.getEmail(), id)) {
