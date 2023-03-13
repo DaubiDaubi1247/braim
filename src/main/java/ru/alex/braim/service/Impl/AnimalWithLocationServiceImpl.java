@@ -20,7 +20,9 @@ import ru.alex.braim.service.LocationService;
 import ru.alex.braim.utils.ListUtils;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static ru.alex.braim.service.Impl.LocationServiceImpl.isIncompatibleData;
 
@@ -58,9 +60,9 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         }
 
         AnimalLocation animalLocation = new AnimalLocation(locationInfo);
-        animalLocation.setAnimal(animal);
 
         animal.addLocationToAnimal(animalLocation);
+        animalLocation.setAnimal(animal);
         animalService.flushAnimal();
 
         return locationService.findLocationProjectionByAnimalId(animalLocation.getId());
@@ -79,6 +81,8 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         if (animal.getAnimalLocations().size() == 0) {
             return false;
         }
+
+        Collections.sort(animal.getAnimalLocations());
 
         LocationInfo lastVisitedLocation = animal.getAnimalLocations()
                 .get(animal.getAnimalLocations().size() - 1)
@@ -125,10 +129,10 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         }
 
         if (indexDelLocation == 0 && animal.getAnimalLocations().size() > 1) {
-            if (animal.getAnimalLocations()
-                    .get(indexDelLocation + 1)
+            if (Objects.equals(animal.getAnimalLocations()
+                    .get(1)
                     .getLocationInfo()
-                    .equals(animal.getChippingInfo().getLocationInfo())) {
+                    .getId(), animal.getChippingInfo().getLocationInfo().getId())) {
 
                 animal.getAnimalLocations().subList(0, 2).clear();
             }

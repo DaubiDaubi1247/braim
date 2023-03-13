@@ -16,7 +16,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AnimalLocation implements Identifiable {
+public class AnimalLocation implements Identifiable, Comparable<AnimalLocation> {
 
     public AnimalLocation(LocationInfo locationInfo) {
         this.locationInfo = locationInfo;
@@ -35,9 +35,13 @@ public class AnimalLocation implements Identifiable {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
-    @Column(name = "visit_date",columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "visit_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private OffsetDateTime visitedDate;
 
+    @Override
+    public int compareTo(AnimalLocation o) {
+        return id.compareTo(o.getId());
+    }
 }

@@ -109,6 +109,7 @@ public class LocationServiceImpl implements LocationService {
         if (isLocationConnectWithAnima(locationInfo)) {
             throw new ConnectionWithAnimal("location with id = " + id + " connection with animal");
         }
+//        locationInfo.getChippingInfo().clear();
 
         locationInfoRepository.delete(locationInfo);
     }

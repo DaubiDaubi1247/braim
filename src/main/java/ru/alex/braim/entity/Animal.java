@@ -61,7 +61,7 @@ public class Animal {
     private List<AnimalLocation> animalLocations = new ArrayList<>();
 
     public void addLocationToAnimal(AnimalLocation animalLocation) {
-        animalLocations.add(animalLocation);
+        animalLocations.add(0, animalLocation);
     }
 
 
