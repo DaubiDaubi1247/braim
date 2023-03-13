@@ -1,11 +1,14 @@
 package ru.alex.braim.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "animal_location")
@@ -35,6 +38,6 @@ public class AnimalLocation implements Identifiable {
     @Column(name = "visit_date")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    private Date visitedDate;
+    private Timestamp visitedDate;
 
 }

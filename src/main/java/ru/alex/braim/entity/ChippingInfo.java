@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "chip_info")
@@ -23,7 +23,7 @@ public class ChippingInfo implements Identifiable {
     @Column(name = "chip_date")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    private Date chippingDateTime;
+    private Timestamp chippingDateTime;
 
     @ManyToOne
     @JoinColumn(name = "chipper_id")
@@ -36,7 +36,7 @@ public class ChippingInfo implements Identifiable {
 
     @Column(name = "death_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date deathDateTime = null;
+    private Timestamp deathDateTime = null;
 
     @ManyToOne
     @JoinColumn(name = "location_id")
