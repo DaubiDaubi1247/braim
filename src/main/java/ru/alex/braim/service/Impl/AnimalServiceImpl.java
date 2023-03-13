@@ -21,14 +21,13 @@ import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
 import ru.alex.braim.requestParam.AnimalRequestParams;
-import ru.alex.braim.requestParam.DateParamsForSql;
 import ru.alex.braim.service.AccountService;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.AnimalTypeService;
 import ru.alex.braim.service.LocationService;
 import ru.alex.braim.utils.enums.LifeStatusEnum;
 
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -123,7 +122,7 @@ public class AnimalServiceImpl implements AnimalService {
         animal.setLifeStatus(animalDto.getLifeStatus());
 
         if (isDie(animalDto, animal)) {
-            animal.getChippingInfo().setDeathDateTime(new Timestamp(System.currentTimeMillis()));
+            animal.getChippingInfo().setDeathDateTime(OffsetDateTime.now());
         }
 
 //        animal.getAnimalTypeList().forEach(el -> System.out.println("\n\n\n animal types before save ===" + el.getId() + "\n\n\n"));
@@ -235,10 +234,10 @@ public class AnimalServiceImpl implements AnimalService {
 
         Pageable pageable = PageRequest.of(animalDtoSpecification.getFrom(), animalDtoSpecification.getSize(), Sort.by(Animal_.ID));
 
-        DateParamsForSql dateParamsForSql = new DateParamsForSql(animalDtoSpecification.getStartDateTime(), animalDtoSpecification.getEndDateTime());
+//        DateParamsForSql dateParamsForSql = new DateParamsForSql(animalDtoSpecification.getStartDateTime(), animalDtoSpecification.getEndDateTime());
 
         Page<AnimalProjection> animalProjectionList = animalRepository.
-                findAnimalProjectionByParams(animalDtoSpecification,dateParamsForSql.getStartDate(), dateParamsForSql.getEndDate(), pageable);
+                findAnimalProjectionByParams(animalDtoSpecification,animalDtoSpecification.getStartDateTime(), animalDtoSpecification.getStartDateTime(), pageable);
 
         return animalProjectionList.getContent();
     }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import ru.alex.braim.dto.LocationProjection;
 import ru.alex.braim.entity.LocationInfo;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long> {
 
@@ -17,8 +17,8 @@ public interface LocationInfoRepository extends JpaRepository<LocationInfo, Long
             "WHERE a.animal.id = :animalId " +
             "   AND (CAST(:startDate AS timestamp ) IS null OR a.visitedDate >= CAST(:startDate AS timestamp )) " +
             "   AND (CAST(:endDate AS timestamp ) IS null OR CAST(:endDate AS timestamp ) >= a.visitedDate) ")
-    Page<LocationProjection> findLocationPointByParams(@Param("startDate") Date startDate,
-                                                       @Param("endDate") Date endDate,
+    Page<LocationProjection> findLocationPointByParams(@Param("startDate") OffsetDateTime startDate,
+                                                       @Param("endDate") OffsetDateTime endDate,
                                                        @Param("animalId") Long animalId,
                                                        Pageable pageable);
 

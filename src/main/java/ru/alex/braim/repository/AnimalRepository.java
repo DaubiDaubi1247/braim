@@ -11,7 +11,7 @@ import ru.alex.braim.dto.AnimalProjection;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.requestParam.AnimalRequestParams;
 
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecificationExecutor<AnimalProjection> {
@@ -30,8 +30,8 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "   AND (:#{#arp.lifeStatus} IS null OR a.lifeStatus = :#{#arp.lifeStatus}) " +
             "   AND (:#{#arp.gender} IS null OR a.gender = :#{#arp.gender}) ")
     Page<AnimalProjection> findAnimalProjectionByParams(@Param("arp") AnimalRequestParams animalRequestParams,
-                                                          @Param("startDate") Timestamp startDate,
-                                                          @Param("endDate") Timestamp endDate,
+                                                          @Param("startDate") OffsetDateTime startDate,
+                                                          @Param("endDate") OffsetDateTime endDate,
                                                           Pageable pageable);
 
 }

@@ -2,7 +2,7 @@ package ru.alex.braim.dto;
 
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface AnimalProjection {
@@ -17,8 +17,8 @@ public interface AnimalProjection {
     @Value("#{target.chippingInfo.getChipper().getId()}")
     Integer getChipperId();
 
-    @Value("#{target.chippingInfo.getChippingDateTime()}")
-    Date getChippingDateTime();
+    @Value("#{@dateUtils.offsetDateTime(target.chippingInfo.getChippingDateTime())}")
+    OffsetDateTime getChippingDateTime();
 
     @Value("#{target.chippingInfo.getLocationInfo().getId()}")
     Long getChippingLocationId();
@@ -29,6 +29,6 @@ public interface AnimalProjection {
     @Value("#{@listUtils.toLongList(target.getAnimalLocations())}")
     List<Long> getVisitedLocations();
 //
-    @Value("#{target.chippingInfo.getDeathDateTime()}")
-    Date getDeathDateTime();
+    @Value("#{@dateUtils.offsetDateTime(target.chippingInfo.getDeathDateTime())}")
+    OffsetDateTime getDeathDateTime();
 }

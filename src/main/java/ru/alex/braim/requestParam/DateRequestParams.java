@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,8 +17,8 @@ import java.util.Date;
 public class DateRequestParams extends FromSizeParams {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    protected Date startDateTime;
+    protected OffsetDateTime startDateTime;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    protected Date endDateTime;
+    protected OffsetDateTime endDateTime;
 }

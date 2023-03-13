@@ -5,7 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "chip_info")
@@ -20,10 +20,10 @@ public class ChippingInfo implements Identifiable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "chip_date")
+    @Column(name = "chip_date",columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    private Timestamp chippingDateTime;
+    private OffsetDateTime chippingDateTime;
 
     @ManyToOne
     @JoinColumn(name = "chipper_id")
@@ -34,9 +34,9 @@ public class ChippingInfo implements Identifiable {
     @ToString.Exclude
     private Animal animal;
 
-    @Column(name = "death_time")
+    @Column(name = "death_time",columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp deathDateTime = null;
+    private OffsetDateTime deathDateTime = null;
 
     @ManyToOne
     @JoinColumn(name = "location_id")

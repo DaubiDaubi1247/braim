@@ -8,7 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.alex.braim.utils.interfaces.Identifiable;
 
-import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "animal_location")
@@ -35,9 +35,9 @@ public class AnimalLocation implements Identifiable {
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
-    @Column(name = "visit_date")
+    @Column(name = "visit_date",columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
-    private Timestamp visitedDate;
+    private OffsetDateTime visitedDate;
 
 }
