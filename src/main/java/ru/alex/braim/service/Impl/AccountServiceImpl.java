@@ -47,18 +47,13 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Transactional
     public List<AccountDto> getAccountsByParameters(AccountDto accountDto, @Valid FromSizeParams fromSizeParams) {
 
-        List<Account> accountPage = accountRepository.getAccountPageByParams(accountDto.getFirstName(),
+        List<Account> accountList = accountRepository.getAccountPageByParams(accountDto.getFirstName(),
                 accountDto.getLastName(),
                 accountDto.getEmail(),
                 fromSizeParams.getFrom(),
                 fromSizeParams.getSize());
-//        Page<Account> accountPage = accountRepository.findAll(AccountSpecification
-//                .getAccountSpecificationByParameters(accountDto), pageable);
 
-//        List<Account> accountPage = accountRepository.findAll(AccountSpecification
-//                .getAccountSpecificationByParameters(accountDto));
-
-        return accountMapper.toDtoList(accountPage);
+        return accountMapper.toDtoList(accountList);
     }
 
     @Override
@@ -84,7 +79,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     @Transactional
     public AccountDto updateAccount(@Valid AccountWithPasswordDto accountDto, @Id Long id) {
-        Account account = getAccountEntityWithThrow(id);
+        Account account = getAccountEntityElseThrowForbidden(id);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -107,7 +102,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     @Transactional
     public void deleteAccount(@Id Long id) {
-        Account account = getAccountEntityWithThrow(id);
+        Account account = getAccountEntityElseThrowForbidden(id);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -130,9 +125,9 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     // i dont know why, but tests want throw 403
-    private Account getAccountEntityWithThrow(@Id Long id) {
+    private Account getAccountEntityElseThrowForbidden(@Id Long id) {
         return accountRepository.findById(id)
-                .orElseThrow(() -> new AccountException("аккаунт с id = " + id + " не найден"));
+                .orElseThrow(() -> new AccountException(""));
     }
 
     @Override
