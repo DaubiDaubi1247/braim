@@ -8,7 +8,6 @@ import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
-import ru.alex.braim.utils.decoder.Decoder;
 
 import java.util.List;
 
@@ -18,8 +17,6 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
-
-    private final Decoder decoder;
 
     @GetMapping("/{accountId}")
     public ResponseEntity<AccountDto> getAccountInfo(@PathVariable Long accountId) {
