@@ -47,7 +47,12 @@ public class Animal {
     @OneToOne(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     ChippingInfo chippingInfo;
 
-    @ManyToMany(mappedBy = "animalList", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
+    @JoinTable(
+            name = "animal_type",
+            joinColumns = @JoinColumn(name = "animal_id"),
+            inverseJoinColumns = @JoinColumn(name = "type_id")
+    )
     @Builder.Default
     private List<AnimalType> animalTypeList = new ArrayList<>();
 

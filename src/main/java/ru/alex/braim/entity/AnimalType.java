@@ -25,12 +25,7 @@ public class AnimalType implements Identifiable {
     @NotNull
     private String type;
 
-    @ManyToMany
-    @JoinTable(
-            name = "animal_type",
-            joinColumns = @JoinColumn(name = "type_id"),
-            inverseJoinColumns = @JoinColumn(name = "animal_id")
-    )
+    @ManyToMany(mappedBy = "animalTypeList")
     private List<Animal> animalList = new ArrayList<>();
 
     public void removeAnimal(Animal animal) {

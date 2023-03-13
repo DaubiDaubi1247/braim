@@ -58,13 +58,6 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     @Transactional
     public AnimalProjection createAnimal(@Valid AnimalDto animalDto) {
-        Animal savedAnimal = saveAnimal(animalDto);
-
-        return animalRepository.getAnimalProjectionById(savedAnimal.getId());
-    }
-
-
-    private Animal saveAnimal(AnimalDto animalDto) {
         List<AnimalType> animalTypeList = animalTypeService.getAnimalTypeList(animalDto.getAnimalTypes());
 
         if (animalTypeList.size() != animalDto.getAnimalTypes().size()) {
@@ -90,7 +83,9 @@ public class AnimalServiceImpl implements AnimalService {
 
         chippingInfo.setAnimal(newAnimal);
 
-        return animalRepository.save(newAnimal);
+        animalRepository.save(newAnimal);
+
+        return animalRepository.getAnimalProjectionById(newAnimal.getId());
     }
 
     @Override
@@ -124,12 +119,6 @@ public class AnimalServiceImpl implements AnimalService {
         if (isDie(animalDto, animal)) {
             animal.getChippingInfo().setDeathDateTime(OffsetDateTime.now());
         }
-
-//        animal.getAnimalTypeList().forEach(el -> System.out.println("\n\n\n animal types before save ===" + el.getId() + "\n\n\n"));
-//
-//        System.out.println("\n\n\n\n");
-//
-//        animal.getAnimalTypeList().forEach(el -> System.out.println("\n\n\n animal types after save ===" + el.getId() + "\n\n\n"));
 
         return animalRepository.getAnimalProjectionById(id);
     }
