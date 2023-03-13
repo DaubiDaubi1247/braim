@@ -17,12 +17,14 @@ import ru.alex.braim.config.security.AccountDetailtPrincImpl;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.entity.Account;
-import ru.alex.braim.exception.*;
+import ru.alex.braim.exception.AccountException;
+import ru.alex.braim.exception.AlreadyExistException;
+import ru.alex.braim.exception.ConnectionWithAnimal;
+import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
 import ru.alex.braim.requestParam.FromSizeParams;
 import ru.alex.braim.service.AccountService;
-import ru.alex.braim.utils.decoder.AuthData;
 
 import java.util.List;
 
@@ -100,10 +102,6 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         account.setFirstName(accountDto.getFirstName());
 
         return accountMapper.toDto(accountRepository.save(account));
-    }
-
-    private boolean accountEmailNotEqualWithEmailFromHeader(AuthData authData, Account account) {
-        return !account.getEmail().equals(authData.getEmail());
     }
 
     @Override
