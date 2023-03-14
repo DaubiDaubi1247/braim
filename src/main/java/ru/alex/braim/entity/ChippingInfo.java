@@ -20,7 +20,7 @@ public class ChippingInfo implements Identifiable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "chip_date",columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "chip_date", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private OffsetDateTime chippingDateTime;

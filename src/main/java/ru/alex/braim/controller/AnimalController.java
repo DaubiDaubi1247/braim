@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AnimalDto;
-import ru.alex.braim.dto.AnimalProjection;
+import ru.alex.braim.dto.Projection.AnimalProjection;
 import ru.alex.braim.requestParam.AnimalRequestParams;
 import ru.alex.braim.service.AnimalService;
 

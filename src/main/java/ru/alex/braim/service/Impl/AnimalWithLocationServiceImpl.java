@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.LocationPointDto;
-import ru.alex.braim.dto.LocationProjection;
+import ru.alex.braim.dto.Projection.LocationProjection;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.entity.AnimalLocation;
 import ru.alex.braim.entity.LocationInfo;
@@ -87,8 +87,6 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
         LocationInfo lastVisitedLocation = animal.getAnimalLocations()
                 .get(animal.getAnimalLocations().size() - 1)
                 .getLocationInfo();
-
-        System.out.println("\n\n\n\n last visited id == " + lastVisitedLocation.getId() + " \n\n\n\n");
 
         return lastVisitedLocation.equals(locationInfo);
     }

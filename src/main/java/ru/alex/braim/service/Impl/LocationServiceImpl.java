@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.LocationInfoDto;
 import ru.alex.braim.dto.LocationPointDto;
-import ru.alex.braim.dto.LocationProjection;
+import ru.alex.braim.dto.Projection.LocationProjection;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.entity.AnimalLocation;
 import ru.alex.braim.entity.LocationInfo;

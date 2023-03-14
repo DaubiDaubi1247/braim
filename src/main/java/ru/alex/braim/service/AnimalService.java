@@ -3,7 +3,7 @@ package ru.alex.braim.service;
 import jakarta.validation.Valid;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalDto;
-import ru.alex.braim.dto.AnimalProjection;
+import ru.alex.braim.dto.Projection.AnimalProjection;
 import ru.alex.braim.dto.OldAndNewTypes;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.requestParam.AnimalRequestParams;

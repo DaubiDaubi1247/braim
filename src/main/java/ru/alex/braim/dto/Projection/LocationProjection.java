@@ -1,4 +1,4 @@
-package ru.alex.braim.dto;
+package ru.alex.braim.dto.Projection;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -8,7 +8,7 @@ public interface LocationProjection {
 
     Long getId();
 
-    @Value("#{@dateUtils.offsetDateTime(target.visitedDate)}")
+    @Value("#{@dateUtils.offsetDateTimeWithoutOffset(target.visitedDate)}")
     OffsetDateTime getDateTimeOfVisitLocationPoint();
 
     @Value("#{target.locationInfo.getId()}")

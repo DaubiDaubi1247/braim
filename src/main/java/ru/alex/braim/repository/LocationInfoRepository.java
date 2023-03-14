@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ru.alex.braim.dto.LocationProjection;
+import ru.alex.braim.dto.Projection.LocationProjection;
 import ru.alex.braim.entity.LocationInfo;
 
 import java.time.OffsetDateTime;

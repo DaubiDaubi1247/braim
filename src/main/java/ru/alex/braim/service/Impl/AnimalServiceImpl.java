@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalDto;
-import ru.alex.braim.dto.AnimalProjection;
+import ru.alex.braim.dto.Projection.AnimalProjection;
 import ru.alex.braim.dto.OldAndNewTypes;
 import ru.alex.braim.entity.*;
 import ru.alex.braim.exception.AlreadyExistException;
@@ -222,8 +222,6 @@ public class AnimalServiceImpl implements AnimalService {
     public List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification) {
 
         Pageable pageable = PageRequest.of(animalDtoSpecification.getFrom(), animalDtoSpecification.getSize(), Sort.by(Animal_.ID));
-
-//        DateParamsForSql dateParamsForSql = new DateParamsForSql(animalDtoSpecification.getStartDateTime(), animalDtoSpecification.getEndDateTime());
 
         Page<AnimalProjection> animalProjectionList = animalRepository.
                 findAnimalProjectionByParams(animalDtoSpecification,animalDtoSpecification.getStartDateTime(), animalDtoSpecification.getStartDateTime(), pageable);

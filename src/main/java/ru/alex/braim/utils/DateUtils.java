@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 @Component
 public class DateUtils {
-    public static OffsetDateTime offsetDateTime(OffsetDateTime offsetDateTime) {
+    public static OffsetDateTime offsetDateTimeWithoutOffset(OffsetDateTime offsetDateTime) {
 
         if (offsetDateTime == null) {
             return null;

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.LocationPointDto;
-import ru.alex.braim.dto.LocationProjection;
+import ru.alex.braim.dto.Projection.LocationProjection;
 import ru.alex.braim.requestParam.DateRequestParams;
 import ru.alex.braim.service.AnimalWithLocationService;
 

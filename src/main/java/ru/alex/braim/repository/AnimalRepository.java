@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.alex.braim.dto.AnimalProjection;
+import ru.alex.braim.dto.Projection.AnimalProjection;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.requestParam.AnimalRequestParams;
 
