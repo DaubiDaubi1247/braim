@@ -20,7 +20,7 @@ import ru.alex.braim.exception.ConnectionWithAnimal;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.LocationInfoMapper;
 import ru.alex.braim.repository.LocationInfoRepository;
-import ru.alex.braim.requestParam.DateRequestParams;
+import ru.alex.braim.requestParam.DateParams;
 import ru.alex.braim.service.LocationService;
 
 import java.util.List;
@@ -131,7 +131,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     @Transactional
-    public List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams,
+    public List<LocationProjection> getLocationVisitedPointList(@Valid DateParams dateRequestParams,
                                                                 @Id Long id) {
 
         Pageable pageable = PageRequest.of(dateRequestParams.getFrom(), dateRequestParams.getSize());

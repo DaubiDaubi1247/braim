@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Data
 @SuperBuilder
-public class FromSizeParams {
+public class RangeParams {
     @Min(value = 0, message = "from cant be less than zero")
     protected Integer from = 0;
 

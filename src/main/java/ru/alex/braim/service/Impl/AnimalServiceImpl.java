@@ -20,7 +20,7 @@ import ru.alex.braim.exception.IncompatibleData;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AnimalMapper;
 import ru.alex.braim.repository.AnimalRepository;
-import ru.alex.braim.requestParam.AnimalRequestParams;
+import ru.alex.braim.requestParam.AnimalParams;
 import ru.alex.braim.service.AccountService;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.AnimalTypeService;
@@ -219,7 +219,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification) {
+    public List<AnimalProjection> getAnimalListByParams(@Valid AnimalParams animalDtoSpecification) {
 
         Pageable pageable = PageRequest.of(animalDtoSpecification.getFrom(), animalDtoSpecification.getSize(), Sort.by(Animal_.ID));
 

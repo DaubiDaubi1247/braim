@@ -23,7 +23,7 @@ import ru.alex.braim.exception.ConnectionWithAnimal;
 import ru.alex.braim.exception.NotFoundException;
 import ru.alex.braim.mapper.AccountMapper;
 import ru.alex.braim.repository.AccountRepository;
-import ru.alex.braim.requestParam.FromSizeParams;
+import ru.alex.braim.requestParam.RangeParams;
 import ru.alex.braim.service.AccountService;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     @Transactional
-    public List<AccountDto> getAccountsByParameters(AccountDto accountDto, @Valid FromSizeParams fromSizeParams) {
+    public List<AccountDto> getAccountsByParameters(AccountDto accountDto, @Valid RangeParams fromSizeParams) {
 
         List<Account> accountList = accountRepository.getAccountPageByParams(accountDto.getFirstName(),
                 accountDto.getLastName(),

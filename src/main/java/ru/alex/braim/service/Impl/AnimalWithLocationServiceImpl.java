@@ -13,7 +13,7 @@ import ru.alex.braim.entity.AnimalLocation;
 import ru.alex.braim.entity.LocationInfo;
 import ru.alex.braim.exception.IncompatibleData;
 import ru.alex.braim.exception.NotFoundException;
-import ru.alex.braim.requestParam.DateRequestParams;
+import ru.alex.braim.requestParam.DateParams;
 import ru.alex.braim.service.AnimalService;
 import ru.alex.braim.service.AnimalWithLocationService;
 import ru.alex.braim.service.LocationService;
@@ -145,7 +145,7 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
 
     @Override
     @Transactional
-    public List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams,
+    public List<LocationProjection> getLocationVisitedPointList(@Valid DateParams dateRequestParams,
                                                                 @Id Long id) {
         if (!animalService.animalExistById(id)) {
             throw new NotFoundException("animal with id = " + id + " not found");

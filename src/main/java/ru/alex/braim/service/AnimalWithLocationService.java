@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.LocationPointDto;
 import ru.alex.braim.dto.Projection.LocationProjection;
-import ru.alex.braim.requestParam.DateRequestParams;
+import ru.alex.braim.requestParam.DateParams;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface AnimalWithLocationService {
 
     void deleteLocationPointFromAnimal(@Id Long animalId, @Id Long visitedPointId);
 
-    List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id);
+    List<LocationProjection> getLocationVisitedPointList(@Valid DateParams dateRequestParams, @Id Long id);
 }

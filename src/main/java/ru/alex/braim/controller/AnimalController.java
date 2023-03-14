@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.Projection.AnimalProjection;
-import ru.alex.braim.requestParam.AnimalRequestParams;
+import ru.alex.braim.requestParam.AnimalParams;
 import ru.alex.braim.service.AnimalService;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class AnimalController {
 
     @GetMapping("/search")
     public ResponseEntity<List<AnimalProjection>> getAnimalListByParams(
-            AnimalRequestParams animalDtoSpecification) {
+            AnimalParams animalDtoSpecification) {
 
         return ResponseEntity.ok(animalService.getAnimalListByParams(animalDtoSpecification));
     }

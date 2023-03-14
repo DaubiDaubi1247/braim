@@ -5,7 +5,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AccountDto;
 import ru.alex.braim.dto.AccountWithPasswordDto;
 import ru.alex.braim.entity.Account;
-import ru.alex.braim.requestParam.FromSizeParams;
+import ru.alex.braim.requestParam.RangeParams;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface AccountService {
 
     Account getAccountEntityById(@Id Long id);
 
-    List<AccountDto> getAccountsByParameters(AccountDto accountDto, @Valid FromSizeParams fromSizeParams);
+    List<AccountDto> getAccountsByParameters(AccountDto accountDto, @Valid RangeParams fromSizeParams);
 
     AccountDto createAccount(@Valid AccountWithPasswordDto accountDto);
 

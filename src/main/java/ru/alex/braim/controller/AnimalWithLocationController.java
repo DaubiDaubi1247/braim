@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.LocationPointDto;
 import ru.alex.braim.dto.Projection.LocationProjection;
-import ru.alex.braim.requestParam.DateRequestParams;
+import ru.alex.braim.requestParam.DateParams;
 import ru.alex.braim.service.AnimalWithLocationService;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class AnimalWithLocationController {
 
     @GetMapping("/{animalId}/locations")
     public ResponseEntity<List<LocationProjection>> getVisitedLocation(@PathVariable Long animalId,
-                                                                       DateRequestParams dateRequestParams) {
+                                                                       DateParams dateRequestParams) {
         return ResponseEntity.ok(animalWithLocationService.getLocationVisitedPointList(dateRequestParams, animalId));
     }
 

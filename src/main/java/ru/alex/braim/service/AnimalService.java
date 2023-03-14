@@ -6,7 +6,7 @@ import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.Projection.AnimalProjection;
 import ru.alex.braim.dto.OldAndNewTypes;
 import ru.alex.braim.entity.Animal;
-import ru.alex.braim.requestParam.AnimalRequestParams;
+import ru.alex.braim.requestParam.AnimalParams;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface AnimalService {
 
     void deleteAnimal(@Id Long id);
 
-    List<AnimalProjection> getAnimalListByParams(@Valid AnimalRequestParams animalDtoSpecification);
+    List<AnimalProjection> getAnimalListByParams(@Valid AnimalParams animalDtoSpecification);
 
     boolean animalExistById(@Id Long id);
 

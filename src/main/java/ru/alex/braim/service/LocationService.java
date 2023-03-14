@@ -5,7 +5,7 @@ import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.LocationInfoDto;
 import ru.alex.braim.dto.Projection.LocationProjection;
 import ru.alex.braim.entity.LocationInfo;
-import ru.alex.braim.requestParam.DateRequestParams;
+import ru.alex.braim.requestParam.DateParams;
 
 import java.util.List;
 
@@ -22,5 +22,5 @@ public interface LocationService {
 
     LocationProjection findLocationProjectionByAnimalId(@Id Long animalLocationId);
 
-    List<LocationProjection> getLocationVisitedPointList(@Valid DateRequestParams dateRequestParams, @Id Long id);
+    List<LocationProjection> getLocationVisitedPointList(@Valid DateParams dateRequestParams, @Id Long id);
 }

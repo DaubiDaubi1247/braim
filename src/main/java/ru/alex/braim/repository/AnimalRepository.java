@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.alex.braim.dto.Projection.AnimalProjection;
 import ru.alex.braim.entity.Animal;
-import ru.alex.braim.requestParam.AnimalRequestParams;
+import ru.alex.braim.requestParam.AnimalParams;
 
 import java.time.OffsetDateTime;
 
@@ -29,7 +29,7 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
             "   AND (:#{#arp.chippingLocationId} IS null OR a.chippingInfo.id = :#{#arp.chippingLocationId}) " +
             "   AND (:#{#arp.lifeStatus} IS null OR a.lifeStatus = :#{#arp.lifeStatus}) " +
             "   AND (:#{#arp.gender} IS null OR a.gender = :#{#arp.gender}) ")
-    Page<AnimalProjection> findAnimalProjectionByParams(@Param("arp") AnimalRequestParams animalRequestParams,
+    Page<AnimalProjection> findAnimalProjectionByParams(@Param("arp") AnimalParams animalRequestParams,
                                                           @Param("startDate") OffsetDateTime startDate,
                                                           @Param("endDate") OffsetDateTime endDate,
                                                           Pageable pageable);

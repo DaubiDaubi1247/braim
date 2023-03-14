@@ -14,7 +14,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @SuperBuilder
-public class DateRequestParams extends FromSizeParams {
+public class DateParams extends RangeParams {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     protected OffsetDateTime startDateTime;

@@ -16,7 +16,7 @@ import ru.alex.braim.utils.enums.LifeStatusEnum;
 @SuperBuilder
 @Setter
 @Getter
-public class AnimalRequestParams extends DateRequestParams {
+public class AnimalParams extends DateParams {
     @Nullable
     @EnumValue(enumClass = GenderEnum.class, message = "gender not contains in genders")
     private String gender;
