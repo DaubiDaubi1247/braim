@@ -15,8 +15,6 @@ public class DateUtils {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-        System.out.println(OffsetDateTime.parse(offsetDateTime.format(dateTimeFormatter)));
-
         return OffsetDateTime.parse(offsetDateTime.format(dateTimeFormatter));
     }
 }

@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.Projection.AnimalProjection;
-import ru.alex.braim.dto.OldAndNewTypes;
+import ru.alex.braim.dto.TypesDto;
 import ru.alex.braim.entity.Animal;
 import ru.alex.braim.requestParam.AnimalParams;
 
@@ -21,7 +21,7 @@ public interface AnimalService {
 
     AnimalProjection addTypeToAnimal(@Id Long animalId, @Id Long typeId);
 
-    AnimalProjection changeTypeAnimal(@Id Long oldTypeId, @Valid OldAndNewTypes oldAndNewTypes);
+    AnimalProjection changeTypeAnimal(@Id Long oldTypeId, @Valid TypesDto oldAndNewTypes);
 
     AnimalProjection deleteTypeFromAnimal(@Id Long animalId, @Id Long typeId);
 

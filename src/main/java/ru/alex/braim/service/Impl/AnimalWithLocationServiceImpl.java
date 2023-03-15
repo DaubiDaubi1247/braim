@@ -136,7 +136,6 @@ public class AnimalWithLocationServiceImpl implements AnimalWithLocationService 
             }
         } else {
             animal.getAnimalLocations().remove(indexDelLocation);
-
         }
 
         animalService.flushAnimal();

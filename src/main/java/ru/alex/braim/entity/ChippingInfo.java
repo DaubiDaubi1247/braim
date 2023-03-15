@@ -34,7 +34,7 @@ public class ChippingInfo implements Identifiable {
     @ToString.Exclude
     private Animal animal;
 
-    @Column(name = "death_time",columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "death_time", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @Temporal(TemporalType.TIMESTAMP)
     private OffsetDateTime deathDateTime = null;
 

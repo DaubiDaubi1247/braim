@@ -10,7 +10,7 @@ import ru.alex.braim.annotation.Id;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OldAndNewTypes {
+public class TypesDto {
 
     @Id
     private Long oldTypeId;

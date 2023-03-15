@@ -56,7 +56,8 @@ public class Animal {
     @Builder.Default
     private List<AnimalType> animalTypeList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "animal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE},
+            orphanRemoval = true)
     @Builder.Default
     private List<AnimalLocation> animalLocations = new ArrayList<>();
 

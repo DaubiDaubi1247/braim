@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import ru.alex.braim.annotation.Id;
 import ru.alex.braim.dto.AnimalDto;
 import ru.alex.braim.dto.Projection.AnimalProjection;
-import ru.alex.braim.dto.OldAndNewTypes;
+import ru.alex.braim.dto.TypesDto;
 import ru.alex.braim.entity.*;
 import ru.alex.braim.exception.AlreadyExistException;
 import ru.alex.braim.exception.ConnectionWithAnimal;
@@ -150,7 +150,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public AnimalProjection changeTypeAnimal(@Id Long animalId, @Valid OldAndNewTypes oldAndNewTypes) {
+    public AnimalProjection changeTypeAnimal(@Id Long animalId, @Valid TypesDto oldAndNewTypes) {
         Animal animal = getAnimalEntityById(animalId);
         AnimalType oldAnimalType = animalTypeService.getAnimalTypeEntityById(oldAndNewTypes.getOldTypeId());
         AnimalType newAnimalType = animalTypeService.getAnimalTypeEntityById(oldAndNewTypes.getNewTypeId());

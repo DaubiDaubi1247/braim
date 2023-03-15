@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.braim.dto.Projection.AnimalProjection;
-import ru.alex.braim.dto.OldAndNewTypes;
+import ru.alex.braim.dto.TypesDto;
 import ru.alex.braim.service.AnimalService;
 
 @RestController
@@ -24,7 +24,7 @@ public class AnimalWithTypeController {
 
     @PutMapping("/{animalId}/types")
     public ResponseEntity<AnimalProjection> changeTypeToAnimal(@PathVariable Long animalId,
-                                                               @RequestBody OldAndNewTypes oldAndNewTypes) {
+                                                               @RequestBody TypesDto oldAndNewTypes) {
 
         return ResponseEntity.ok(animalService.changeTypeAnimal(animalId, oldAndNewTypes));
     }
